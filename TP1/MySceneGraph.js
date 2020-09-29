@@ -586,7 +586,7 @@ class MySceneGraph {
         testSphere.display();
         */
 
-        var testCilinder = new MyCilinder(this.scene,1,4,4,10,3);
+        var testCilinder = new MyCilinder(this.scene,5,5,3,40,40);
         testCilinder.enableNormalViz();
         this.scene.earthAppearance.apply();
         testCilinder.display();

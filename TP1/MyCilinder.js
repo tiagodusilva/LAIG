@@ -41,6 +41,8 @@ class MyCilinder extends CGFobject {
         var tex_s = 0;
         var texInc = 1 / this.slices;
 
+        //Used to make the normals perpendicular to the cilinder side face
+        var normalSlope = (this.bottomRadius - this.topRadius) / heightPoints
         
 
         //Side Faces
@@ -53,10 +55,10 @@ class MyCilinder extends CGFobject {
                 var vert = [Math.cos(theta) * currRadius, Math.sin(theta) * currRadius, currHeight];
                 this.vertices.push(...vert);
 
-
-                
-                this.normals.push(Math.cos(theta), Math.sin(theta), 0);
-
+                //Calculate and normalize normals
+                var normal = [Math.cos(theta), Math.sin(theta), normalSlope];
+                var normalSize = Math.sqrt(Math.pow(normal[0], 2) + Math.pow(normal[1], 2) + Math.pow(normal[2], 2));
+                this.normals.push(...normal.map(x => x / normalSize));
 
                 this.texCoords.push(tex_s, 1 - stack / this.stacks);
 
