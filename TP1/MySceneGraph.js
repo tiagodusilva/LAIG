@@ -569,5 +569,11 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph, calling the root node's display function
         
         //this.nodes[this.idRoot].display()
+
+
+        //Testing Purposes:
+
+        var testTriangle = new MyTriangle(this.scene,0,0,1,0,1,1);
+        testTriangle.display();
     }
 }
