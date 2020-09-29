@@ -91,7 +91,39 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.updateGraphLights();
+
+        console.log("On loaded");
+        this.selectedCamera = this.graph.defaultCamera;
+        this.cameraDropdown = {};
+        var i = 0;
+        for (let key of this.graph.cameras.keys()) {
+            this.cameraDropdown[key] = i;
+            if (key == this.graph.defaultCamera)
+                this.selectedCamera = i;
+            i++;
+        }
+        this.onCameraChange(this.selectedCamera);
+        this.interface.rebuildGui();
+
         this.sceneInited = true;
+    }
+
+    onCameraChange(val) {
+        this.selectedCamera = val;
+
+        for (const property in this.cameraDropdown) {
+            if (this.cameraDropdown[property] == this.selectedCamera) {
+                this.camera = this.graph.cameras.get(property);
+                break;
+            }
+        }
+
+        this.interface.setActiveCamera(this.camera);
+    };
+
+    updateGraphLights() {
+
     }
 
     /**

@@ -20,11 +20,17 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
-        // add a group of controls (and open/expand by defult)
-
         this.initKeys();
 
         return true;
+    }
+
+    rebuildGui() {
+        this.gui.destroy();
+        this.gui = new dat.GUI();
+
+        // add a group of controls (and open/expand by defult)
+        this.gui.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
     }
 
     /**

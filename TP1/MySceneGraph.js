@@ -246,8 +246,6 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        this.onXMLMinorError("To do: Create cameras.");
-
         this.defaultCamera = this.reader.getString(viewsNode, "default", true);
         if (this.defaultCamera == null) {
             return "No default camera specified in 'view' tag";
@@ -288,10 +286,10 @@ class MySceneGraph {
                 var position = null, target = null;
                 for (let j = 0; j < grandChildren.length; j++) {
                     if (grandChildren[j].nodeName == "from") {
-                        position = this.parseCoordinates3D(grandChildren[i], "Failed to parse perspective camera with id '" + id + "' 'from' coords");
+                        position = this.parseCoordinates3D(grandChildren[j], "Failed to parse perspective camera with id '" + id + "' 'from' coords");
                     }
                     else if (grandChildren[j].nodeName == "to") {
-                        target = this.parseCoordinates3D(grandChildren[i], "Failed to parse perspective camera with id '" + id + "' 'to' coords");
+                        target = this.parseCoordinates3D(grandChildren[j], "Failed to parse perspective camera with id '" + id + "' 'to' coords");
                     }
                     else {
                         this.onXMLMinorError("Unexpected tag found in perspective camera with id '" + id + "'");
@@ -306,6 +304,8 @@ class MySceneGraph {
                     this.onXMLMinorError("No 'to' tag found in child: Skipping perspective camera with id '" + id + "'");
                     continue;
                 }
+
+                console.log(position, target);
 
                 // Create Camera
                 this.cameras.set(id, new CGFcamera(fov, near, far, position, target));
@@ -331,13 +331,13 @@ class MySceneGraph {
                 var position = null, target = null, up = [0.0, 1.0, 0.0];
                 for (let j = 0; j < grandChildren.length; j++) {
                     if (grandChildren[j].nodeName == "from") {
-                        position = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'from' coords");
+                        position = this.parseCoordinates3D(grandChildren[j], "Failed to parse ortho camera with id '" + id + "' 'from' coords");
                     }
                     else if (grandChildren[j].nodeName == "to") {
-                        target = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'to' coords");
+                        target = this.parseCoordinates3D(grandChildren[j], "Failed to parse ortho camera with id '" + id + "' 'to' coords");
                     }
                     else if (grandChildren[j].nodeName == "up") {
-                        up = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'up' coords");
+                        up = this.parseCoordinates3D(grandChildren[j], "Failed to parse ortho camera with id '" + id + "' 'up' coords");
                     }
                     else {
                         this.onXMLMinorError("Unexpected tag found in ortho camera with id '" + id + "'");
