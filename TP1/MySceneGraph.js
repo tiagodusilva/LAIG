@@ -246,9 +246,132 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        this.onXMLMinorError("To do: Create cameras.");
+
+        this.defaultCamera = this.reader.getString(viewsNode, "default", true);
+        if (this.defaultCamera == null) {
+            return "No default camera specified in 'view' tag";
+        }
+
+        var children = viewsNode.children;
+
+        this.cameras = new Map();
+        var curNode = null;
+        for (let i = 0; i < children.length; i++) {
+            curNode = children[i];
+
+            // Getting id
+            var id = this.reader.getString(curNode, "id", true);
+            if (id == null) {
+                this.onXMLMinorError("Camera with missing ID: Skipping camera");
+                continue;
+            }
+            if (this.cameras.has(id)) {
+                this.onXMLMinorError("Duplicate camera with id'" + id + "' already exists: Skipping camera");
+                continue;
+            }
+
+            // Parse each type of camera
+            var nodeName = curNode.nodeName;
+            // Perspective Camera
+            if (nodeName == "perspective") {
+                var near = null, far = null, fov = null;
+                if ((near = this.parseFloat(curNode, "near", "Skipping perspective camera with id '" + id + "'")) == null)
+                    continue;
+                if ((far = this.parseFloat(curNode, "far", "Skipping perspective camera with id '" + id + "'")) == null)
+                    continue;
+                if ((fov = this.parseFloat(curNode, "angle", "Skipping perspective camera with id '" + id + "'")) == null)
+                    continue;
+
+                // Parsing inner nodes
+                var grandChildren = curNode.children;
+                var position = null, target = null;
+                for (let j = 0; j < grandChildren.length; j++) {
+                    if (grandChildren[j].nodeName == "from") {
+                        position = this.parseCoordinates3D(grandChildren[i], "Failed to parse perspective camera with id '" + id + "' 'from' coords");
+                    }
+                    else if (grandChildren[j].nodeName == "to") {
+                        target = this.parseCoordinates3D(grandChildren[i], "Failed to parse perspective camera with id '" + id + "' 'to' coords");
+                    }
+                    else {
+                        this.onXMLMinorError("Unexpected tag found in perspective camera with id '" + id + "'");
+                    }
+                }
+
+                if (!Array.isArray(position)) {
+                    this.onXMLMinorError("No 'from' tag found in child: Skipping perspective camera with id '" + id + "'");
+                    continue;
+                }
+                if (!Array.isArray(target)) {
+                    this.onXMLMinorError("No 'to' tag found in child: Skipping perspective camera with id '" + id + "'");
+                    continue;
+                }
+
+                // Create Camera
+                this.cameras.set(id, new CGFcamera(fov, near, far, position, target));
+            }
+            // Ortho Camera
+            else if (nodeName == "ortho") {
+                var near = null, far = null, right = null, left = null, top = null, bot = null;
+                if ((near = this.parseFloat(curNode, "near", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+                if ((far = this.parseFloat(curNode, "far", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+                if ((right = this.parseFloat(curNode, "right", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+                if ((left = this.parseFloat(curNode, "left", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+                if ((top = this.parseFloat(curNode, "top", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+                if ((bot = this.parseFloat(curNode, "bottom", "Skipping ortho camera with id '" + id + "'")) == null)
+                    continue;
+
+                // Parsing inner nodes
+                var grandChildren = curNode.children;
+                var position = null, target = null, up = [0.0, 1.0, 0.0];
+                for (let j = 0; j < grandChildren.length; j++) {
+                    if (grandChildren[j].nodeName == "from") {
+                        position = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'from' coords");
+                    }
+                    else if (grandChildren[j].nodeName == "to") {
+                        target = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'to' coords");
+                    }
+                    else if (grandChildren[j].nodeName == "up") {
+                        up = this.parseCoordinates3D(grandChildren[i], "Failed to parse ortho camera with id '" + id + "' 'up' coords");
+                    }
+                    else {
+                        this.onXMLMinorError("Unexpected tag found in ortho camera with id '" + id + "'");
+                    }
+                }
+
+                if (!Array.isArray(position)) {
+                    this.onXMLMinorError("No 'from' tag found in child: Skipping ortho camera with id '" + id + "'");
+                    continue;
+                }
+                if (!Array.isArray(target)) {
+                    this.onXMLMinorError("No 'to' tag found in child: Skipping ortho camera with id '" + id + "'");
+                    continue;
+                }
+                if (!Array.isArray(up)) {
+                    this.onXMLMinorError("Read an incorrect 'up' tag in child of ortho camera with id '" + id + "': Using default 'up' value");
+                    up = [0.0, 1.0, 0.0];
+                }
+
+                // Create Camera
+                this.cameras.set(id, new CGFcameraOrtho(left, right, bot, top, near, far, position, target, up));
+            }
+            else {
+                this.onXMLMinorError("Invalid view tag (must be 'perspective' or 'ortho'): Skipping camera with id '" + id + "'");
+                continue;
+            }
+        }
+
+        if (this.cameras.size == 0)
+            return "Views tag must contain at least one valid camera";
+
         return null;
     }
+
 
     /**
      * Parses the <illumination> node.
@@ -668,6 +791,21 @@ class MySceneGraph {
         color.push(...[r, g, b, a]);
 
         return color;
+    }
+
+    /**
+     * 
+     * @param {block element} node 
+     * @param {string} fieldName 
+     * @param {message to be displayed in case of error} messageError 
+     */
+    parseFloat(node, fieldName, messageError) {
+        var val = this.reader.getFloat(node, fieldName, true);
+        if (val == null) {
+            this.onXMLMinorError("Couldn't find '" + name + "' in node: " + messageError);
+            return null;
+        }
+        return val;
     }
 
     /**
