@@ -44,9 +44,6 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
-
-
-        this.i = 0;
     }
 
     /*
@@ -589,16 +586,10 @@ class MySceneGraph {
         testSphere.display();
         */
 
-        var testCilinder = new MyCilinder(this.scene,2,2,2,5,1);
+        var testCilinder = new MyCilinder(this.scene,1,4,4,10,3);
+        testCilinder.enableNormalViz();
         this.scene.earthAppearance.apply();
         testCilinder.display();
-
-
-        
-        if(this.i == 0){
-            console.log(testCilinder);
-            this.i += 1;
-        }
 
     }
 

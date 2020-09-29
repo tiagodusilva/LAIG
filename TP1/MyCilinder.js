@@ -36,34 +36,90 @@ class MyCilinder extends CGFobject {
         var verts = this.slices;
 
         var heightInc = this.height / this.stacks;
+        var heightPoints = this.stacks + 1;
 
         var tex_s = 0;
         var texInc = 1 / this.slices;
 
+        
 
-        var heightPoints = this.stacks + 1;
-
+        //Side Faces
         for (let angle = 0; angle <= verts; angle++) {
             var currHeight = 0;
-            
-            for(let stack = 0; stack < heightPoints; stack++){
-                var vec = [Math.cos(theta), Math.sin(theta), currHeight];
-                this.normals.push(...[Math.cos(theta), Math.sin(theta), 0]);
-                this.vertices.push(...vec);
+            for(let stack = 0; stack <= this.stacks; stack++){
+                //Vertices (Linear interpolation for different radius on top and bottom)
+                var currHeightRatio = currHeight / this.height
+                var currRadius = (1 - currHeightRatio) * this.bottomRadius + currHeightRatio * this.topRadius;
+                var vert = [Math.cos(theta) * currRadius, Math.sin(theta) * currRadius, currHeight];
+                this.vertices.push(...vert);
+
+
+                
+                this.normals.push(Math.cos(theta), Math.sin(theta), 0);
+
+
                 this.texCoords.push(tex_s, 1 - stack / this.stacks);
 
                 if (angle != verts && stack != this.stacks) {
-                    this.indices.push(heightPoints * angle + stack, heightPoints * (angle + 1) + stack, heightPoints * angle + 1 + stack);
+                    this.indices.push(heightPoints * angle + stack, heightPoints * (angle + 1) + stack, heightPoints * angle + stack + 1);
                     this.indices.push(heightPoints * (angle + 1) + stack + 1, heightPoints * angle + stack + 1, heightPoints * (angle + 1) + stack);
                 }
                 currHeight += heightInc;
             }
 
-            
             theta += thetaInc;
             tex_s += texInc;
         }
-        
+
+
+        //Bottom Face
+        theta = 0;
+        var vertexCount = heightPoints * (this.slices + 1) + 1;
+
+        //Middle Point
+        this.vertices.push(0, 0, 0);
+        this.texCoords.push(0.5,0.5); //Middle of texture
+        this.normals.push(0, 0, -1);
+        var middleIndex = vertexCount;
+        vertexCount++;
+
+        for(let angle = 0; angle < verts; angle++){
+            this.vertices.push(Math.cos(theta) * this.bottomRadius, Math.sin(theta) * this.bottomRadius, 0);
+            this.texCoords.push(0.5 + 0.5 * Math.cos(theta), 0.5 + 0.5 * Math.sin(theta));
+
+            if(angle != verts){
+                this.indices.push(vertexCount + angle + 1, vertexCount + angle, middleIndex);
+            }
+
+            this.normals.push(0, 0, -1);
+
+            theta += thetaInc;
+        }
+
+
+        //Top face
+        theta = 0;
+        vertexCount += this.slices;
+
+        //Middle Point
+        this.vertices.push(0, 0, this.height);
+        this.texCoords.push(0.5,0.5); //Middle of texture
+        this.normals.push(0, 0, 1);
+        middleIndex = vertexCount;
+        vertexCount++;
+
+        for(let angle = 0; angle < verts; angle++){
+            this.vertices.push(Math.cos(theta) * this.topRadius, Math.sin(theta) * this.topRadius, this.height);
+            this.texCoords.push(0.5 + 0.5 * Math.sin(theta), 0.5 + 0.5 * Math.cos(theta));
+
+            if(angle != verts){
+                this.indices.push(vertexCount + angle, vertexCount + angle + 1, middleIndex);
+            }
+
+            this.normals.push(0, 0, 1);
+
+            theta += thetaInc;
+        }
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
