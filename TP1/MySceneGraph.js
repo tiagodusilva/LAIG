@@ -573,7 +573,18 @@ class MySceneGraph {
 
         //Testing Purposes:
 
+        /*
         var testTriangle = new MyTriangle(this.scene,0,0,1,0,1,1);
         testTriangle.display();
+        */
+
+       
+
+        var testSphere = new MySphere(this.scene, 20, 20, 0.5);
+
+        this.scene.earthAppearance.apply();
+        testSphere.display();
+
+
     }
 }
