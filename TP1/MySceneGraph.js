@@ -528,7 +528,11 @@ class MySceneGraph {
             
             // texture amplification
             var afs = 1.0, aft = 1.0;
-            var ampIndex = curNode.indexOf("amplification");
+            nodeNames = [];
+            for (var j = 0; j < curNode.children.length; j++) {
+                nodeNames.push(curNode.children[j].nodeName);
+            }
+            var ampIndex = nodeNames.indexOf("amplification");
             var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
             if (val != null)
                 afs = val;
