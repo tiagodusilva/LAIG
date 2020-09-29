@@ -1,4 +1,5 @@
 const DEGREE_TO_RAD = Math.PI / 180;
+const INDEX_NOT_FOUND = -1;
 
 // Order of the groups in the XML document.
 var INITIALS_INDEX = 0;
@@ -417,7 +418,9 @@ class MySceneGraph {
    * Parses the <nodes> block.
    * @param {nodes block element} nodesNode
    */
-  parseNodes(nodesNode) {
+    parseNodes(nodesNode) {
+        this.onXMLMinorError("To do: Parse nodes.");
+
         var children = nodesNode.children;
 
         this.nodes = [];
@@ -455,14 +458,87 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
 
-            this.onXMLMinorError("To do: Parse nodes.");
-            // Transformations
+            var matrix = mat4.create();
+            var curNode = null;
+            // Transformations (optional)
+            if (transformationsIndex != INDEX_NOT_FOUND) {
+                var transformations = grandChildren[transformationsIndex].children;
+                for (let k = 0; k < transformations.length; k++) {
+                    curNode = transformations[k];
+                    var nodeType = curNode.nodeName;
+                    if (nodeType == "translation") {
+                        var coords = this.parseCoordinates3D(curNode);
+                        if (!Array.isArray(coords)) {
+                            this.onXMLMinorError("Failed to read translation coords: Skipping translation");
+                            continue;
+                        }
+                        mat4.translate(matrix, matrix, coords);
+                    }
+                    else if (nodeType == "rotation") {
+                        var axis = this.reader.getString(curNode, "axis", true);
+                        switch (axis) {
+                            case "yy":
+                                axis = [0.0, 1.0, 0.0];
+                                break;
+                            case "xx":
+                                axis = [1.0, 0.0, 0.0]
+                                break;
+                            case "zz":
+                                axis = [0.0, 0.0, 1.0]
+                                break;
+                            default:
+                                this.onXMLMinorError("Unexpected axis: Skipping rotation");
+                                continue;
+                                break;
+                        }
+                        var angle = DEGREE_TO_RAD * this.reader.getFloat(curNode, "angle", true);
+                        mat4.rotate(matrix, matrix, angle, axis);
+                    }
+                    else if (nodeType == "scale") {
+                        var scale = this.parseFloat3(curNode, "sx", "sy", "sz");
+                        if (!Array.isArray(scale)) {
+                            this.onXMLMinorError("Couldn't read scale: Skipping scale");
+                            continue;
+                        }
+                        else
+                            mat4.scale(matrix, matrix, scale);
+                    }
+                    else {
+                        this.onXMLMinorError("Unexpected tag on node transformations");
+                    }
+                }
+            }
 
-            // Material
+            // Material (mandatory)
+            if (materialIndex == INDEX_NOT_FOUND)
+                return "No ´material' tag found";
+            curNode = grandChildren[materialIndex];
+            var material = this.reader.getString(curNode, "id", true);
+            if (material == null)
+                return "Tag 'material' had no id";
 
-            // Texture
+
+            // Texture (mandatory)
+            if (textureIndex == INDEX_NOT_FOUND)
+                return "No 'texture' tag found";
+            curNode = grandChildren[textureIndex];
+            var texture = this.reader.getString(curNode, "id", true);
+            if (texture == null)
+                return "Tag 'texture' had no id";
+            
+            // texture amplification
+            var afs = 1.0, aft = 1.0;
+            var ampIndex = curNode.indexOf("amplification");
+            var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
+            if (val != null)
+                afs = val;
+            val = this.reader.getFloat(curNode.children[ampIndex], "aft", false);
+            if (val != null)
+                aft = val;
 
             // Descendants
+            // declaring descendants, at least one node or one leaf must be present: descendants may be mixed, nodes and leafs
+            
         }
     }
 
@@ -475,6 +551,35 @@ class MySceneGraph {
 
         return boolVal || 1;
     }
+
+    /**
+     * Parse 3 floats from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseFloat3(node, elem1, elem2, elem3, messageError) {
+        var position = [];
+
+        // x
+        var x = this.reader.getFloat(node, elem1);
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse first element of the " + messageError;
+
+        // y
+        var y = this.reader.getFloat(node, elem2);
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse second element of the " + messageError;
+
+        // z
+        var z = this.reader.getFloat(node, elem3);
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse third element of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
+    }
+
     /**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
