@@ -38,6 +38,10 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
+        //Test Purposes
+        this.earthAppearance = new CGFappearance(this);
+        this.earthAppearance.loadTexture("earth.jpg");
+
     }
 
     /**
