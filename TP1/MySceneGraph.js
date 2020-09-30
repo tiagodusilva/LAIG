@@ -66,6 +66,16 @@ class MySceneGraph {
 
         // Pre-process nodes and other information
         console.log("Read XML: Pre-processing nodes");
+        this.preProcessing();
+        console.log("Finished pre-processing nodes");
+
+        this.loadedOk = true;
+
+        // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+        this.scene.onGraphLoaded();
+    }
+
+    preProcessing() {
         this.rootNode = this.getNode(this.idRoot);
         if (this.rootNode === undefined) {
             this.onXMLError("Root node does not exist (id = '" + this.idRoot + "')");
@@ -74,12 +84,7 @@ class MySceneGraph {
         for (let node of this.nodes.values()) {
             node.preProcess(this);
         }
-        console.log("Finished pre-processing nodes");
 
-        this.loadedOk = true;
-
-        // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
     }
 
     /*
@@ -646,7 +651,7 @@ class MySceneGraph {
                 shininess = this.parseFloat(grandChildren[shininessIndex], "value", "on material with id '" + materialId + "'", false);
 
             // Apply values to the new appearance
-            var newAppearance = new CGFappearance();
+            var newAppearance = new CGFappearance(this.scene);
             if (shininess != null)
                 newAppearance.setShininess();
             else
@@ -1149,15 +1154,15 @@ class MySceneGraph {
         
         //To do: Create display loop for transversing the scene graph, calling the root node's display function
         
-        //this.nodes[this.idRoot].display()
+        this.rootNode.display();
 
 
         //Testing Purposes:
 
         
-        var testTriangle = new MyTriangle(this.scene,0,0,3,0,0,3);
-        this.scene.earthAppearance.apply();
-        testTriangle.display();
+        // var testTriangle = new MyTriangle(this.scene,0,0,3,0,0,3);
+        // this.scene.earthAppearance.apply();
+        // testTriangle.display();
         
 
        

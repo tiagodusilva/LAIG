@@ -154,13 +154,16 @@ class XMLscene extends CGFscene {
     }
 
     pushTexture(texture) {
-        this.textureStack.push(this.texture);
+        this.textureStack.push(this.activeTexture);
         this.activeTexture = texture;
-        this.texture.bind(0);
+        if (this.activeTexture != null)
+            this.activeTexture.bind(0);
     }
 
     popTexture() {
-        this.textureStack.pop().bind(0);
+        var popped = this.textureStack.pop();
+        if (popped != null)
+            popped.bind(0);
     }
 
     /**

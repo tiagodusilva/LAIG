@@ -46,9 +46,12 @@ class MyNode {
         else if (ALLOW_CLEAR_MATERIAL && this.material === "clear") {
             this.materialStatus = MaterialStatus.DEFAULT;
         }
-        else if ((this.material = graphScene.getMaterial(this.materialId)) === undefined) {
+        else if (typeof(this.material = graphScene.getMaterial(this.materialId)) === "undefined") {
             graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid texture: Using parent's appearance");
-            this.materialStatus = MaterialStatus.DEFAULT;
+            this.materialStatus = MaterialStatus.KEEP;
+        }
+        else {
+            this.materialStatus = MaterialStatus.SET;
         }
         
         // Process texture
@@ -58,22 +61,25 @@ class MyNode {
         else if (this.textureId === "clear") {
             this.textureStatus = TextureStatus.DEFAULT;
         }
-        else if ((this.texture = graphScene.getTexture(this.textureId)) === undefined) {
+        else if (typeof(this.texture = graphScene.getTexture(this.textureId)) === "undefined") {
             graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid texture: Using default texture");
             this.textureStatus = TextureStatus.DEFAULT;
+        }
+        else {
+            this.textureStatus = TextureStatus.SET;
         }
 
         // Process descendants
         var result = [];
         var aNode = null;
         for (let i = 0; i < this.children.length; i++) {
-            if (typeof this.children[i] !== String) {
+            if (typeof this.children[i] !== "string") {
                 // It's a leaf node (primitive)
                 result.push(this.children[i]);
             }
             else {
                 // It's another regular node
-                if ((aNode = graphScene.getNode(this.children[i])) === undefined) {
+                if (typeof(aNode = graphScene.getNode(this.children[i])) === "undefined") {
                     graphScene.onXMLMinorError("Could not find descendant with id '" + this.children[i] + "' whilst pre-processing node with id '" + this.id + "': Ignoring descendant");
                 }
                 else {
@@ -88,9 +94,25 @@ class MyNode {
             this.scene.onXMLMinorError("TO DO\nEliminate nodes with no descendants due to errors\nTO DO\n");
         }
         
+        console.log("EEEEEEEEEEEYYYYYYYYYYYYYY");
+        console.log(this);
+        console.log(this.material);
+        console.log(this.texture);
     }
 
     display() {
+        this.scenePush();
+
+        this.children.forEach(child => {
+            child.display();
+        });
+
+        this.scenePop();
+    }
+
+    scenePush() {
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.matrix);
 
         switch (this.materialStatus) {
             case MaterialStatus.SET:
@@ -101,20 +123,12 @@ class MyNode {
                 break;
         }
 
-        if (this.textureStatus == TextureStatus.SET){
+        if (this.textureStatus != TextureStatus.KEEP){
             this.scene.pushTexture(this.texture);
-        } else if (this.textureStatus == TextureStatus.DEFAULT){
-            this.scene.pushMaterial();
-        } else if (this.textureStatus == TextureStatus.KEEP){
-            //Do nothing
         }
+    }
 
-        this.scene.pushMatrix();
-        this.scene.multMatrix(this.transformationMatrix);
-
-        this.children.forEach(child => {
-            child.display;
-        });
+    scenePop() {
         this.scene.popMatrix();
 
         if (this.materialStatus != MaterialStatus.KEEP){
@@ -123,6 +137,6 @@ class MyNode {
         if (this.textureStatus != TextureStatus.KEEP){
             this.scene.popTexture();
         }
-
     }
+
 }
