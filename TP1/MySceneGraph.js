@@ -573,10 +573,11 @@ class MySceneGraph {
 
         //Testing Purposes:
 
-        /*
-        var testTriangle = new MyTriangle(this.scene,0,0,1,0,1,1);
+        
+        var testTriangle = new MyTriangle(this.scene,0,0,3,0,0,3);
+        this.scene.earthAppearance.apply();
         testTriangle.display();
-        */
+        
 
        
         /*
@@ -593,11 +594,12 @@ class MySceneGraph {
         testCilinder.display();
         */
         
+        /*
         var testTorus = new MyTorus(this.scene,1,3,40,20);
         testTorus.enableNormalViz();
         this.scene.earthAppearance.apply();
         testTorus.display();
-
+        */
     }
 
 
