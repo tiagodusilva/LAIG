@@ -38,6 +38,19 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
+        
+        // Texture stack
+        this.textureStack = [];
+
+        //Material Stack
+        this.materialStack = [];
+
+        this.material = this.defaultAppearance;
+        this.material.apply();
+
+        this.activeTexture = null;
+
+
         //Test Purposes
         this.earthAppearance = new CGFappearance(this);
         this.earthAppearance.loadTexture("earth.jpg");
@@ -128,6 +141,26 @@ class XMLscene extends CGFscene {
 
     updateGraphLights() {
 
+    }
+
+    pushMaterial(material) {
+        this.materialStack.push(this.material);
+        this.material = material;
+        this.material.apply();
+    }
+
+    popMaterial() {
+        this.materialStack.pop().apply();
+    }
+
+    pushTexture(texture) {
+        this.textureStack.push(this.texture);
+        this.activeTexture = texture;
+        this.texture.bind(0);
+    }
+
+    popTexture() {
+        this.textureStack.pop().bind(0);
     }
 
     /**

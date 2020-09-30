@@ -1,5 +1,6 @@
 const DEGREE_TO_RAD = Math.PI / 180;
 const INDEX_NOT_FOUND = -1;
+const ALLOW_CLEAR_MATERIAL = false;
 
 // Order of the groups in the XML document.
 var INITIALS_INDEX = 0;
@@ -14,6 +15,7 @@ var NODES_INDEX = 6;
  * MySceneGraph class, representing the scene graph.
  */
 class MySceneGraph {
+
     /**
      * Constructor for MySceneGraph class.
      * Initializes necessary variables and starts the XML file reading process.
@@ -62,6 +64,18 @@ class MySceneGraph {
             return;
         }
 
+        // Pre-process nodes and other information
+        console.log("Read XML: Pre-processing nodes");
+        this.rootNode = this.getNode(this.idRoot);
+        if (this.rootNode === undefined) {
+            this.onXMLError("Root node does not exist (id = '" + this.idRoot + "')");
+            return;
+        }
+        for (let node of this.nodes.values()) {
+            node.preProcess(this);
+        }
+        console.log("Finished pre-processing nodes");
+
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -91,6 +105,33 @@ class MySceneGraph {
      */
     log(message) {
         console.log("   " + message);
+    }
+    
+    /**
+     * Gets the material with given id
+     * Returns undefined if it doesn't exist
+     * @param {string} materialId 
+     */
+    getMaterial(materialId) {
+        return this.materials.get(materialId);
+    }
+
+    /**
+     * Gets the texture with given id
+     * Returns undefined if it doesn't exist
+     * @param {string} textureId 
+     */
+    getTexture(textureId) {
+        return this.textures.get(textureId);
+    }
+
+    /**
+     * Gets the node with given id
+     * Returns undefined if it doesn't exist
+     * @param {string} nodeId 
+     */
+    getNode(nodeId) {
+        return this.nodes.get(nodeId);
     }
 
     /**
