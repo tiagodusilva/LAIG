@@ -17,7 +17,7 @@ class MyNode {
      * @param {int} afs
      * @param {mat4} transformationMatrix 
      * @param {string or CGFobject} descendants
-     * @param {XMLscene} xmlScene 
+     * @param {XMLscene} xmlScene
      */
     constructor(nodeId, materialId, textureId, aft, afs, transformationMatrix, descendants, xmlScene) {
         this.id = nodeId;
@@ -94,10 +94,6 @@ class MyNode {
             this.scene.onXMLMinorError("TO DO\nEliminate nodes with no descendants due to errors\nTO DO\n");
         }
         
-        console.log("EEEEEEEEEEEYYYYYYYYYYYYYY");
-        console.log(this);
-        console.log(this.material);
-        console.log(this.texture);
     }
 
     display() {
@@ -117,8 +113,10 @@ class MyNode {
         switch (this.materialStatus) {
             case MaterialStatus.SET:
                 this.scene.pushMaterial(this.material);
+                break;
             case MaterialStatus.DEFAULT:
                 this.scene.pushMaterial(this.scene.defaultAppearance);
+                break;
             default:
                 break;
         }

@@ -132,11 +132,11 @@ class XMLscene extends CGFscene {
         for (const property in this.cameraDropdown) {
             if (this.cameraDropdown[property] == this.selectedCamera) {
                 this.camera = this.graph.cameras.get(property);
+                this.interface.setActiveCamera(this.camera);
                 break;
             }
         }
 
-        this.interface.setActiveCamera(this.camera);
     };
 
     updateGraphLights() {

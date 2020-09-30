@@ -625,10 +625,10 @@ class MySceneGraph {
             var colors = [null, null, null, null];
             var nodeNames = [];
             var grandChildren = curNode.children;
-            for (var j = 0; j < grandChildren.length; j++) {
+            for (let j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
-            for (var j = 0; j < attributeNames.length; j++) {
+            for (let j = 0; j < attributeNames.length; j++) {
                 var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if (attributeIndex != INDEX_NOT_FOUND) {
@@ -637,7 +637,6 @@ class MySceneGraph {
                     if (typeof aux === 'string') {
                         this.onXMLMinorError(aux + ": Skipped color component " + attributeNames[j]);
                     }
-
                     colors[j] = aux;
                 }
                 else
@@ -653,24 +652,24 @@ class MySceneGraph {
             // Apply values to the new appearance
             var newAppearance = new CGFappearance(this.scene);
             if (shininess != null)
-                newAppearance.setShininess();
+                newAppearance.setShininess(shininess);
             else
                 this.onXMLMinorError("Material with id '" + materialId + "' is missing shininess: Using default value");
             
             if (colors[0] != null)
-                newAppearance.setAmbient(colors[0]);
+                newAppearance.setAmbient(...colors[0]);
             else
                 this.onXMLMinorError("Material with id '" + materialId + '" is missing ambient component: Using default value');
             if (colors[1] != null)
-                newAppearance.setDiffuse(colors[1]);
+                newAppearance.setDiffuse(...colors[1]);
             else
                 this.onXMLMinorError("Material with id '" + materialId + '" is missing diffuse component: Using default value');
             if (colors[2] != null)
-                newAppearance.setSpecular(colors[2]);
+                newAppearance.setSpecular(...colors[2]);
             else
                 this.onXMLMinorError("Material with id '" + materialId + '" is missing specular component: Using default value');
             if (colors[3] != null)
-                newAppearance.setEmission(colors[3]);
+                newAppearance.setEmission(...colors[3]);
             else
                 this.onXMLMinorError("Material with id '" + materialId + '" is missing emissive component: Using default value');
 
