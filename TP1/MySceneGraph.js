@@ -782,7 +782,7 @@ class MySceneGraph {
                 }
                 else if (curNode.nodeName == "leaf") {
                     // TODO PRIMITIVES:
-                    var primitive = null;
+                    var primitive = this.parsePrimitive(curNode);
                     if (primitive == null) {
                         this.onXMLMinorError("Invalid <leaf> tag of node ");
                         continue;
@@ -943,12 +943,163 @@ class MySceneGraph {
      */
     parseFloat(node, fieldName, messageError, required = true) {
         var val = this.reader.getFloat(node, fieldName, true);
-        if (val == null) {
-            this.onXMLMinorError("Couldn't find '" + name + "' in node: " + messageError);
+        if (!(val != null && !isNaN(val))) {
+            this.onXMLMinorError("Couldn't find '" + fieldName + "' in node: " + messageError);
             return null;
         }
         return val;
     }
+
+    /**
+     * 
+     * @param {block element} node 
+     * @param {string} fieldName 
+     * @param {message to be displayed in case of error} messageError
+     * @param {bool} 
+     */
+    parseInt(node, fieldName, messageError, required = true) {
+        var val = this.reader.getInteger(node, fieldName, true);
+        if (!(val != null && !isNaN(val))) {
+            this.onXMLMinorError("Couldn't find '" + fieldName + "' in node: " + messageError);
+            return null;
+        }
+        return val;
+    }
+
+    /**
+     * 
+     * @param {block element} node 
+     */
+    parsePrimitive(node) {
+
+        console.log(node);
+
+        var type = this.reader.getString(node, "type", false);
+        if(type == null){
+            this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
+            return null;
+        } else if (type === "rectangle"){
+            return this.parseRectangle(node);
+        } else if (type === "triangle"){
+            return this.parseTriangle(node);
+        } else if (type === "sphere"){
+            return this.parseSphere(node);
+        } else if (type === "cylinder"){
+            return this.parseCylinder(node);
+        } else if (type === "torus"){
+            return this.parseTorus(node);
+        } else {
+            this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
+            return null;
+        }
+    }
+
+    /**
+     * 
+     * @param {block element} node 
+     */
+    parseRectangle(node) {
+
+        var x1,y1,x2,y2;
+
+        if((x1 = this.parseFloat(node,"x1", "Rectangle", false)) == null)
+            return null;
+        if((y1 = this.parseFloat(node,"y1", "Rectangle", false)) == null)
+            return null;
+        if((x2 = this.parseFloat(node,"x2", "Rectangle", false)) == null)
+            return null;
+        if((y2 = this.parseFloat(node,"y2", "Rectangle", false)) == null)
+            return null;
+
+        return new MyRectangle(this.scene, x1, y1, x2, y2);
+    }
+
+    /**
+    *  
+    * @param {block element} node 
+    */
+    parseTriangle(node) {
+
+        var x1,y1,x2,y2,x3,y3;
+        
+        if((x1 = this.parseFloat(node,"x1", "Triangle", false)) == null)
+        return null;
+        if((y1 = this.parseFloat(node,"y1", "Triangle", false)) == null)
+            return null;
+        if((x2 = this.parseFloat(node,"x2", "Triangle", false)) == null)
+            return null;
+        if((y2 = this.parseFloat(node,"y2", "Triangle", false)) == null)
+            return null;
+        if((x3 = this.parseFloat(node,"x3", "Triangle", false)) == null)
+            return null;
+        if((y3 = this.parseFloat(node,"y3", "Triangle", false)) == null)
+            return null;
+
+        return new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3);
+    }
+
+    /**
+    *  
+    * @param {block element} node 
+    */
+   parseSphere(node) {
+
+        var radius, slices, stacks;
+        
+        if((radius = this.parseFloat(node,"radius", "Sphere", false)) == null)
+        return null;
+        if((slices = this.parseInt(node,"slices", "Sphere", false)) == null)
+            return null;
+        if((stacks = this.parseInt(node,"stacks", "Sphere", false)) == null)
+            return null;
+
+        return new MySphere(this.scene, slices, stacks, radius);
+    }
+
+    /**
+    *  
+    * @param {block element} node 
+    */
+    parseCylinder(node) {
+
+        var height, topRadius, bottomRadius, stacks, slices;
+        
+        if((height = this.parseFloat(node,"height", "Cylinder", false)) == null)
+            return null;
+        if((topRadius = this.parseFloat(node,"topRadius", "Cylinder", false)) == null)
+            return null;
+        if((bottomRadius = this.parseFloat(node,"bottomRadius", "Cylinder", false)) == null)
+            return null;
+        if((stacks = this.parseInt(node,"stacks", "Cylinder", false)) == null)
+            return null;
+        if((slices = this.parseInt(node,"slices", "Cylinder", false)) == null)
+            return null;
+
+        return new MyCilinder(this.scene, bottomRadius, topRadius, height, slices, stacks);
+    }
+
+        /**
+    *  
+    * @param {block element} node 
+    */
+   parseTorus(node) {
+
+        var inner, outer, loops, slices;
+        
+        if((inner = this.parseFloat(node,"inner", "Torus", false)) == null)
+            return null;
+        if((outer = this.parseFloat(node,"outer", "Torus", false)) == null)
+            return null;
+        if((loops = this.parseInt(node,"loops", "Torus", false)) == null)
+            return null;
+        if((slices = this.parseInt(node,"slices", "Torus", false)) == null)
+            return null;
+
+        return new MyTorus(this.scene, inner, outer, loops, slices);
+    }
+
+
+
 
     /**
      * Displays the scene, processing each node, starting in the root node.
