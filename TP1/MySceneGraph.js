@@ -297,15 +297,13 @@ class MySceneGraph {
                 }
 
                 if (!Array.isArray(position)) {
-                    this.onXMLMinorError("No 'from' tag found in child: Skipping perspective camera with id '" + id + "'");
+                    this.onXMLMinorError("No <from> tag found in child: Skipping perspective camera with id '" + id + "'");
                     continue;
                 }
                 if (!Array.isArray(target)) {
-                    this.onXMLMinorError("No 'to' tag found in child: Skipping perspective camera with id '" + id + "'");
+                    this.onXMLMinorError("No <to> tag found in child: Skipping perspective camera with id '" + id + "'");
                     continue;
                 }
-
-                console.log(position, target);
 
                 // Create Camera
                 this.cameras.set(id, new CGFcamera(fov, near, far, position, target));
@@ -345,15 +343,15 @@ class MySceneGraph {
                 }
 
                 if (!Array.isArray(position)) {
-                    this.onXMLMinorError("No 'from' tag found in child: Skipping ortho camera with id '" + id + "'");
+                    this.onXMLMinorError("No <from> tag found in child: Skipping ortho camera with id '" + id + "'");
                     continue;
                 }
                 if (!Array.isArray(target)) {
-                    this.onXMLMinorError("No 'to' tag found in child: Skipping ortho camera with id '" + id + "'");
+                    this.onXMLMinorError("No <to> tag found in child: Skipping ortho camera with id '" + id + "'");
                     continue;
                 }
                 if (!Array.isArray(up)) {
-                    this.onXMLMinorError("Read an incorrect 'up' tag in child of ortho camera with id '" + id + "': Using default 'up' value");
+                    this.onXMLMinorError("Read an incorrect <up> tag in child of ortho camera with id '" + id + "': Using default 'up' value");
                     up = [0.0, 1.0, 0.0];
                 }
 
@@ -361,7 +359,7 @@ class MySceneGraph {
                 this.cameras.set(id, new CGFcameraOrtho(left, right, bot, top, near, far, position, target, up));
             }
             else {
-                this.onXMLMinorError("Invalid view tag (must be 'perspective' or 'ortho'): Skipping camera with id '" + id + "'");
+                this.onXMLMinorError("Invalid view tag (must be <perspective> or <ortho>): Skipping camera with id '" + id + "'");
                 continue;
             }
         }
@@ -369,6 +367,7 @@ class MySceneGraph {
         if (this.cameras.size == 0)
             return "Views tag must contain at least one valid camera";
 
+        this.log("Parsed Views.");
         return null;
     }
 
@@ -494,9 +493,50 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
+        var children = texturesNode.children;
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        this.textures = new Map();
+
+        // Any number of textures.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("Unknown tag <" + children[i].nodeName + "> in textures block");
+                continue;
+            }
+
+            // Get id of the current texture.
+            var textureId = this.reader.getString(children[i], 'id');
+            if (textureId == null) {
+                this.onXMLMinorError("No id in <texture> tag: Skipping texture");
+                continue;
+            }
+
+            // Checks for repeated IDs.
+            if (this.textures.has(textureId)) {
+                this.onXMLMinorError("ID must be unique for each texture (conflict: ID = " + textureId + "): Skipping texture");
+                continue;
+            }
+
+            // Get filename
+            var fileName = this.reader.getString(children[i], "path", true);
+            if (fileName == null) {
+                this.onXMLMinorError("Texture with id '" + textureId + "' has invalid <path> tag: Skipping texture");
+                continue;
+            }
+
+            // TODO: Check this later
+            // // Open the file
+            // var fileTest = new File(fileName);
+            // // See if the file exists
+            // if(!fileTest.exists()) {
+            //     this.onXMLMinorError("Texture with id '" + textureId + "' file does not exist: Skipping texture");
+            // }
+
+            this.textures.set(textureId, new CGFtexture(this.scene, fileName));
+        }
+
+        this.log("Parsed textures");
         return null;
     }
 
@@ -507,33 +547,94 @@ class MySceneGraph {
     parseMaterials(materialsNode) {
         var children = materialsNode.children;
 
-        this.materials = [];
+        this.materials = new Map();
 
-        var grandChildren = [];
-        var nodeNames = [];
+        var attributeNames = ["ambient", "diffuse", "specular", "emissive"];
 
-        // Any number of materials.
+        // Any number of textures.
+        var curNode = null;
         for (var i = 0; i < children.length; i++) {
 
-            if (children[i].nodeName != "material") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+            curNode = children[i];
+
+            if (curNode.nodeName != "material") {
+                this.onXMLMinorError("Unknown tag <" + curNode.nodeName + "> in materials block");
                 continue;
             }
 
-            // Get id of the current material.
-            var materialID = this.reader.getString(children[i], 'id');
-            if (materialID == null)
-                return "no ID defined for material";
+            // Get id of the current texture.
+            var materialId = this.reader.getString(curNode, 'id');
+            if (materialId == null) {
+                this.onXMLMinorError("No id in <material> tag: Skipping material");
+                continue;
+            }
 
             // Checks for repeated IDs.
-            if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+            if (this.materials.has(materialId)) {
+                this.onXMLMinorError("ID must be unique for each texture (conflict: ID = " + materialId + "): Skipping material");
+                continue;
+            }
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            // Read colors
+            var colors = [null, null, null, null];
+            var nodeNames = [];
+            var grandChildren = curNode.children;
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+            for (var j = 0; j < attributeNames.length; j++) {
+                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+
+                if (attributeIndex != INDEX_NOT_FOUND) {
+                    var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " material with ID '" + materialId + "'");
+
+                    if (typeof aux === 'string') {
+                        this.onXMLMinorError(aux + ": Skipped color component " + attributeNames[j]);
+                    }
+
+                    colors[j] = aux;
+                }
+                else
+                    this.onXMLMinorError("tag <" + attributeNames[i] + "> undefined for material with id '" + materialId +  "': Ignoring tag");
+            }
+
+            // Read shininess
+            var shininessIndex = nodeNames.indexOf("shininess");
+            var shininess = null;
+            if (shininessIndex != INDEX_NOT_FOUND)
+                shininess = this.parseFloat(grandChildren[shininessIndex], "value", "on material with id '" + materialId + "'", false);
+
+            // Apply values to the new appearance
+            var newAppearance = new CGFappearance();
+            if (shininess != null)
+                newAppearance.setShininess();
+            else
+                this.onXMLMinorError("Material with id '" + materialId + "' is missing shininess: Using default value");
+            
+            if (colors[0] != null)
+                newAppearance.setAmbient(colors[0]);
+            else
+                this.onXMLMinorError("Material with id '" + materialId + '" is missing ambient component: Using default value');
+            if (colors[1] != null)
+                newAppearance.setDiffuse(colors[1]);
+            else
+                this.onXMLMinorError("Material with id '" + materialId + '" is missing diffuse component: Using default value');
+            if (colors[2] != null)
+                newAppearance.setSpecular(colors[2]);
+            else
+                this.onXMLMinorError("Material with id '" + materialId + '" is missing specular component: Using default value');
+            if (colors[3] != null)
+                newAppearance.setEmission(colors[3]);
+            else
+                this.onXMLMinorError("Material with id '" + materialId + '" is missing emissive component: Using default value');
+
+            this.materials.set(materialId, newAppearance);
         }
 
-        //this.log("Parsed materials");
+        if (this.materials.size == 0)
+            return "There must be at least one valid material";
+
+        this.log("Parsed materials");
         return null;
     }
 
@@ -634,20 +735,20 @@ class MySceneGraph {
 
             // Material (mandatory)
             if (materialIndex == INDEX_NOT_FOUND)
-                return "No ´material' tag found";
+                return "No <material> tag found";
             curNode = grandChildren[materialIndex];
             var material = this.reader.getString(curNode, "id", true);
             if (material == null)
-                return "Tag 'material' had no id";
+                return "Tag <material> had no id";
 
 
             // Texture (mandatory)
             if (textureIndex == INDEX_NOT_FOUND)
-                return "No 'texture' tag found";
+                return "No <texture> tag found";
             curNode = grandChildren[textureIndex];
             var texture = this.reader.getString(curNode, "id", true);
             if (texture == null)
-                return "Tag 'texture' had no id";
+                return "Tag <texture> had no id";
             
             // texture amplification
             var afs = 1.0, aft = 1.0;
@@ -797,9 +898,10 @@ class MySceneGraph {
      * 
      * @param {block element} node 
      * @param {string} fieldName 
-     * @param {message to be displayed in case of error} messageError 
+     * @param {message to be displayed in case of error} messageError
+     * @param {bool} 
      */
-    parseFloat(node, fieldName, messageError) {
+    parseFloat(node, fieldName, messageError, required = true) {
         var val = this.reader.getFloat(node, fieldName, true);
         if (val == null) {
             this.onXMLMinorError("Couldn't find '" + name + "' in node: " + messageError);
