@@ -647,7 +647,7 @@ class MySceneGraph {
 
         var children = nodesNode.children;
 
-        this.nodes = [];
+        this.nodes = new Map();
 
         var grandChildren = [];
         var grandgrandChildren = [];
@@ -667,7 +667,7 @@ class MySceneGraph {
                 return "no ID defined for nodeID";
 
             // Checks for repeated IDs.
-            if (this.nodes[nodeID] != null)
+            if (this.nodes.has(nodeID))
                 return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
 
             grandChildren = children[i].children;
