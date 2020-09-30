@@ -14,7 +14,7 @@ class MyNode {
      * @param {string} textureId 
      * @param {int[]} transformationMatrix 
      * @param {XMLscene} xmlScene 
-     * @param {string[]} descendants
+     * @param {string or CGFobject} descendants
      */
     constructor(materialId, textureId, aft, afs, transformationMatrix, xmlScene, descendants) {
         this.materialId = materialId;

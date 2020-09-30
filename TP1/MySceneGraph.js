@@ -643,8 +643,6 @@ class MySceneGraph {
    * @param {nodes block element} nodesNode
    */
     parseNodes(nodesNode) {
-        this.onXMLMinorError("To do: Parse nodes.");
-
         var children = nodesNode.children;
 
         this.nodes = new Map();
@@ -679,11 +677,29 @@ class MySceneGraph {
 
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
+            if (materialIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <material> tag found: Skipping object");
+                continue;
+            }
             var textureIndex = nodeNames.indexOf("texture");
+            if (textureIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <texture> tag found; Skipping object");
+                continue;
+            }
             var descendantsIndex = nodeNames.indexOf("descendants");
+            if (descendantsIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <descendants> tag found: Skipping object");
+                continue;
+            }
 
             var matrix = mat4.create();
+            var axisConvertor = {
+                "xx": [1.0, 0.0, 0.0],
+                "yy": [0.0, 1.0, 0.0],
+                "zz": [0.0, 0.0, 1.0]
+            };
             var curNode = null;
+
             // Transformations (optional)
             if (transformationsIndex != INDEX_NOT_FOUND) {
                 var transformations = grandChildren[transformationsIndex].children;
@@ -700,21 +716,13 @@ class MySceneGraph {
                     }
                     else if (nodeType == "rotation") {
                         var axis = this.reader.getString(curNode, "axis", true);
-                        switch (axis) {
-                            case "yy":
-                                axis = [0.0, 1.0, 0.0];
-                                break;
-                            case "xx":
-                                axis = [1.0, 0.0, 0.0]
-                                break;
-                            case "zz":
-                                axis = [0.0, 0.0, 1.0]
-                                break;
-                            default:
-                                this.onXMLMinorError("Unexpected axis: Skipping rotation");
-                                continue;
-                                break;
+                        if (!axisConvertor.hasOwnProperty()) {
+                            this.onXMLMinorError("Unexpected axis: Skipping rotation");
+                            continue;
                         }
+                        else
+                            axis = axisConvertor[axis];
+
                         var angle = DEGREE_TO_RAD * this.reader.getFloat(curNode, "angle", true);
                         mat4.rotate(matrix, matrix, angle, axis);
                     }
@@ -734,8 +742,6 @@ class MySceneGraph {
             }
 
             // Material (mandatory)
-            if (materialIndex == INDEX_NOT_FOUND)
-                return "No <material> tag found";
             curNode = grandChildren[materialIndex];
             var material = this.reader.getString(curNode, "id", true);
             if (material == null)
@@ -743,8 +749,6 @@ class MySceneGraph {
 
 
             // Texture (mandatory)
-            if (textureIndex == INDEX_NOT_FOUND)
-                return "No <texture> tag found";
             curNode = grandChildren[textureIndex];
             var texture = this.reader.getString(curNode, "id", true);
             if (texture == null)
@@ -766,8 +770,44 @@ class MySceneGraph {
 
             // Descendants
             // declaring descendants, at least one node or one leaf must be present: descendants may be mixed, nodes and leafs
-            
+            var descendants = [];
+            var descendantTags = grandChildren[descendantsIndex].children;
+            for (let j = 0; j < descendantTags.length; j++) {
+                curNode = descendantTags[j];
+                if (curNode.nodeName == "noderef") {
+                    var noderef = this.reader.getString(curNode, "id", "id of <noderef> of node with id '" + nodeID + "': Ignoring noderef");
+                    if (noderef == null)
+                        continue;
+                    descendants.push(noderef);
+                }
+                else if (curNode.nodeName == "leaf") {
+                    // TODO PRIMITIVES:
+                    var primitive = null;
+                    if (primitive == null) {
+                        this.onXMLMinorError("Invalid <leaf> tag of node ");
+                        continue;
+                    }
+                    else {
+                        descendants.push(primitive);
+                    }
+                }
+                else {
+                    this.onXMLMinorError("Invalid descendant tag (should be <noderef> or <leaf>) for node with id '" + nodeID + "': Ignoring this descendant");
+                }
+            }
+
+            if (descendants.length <= 0) {
+                this.onXMLMinorError("There must be at least 1 valid descendant in node with id '" + nodeID + "': Skipping node");
+                continue;
+            }
+            this.nodes.set(nodeID, new MyNode(material, texture, aft, afs, matrix, this.scene, descendants));
         }
+
+        if (this.nodes.size <= 0)
+            return "There must be at least 1 valid node";
+
+        this.log("Parsed Nodes");
+        return null;
     }
 
 
