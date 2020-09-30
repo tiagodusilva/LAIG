@@ -36,5 +36,37 @@ class MyNode {
 
     display() {
 
+
+        if (this.materialStatus == MaterialStatus.SET){
+            this.scene.pushMaterial(this.material);
+        } else if (this.materialStatus == MaterialStatus.DEFAULT){
+            this.scene.pushMaterial(this.scene.defaultAppearance);
+        } else if (this.materialStatus == MaterialStatus.KEEP){
+            //Do nothing
+        }
+
+        if (this.textureStatus == TextureStatus.SET){
+            this.scene.pushTexture(this.texture);
+        } else if (this.textureStatus == TextureStatus.DEFAULT){
+            this.scene.pushMaterial();
+        } else if (this.textureStatus == TextureStatus.KEEP){
+            //Do nothing
+        }
+
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.transformationMatrix);
+
+        this.children.forEach(child => {
+            child.display;
+        });
+        this.scene.popMatrix();
+
+        if (this.materialStatus != MaterialStatus.KEEP){
+            this.scene.popMaterial();
+        }
+        if (this.textureStatus != TextureStatus.KEEP){
+            this.scene.popTexture();
+        }
+
     }
 }
