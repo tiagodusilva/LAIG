@@ -12,12 +12,14 @@ class MyNode {
      * Constructor
      * @param {string} nodeId
      * @param {string} materialId 
-     * @param {string} textureId 
-     * @param {int[]} transformationMatrix 
-     * @param {XMLscene} xmlScene 
+     * @param {string} textureId
+     * @param {int} aft
+     * @param {int} afs
+     * @param {mat4} transformationMatrix 
      * @param {string or CGFobject} descendants
+     * @param {XMLscene} xmlScene 
      */
-    constructor(nodeId, materialId, textureId, aft, afs, transformationMatrix, xmlScene, descendants) {
+    constructor(nodeId, materialId, textureId, aft, afs, transformationMatrix, descendants, xmlScene) {
         this.id = nodeId;
         this.materialId = materialId;
         this.material = null;
@@ -62,26 +64,27 @@ class MyNode {
         }
 
         // Process descendants
-        var children = this.children;
-        this.children = [];
+        var result = [];
         var aNode = null;
-        for (let i = 0; i < children.length; i++) {
-            if (typeof child[i] !== String) {
+        for (let i = 0; i < this.children.length; i++) {
+            if (typeof this.children[i] !== String) {
                 // It's a leaf node (primitive)
-                this.children.push(child[i]);
+                result.push(this.children[i]);
             }
             else {
                 // It's another regular node
-                if ((aNode = graphScene.getNode(child[i])) === undefined) {
-                    graphScene.onXMLMinorError("Could not find descendant with id '" + child[i] + "' whilst pre-processing node with id '" + this.id + "': Ignoring descendant");
+                if ((aNode = graphScene.getNode(this.children[i])) === undefined) {
+                    graphScene.onXMLMinorError("Could not find descendant with id '" + this.children[i] + "' whilst pre-processing node with id '" + this.id + "': Ignoring descendant");
                 }
                 else {
-                    this.children.push(aNode);
+                    result.push(aNode);
                 }
             }
         }
 
-        if (this.children.length == 0) {
+        this.children = result;
+
+        if (result.length == 0) {
             this.scene.onXMLMinorError("TO DO\nEliminate nodes with no descendants due to errors\nTO DO\n");
         }
         

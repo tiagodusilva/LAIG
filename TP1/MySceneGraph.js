@@ -757,7 +757,7 @@ class MySceneGraph {
                     }
                     else if (nodeType == "rotation") {
                         var axis = this.reader.getString(curNode, "axis", true);
-                        if (!axisConvertor.hasOwnProperty()) {
+                        if (!axisConvertor.hasOwnProperty(axis)) {
                             this.onXMLMinorError("Unexpected axis: Skipping rotation");
                             continue;
                         }
@@ -841,7 +841,7 @@ class MySceneGraph {
                 this.onXMLMinorError("There must be at least 1 valid descendant in node with id '" + nodeID + "': Skipping node");
                 continue;
             }
-            this.nodes.set(nodeID, new MyNode(material, texture, aft, afs, matrix, this.scene, descendants));
+            this.nodes.set(nodeID, new MyNode(nodeID, material, texture, aft, afs, matrix, descendants, this.scene));
         }
 
         if (this.nodes.size <= 0)
