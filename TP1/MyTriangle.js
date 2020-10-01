@@ -75,5 +75,14 @@ class MyTriangle extends CGFobject {
 		this.texCoords = [...coords];
 		this.updateTexCoordsGLBuffers();
 	}
+
+    /**
+     * Enables/disables normal viz for object
+     * @param {bool} val 
+     */
+    setNormalViz(val) {
+        val ? this.enableNormalViz() : this.disableNormalViz();
+    }
+
 }
 

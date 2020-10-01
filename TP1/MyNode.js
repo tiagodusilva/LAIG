@@ -137,4 +137,17 @@ class MyNode {
         }
     }
 
+    /**
+     * Only updates direct descendant
+     * @param {bool} val 
+     */
+    setNormalViz(val) {
+        for (let descendant of this.children) {
+            if (descendant instanceof CGFobject) {
+                console.log(descendant);
+                descendant.setNormalViz(val);
+            }
+        }
+    }
+
 }

@@ -50,11 +50,20 @@ class XMLscene extends CGFscene {
 
         this.activeTexture = null;
 
+        this.showNormals = false;
 
         //Test Purposes
         this.earthAppearance = new CGFappearance(this);
         this.earthAppearance.loadTexture("earth.jpg");
 
+    }
+
+    /**
+     * Enables/Disables normal viz
+     * @param {bool} val 
+     */
+    changeNormalViz(val) {
+        this.graph.setNormalViz(val);
     }
 
     /**
@@ -191,6 +200,8 @@ class XMLscene extends CGFscene {
         }
 
         if (this.sceneInited) {
+            this.defaultAppearance.apply();
+
             // Draw axis
             this.axis.display();
  

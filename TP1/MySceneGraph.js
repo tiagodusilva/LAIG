@@ -49,6 +49,16 @@ class MySceneGraph {
         this.reader.open('scenes/' + filename, this);
     }
 
+    /**
+     * Enables/disables all normals of the graph
+     * @param {bool} val 
+     */
+    setNormalViz(val) {
+        for (let node of this.nodes.values()) {
+            node.setNormalViz(val);
+        }
+    }
+
     /*
      * Callback to be executed after successful reading
      */

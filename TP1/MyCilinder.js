@@ -127,5 +127,14 @@ class MyCilinder extends CGFobject {
         this.initGLBuffers();
 
     }
+
+    /**
+     * Enables/disables normal viz for object
+     * @param {bool} val 
+     */
+    setNormalViz(val) {
+        val ? this.enableNormalViz() : this.disableNormalViz();
+    }
+
 }
   
