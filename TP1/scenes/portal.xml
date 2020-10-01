@@ -136,6 +136,7 @@
                 <noderef id="hardLightBridge" />
                 <noderef id="ground" />
                 <noderef id="walls" />
+                <noderef id="turret" />
             </descendants>
         </node>
 
@@ -482,6 +483,270 @@
             </descendants>
         </node>
         <!-- End Button -->
+
+        <!-- Start Turret-->
+
+        <node id="turret">
+            <material id="demoMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="turret_antenna"/>
+                <noderef id="turret_head_stripe"/>
+                <noderef id="turret_head" />
+                <noderef id="turret_eye" />
+                <noderef id="turret_front_leg_left" />
+                <noderef id="turret_front_leg_right" />
+                <noderef id="turret_back_leg" />
+            </descendants>
+
+        </node>
+
+        <node id="turret_head_stripe">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="yy" angle="90" />
+                <scale sx="0.4" sy="1" sz="0.4"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.05" outer="0.97" slices="20" loops="20"/>
+            </descendants>
+        </node>
+
+        <node id="turret_antenna">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="-90" />
+                <translation x="-0.1" y="0" z="0.8"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.5" topRadius="0.005" bottomRadius="0.005" slices="12" stacks="12"/>
+            </descendants>
+        </node>
+
+        <node id="turret_head">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.4" sy="1" sz="0.4"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="1" slices="20" stacks="20"/>
+            </descendants>
+
+        </node>
+
+        <node id="turret_eye">
+            <material id="redMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="1.1" sy="1.1" sz="1"/>
+                <translation x="0" y="0" z="0.35"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+            </descendants>
+
+        </node>
+
+        <node id="turret_front_leg">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="turret_front_leg_joint" />
+                <noderef id="turret_front_leg_bottom" />
+                <noderef id="turret_front_leg_joint_connection" />
+            </descendants>
+
+        </node>
+
+
+        <node id="turret_back_leg">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.3" z="-0.58"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="turret_back_leg_joint" />
+                <noderef id="turret_back_leg_bottom" />
+                <noderef id="turret_back_leg_joint_connection" />
+            </descendants>
+
+        </node>
+
+        <node id="turret_front_leg_right">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.5" y="-1" z="0.5" />
+                <rotation axis="yy" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <noderef id="turret_front_leg" />
+            </descendants>
+        </node>
+
+        <node id="turret_front_leg_left">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="-1" z="0.5" />
+                <rotation axis="yy" angle="45" />
+            </transformations>
+
+            <descendants>
+                <noderef id="turret_front_leg" />
+            </descendants>
+        </node>
+
+        <node id="turret_front_leg_joint">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+            </descendants>
+        </node>
+        <node id="turret_front_leg_bottom">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="75" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+            </descendants>
+
+        </node>
+
+        <node id="turret_front_leg_joint_connection">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="-150" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+            </descendants>
+
+        </node>
+
+        <node id="turret_back_leg_joint">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+            </descendants>
+        </node>
+
+        <node id="turret_back_leg_bottom">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="120" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="1.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+            </descendants>
+
+        </node>
+
+        <node id="turret_back_leg_joint_connection">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="35" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+            </descendants>
+
+        </node>
+
+        <!-- End Turret-->
 
     </nodes>
 </lsf>
