@@ -161,8 +161,8 @@
             </texture>
 
             <transformations>
-                <translation x="-2" y="0" z="-1" />
-                <rotation axis="yy" angle="45" />
+                <translation x="-2" y="0" z="1" />
+                <rotation axis="yy" angle="60" />
             </transformations>
 
             <descendants>
@@ -553,11 +553,11 @@
 
             <transformations>
                 <rotation axis="yy" angle="90" />
-                <scale sx="0.4" sy="1" sz="0.4"/>
+                <scale sx="0.395" sy="0.9875" sz="0.395"/>
             </transformations>
 
             <descendants>
-                <leaf type="torus" inner="0.05" outer="0.97" slices="20" loops="20"/>
+                <leaf type="torus" inner="0.05" outer="0.97" slices="12" loops="30"/>
             </descendants>
         </node>
 
@@ -760,7 +760,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="1.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+                <leaf type="cylinder" height="1.925" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
             </descendants>
 
         </node>
