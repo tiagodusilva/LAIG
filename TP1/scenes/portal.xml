@@ -120,6 +120,7 @@
     <!-- NODES -->
 
     <nodes>
+        <!-- SCENE -->
         <node id="scene">
             <material id="null" />
 
@@ -132,11 +133,11 @@
             </transformations>
 
             <descendants>
-                <noderef id="flat_button" />
+                <noderef id="placedButton" />
                 <noderef id="hardLightBridge" />
                 <noderef id="ground" />
                 <noderef id="walls" />
-                <noderef id="turret" />
+                <noderef id="placedTurret" />
             </descendants>
         </node>
 
@@ -151,6 +152,40 @@
                 <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
+
+        <node id="placedTurret">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-2" y="0" z="-1" />
+                <rotation axis="yy" angle="45" />
+            </transformations>
+
+            <descendants>
+                <noderef id="turret" />
+            </descendants>
+        </node>
+
+        <node id="placedButton">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1" y="0" z="-1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="flat_button" />
+            </descendants>
+        </node>
+        <!-- END SCENE -->
 
         <node id="ground">
             <material id="groundMaterial" />
@@ -445,11 +480,11 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.05" />
+                <translation x="0" y="0" z="0.1" />
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="0.1" topRadius="0.1" bottomRadius="0.1" slices="40" stacks="2" />
+                <leaf type="cylinder" height="0.025" topRadius="0.1" bottomRadius="0.1" slices="10" stacks="1" />
             </descendants>
         </node>
 
@@ -461,7 +496,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.15" />
+                <translation x="0" y="0" z="0.11" />
             </transformations>
 
             <descendants>
@@ -485,7 +520,6 @@
         <!-- End Button -->
 
         <!-- Start Turret-->
-
         <node id="turret">
             <material id="demoMaterial" />
 
@@ -494,6 +528,8 @@
             </texture>
 
             <transformations>
+                <translation x="0" y="0.5" z="0" />
+                <scale sx="0.25" sy="0.25" sz="0.25" />
             </transformations>
 
             <descendants>
@@ -745,7 +781,6 @@
             </descendants>
 
         </node>
-
         <!-- End Turret-->
 
     </nodes>
