@@ -1,0 +1,369 @@
+<lsf>
+    <initials>
+        <reference length="2" />
+        <!-- axis length; "0" means no axis displayed -->
+        <root id="scene" />
+        <!-- identifier of root node of the scene graph; this node -->
+        <!-- must be defined in one of the following NODE declarations -->
+    </initials>
+    <views default="defaultCamera">
+        <!-- at least one of the following type of cameras must be declared -->
+        <perspective id="defaultCamera" near="0.1" far="500" angle="70">
+            <from x="8" y="10" z="8" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="demoCamera" near="0.1" far="500" angle="45">
+            <from x="10" y="10" z="10" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <ortho id="demoOrtho" near="0.2" far="100" left="-0.2" right="0.2" top="0.2" bottom="-0.2">
+            <from x="5" y="0" z="10" />
+            <to x="0" y="0" z="0" />
+            <up x="0" y="1" z="0" /> <!-- optional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <illumination>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" /> <!-- global ambient -->
+        <background r="0.1" g="0.7" b="1.0" a="1.0" /> <!-- background color -->
+    </illumination>
+
+
+    <lights>
+        <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
+        <light id="demoLight">
+            <!-- light identifier -->
+            <enable value="1" />
+            <!-- enable/disable -->
+            <position x="20" y="20" z="20" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" /> <!-- ambient component -->
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" /> <!-- diffuse component -->
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> <!-- specular component -->
+        </light>
+    </lights>
+
+
+    <textures>
+        <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+        <texture id="demoTexture" path="./scenes/images/vidral.jpg" />
+    </textures>
+
+
+    <materials>
+        <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
+         requires a distinct "id". At least one material should be present. -->
+        <material id="demoMaterial">
+            <shininess value="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.6" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.6" b="0.2" a="1.0" />
+            <emissive r="0.2" g="0.2" b="0.6" a="1.0" />
+        </material>
+        <material id="groundMaterial">
+            <shininess value="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="wallMaterial">
+            <shininess value="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="redMaterial">
+            <shininess value="1.0" />
+            <ambient r="1.0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="0" b="0" a="1.0" />
+            <specular r="1.0" g="0" b="0" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="lightBlueMaterial">
+            <shininess value="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.678" g="0.847" b="0.901" a="1.0" />
+            <specular r="0.678" g="0.847" b="0.901" a="1.0" />
+            <emissive r="0.067" g="0.085" b="0.091" a="1.0" />
+        </material>
+        <material id="whiteMaterial">
+            <shininess value="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="darkGreyMaterial">
+            <shininess value="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="blackMaterial">
+            <shininess value="1.0" />
+            <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
+            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
+            <specular r="0.05" g="0.05" b="0.05" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+    </materials>
+
+    <!-- NODES -->
+
+    <nodes>
+        <node id="scene">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="flat_button" />
+                <noderef id="ground" />
+                <noderef id="walls" />
+            </descendants>
+        </node>
+
+        <node id="ground">
+            <material id="groundMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="-90" />
+                <scale sx="5" sy="5" sz="1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <!-- START WALLS -->
+        <node id="walls">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="wallNegX" />
+                <noderef id="wallNegZ" />
+            </descendants>
+        </node>
+
+        <node id="wall">
+            <material id="wallMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="5" sy="5" sz="1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="wallNegX">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="yy" angle="90" />
+                <translation x="0" y="2.5" z="-2.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wall" />
+            </descendants>
+        </node>
+
+        <node id="wallNegZ">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="2.5" z="-2.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wall" />
+            </descendants>
+        </node>
+        <!-- END WALLS -->
+
+        <!-- START BUTTON -->
+        <node id="button_light_detail">
+            <material id="lightBlueMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.07" />
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.025" outer="0.875" slices="4" loops="40" />
+            </descendants>
+        </node>
+
+        <node id="button_support_0">
+            <material id="darkGreyMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="1" z="0" />
+                <rotation axis="xx" angle="-30" />
+                <scale sx="0.6" sy="1" sz="0.2" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.2" topRadius="0.2" bottomRadius="0.2" slices="4" stacks="4" />
+            </descendants>
+        </node>
+
+        <node id="button_support_1">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="zz" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="button_support_0" />
+            </descendants>
+        </node>
+
+        <node id="button_support_2">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="zz" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="button_support_0" />
+            </descendants>
+        </node>
+
+        <node id="button_support_3">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="zz" angle="270" />
+            </transformations>
+
+            <descendants>
+                <noderef id="button_support_0" />
+            </descendants>
+        </node>
+
+        <node id="button_piston">
+            <material id="darkGreyMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.05" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.1" bottomRadius="0.1" slices="40" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="button_plate">
+            <material id="redMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.15" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.025" topRadius="0.75" bottomRadius="0.8" slices="40" stacks="4" />
+            </descendants>
+        </node>
+
+        <node id="button_base">
+            <material id="whiteMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations></transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
+            </descendants>
+        </node>
+
+        <node id="flat_button">
+            <material id="demoMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="xx" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="button_base" />
+                <noderef id="button_piston" />
+                <noderef id="button_plate" />
+                <noderef id="button_support_0" />
+                <noderef id="button_support_1" />
+                <noderef id="button_support_2" />
+                <noderef id="button_support_3" />
+                <noderef id="button_light_detail" />
+            </descendants>
+        </node>
+        <!-- End Button -->
+
+    </nodes>
+</lsf>
