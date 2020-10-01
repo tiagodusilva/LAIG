@@ -50,6 +50,7 @@ class XMLscene extends CGFscene {
 
         this.activeTexture = null;
 
+        this.showAxis = true;
         this.showNormals = false;
 
         //Test Purposes
@@ -200,11 +201,11 @@ class XMLscene extends CGFscene {
         }
 
         if (this.sceneInited) {
-            this.defaultAppearance.apply();
-
             // Draw axis
-            this.axis.display();
- 
+            if (this.showAxis) {
+                this.defaultAppearance.apply();
+                this.axis.display();
+            } 
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).

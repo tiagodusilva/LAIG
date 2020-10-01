@@ -29,10 +29,9 @@ class MyInterface extends CGFinterface {
         this.gui.destroy();
         this.gui = new dat.GUI();
 
-        // add a group of controls (and open/expand by defult)
+        this.gui.add(this.scene, 'showAxis').name("Show Axis");
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
-
-        this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show normals');
+        this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
     }
 
     /**
