@@ -73,6 +73,13 @@
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
+        <material id="hardLight">
+            <shininess value="1.0" />
+            <ambient r="0.298" g="0.494" b="0.752" a="1.0" />
+            <diffuse r="0.0298" g="0.0494" b="0.0752" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+            <emissive r="0.298" g="0.494" b="0.752" a="1.0" />
+        </material>
         <material id="redMaterial">
             <shininess value="1.0" />
             <ambient r="1.0" g="0" b="0" a="1.0" />
@@ -89,7 +96,7 @@
         </material>
         <material id="whiteMaterial">
             <shininess value="1.0" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
@@ -126,8 +133,21 @@
 
             <descendants>
                 <noderef id="flat_button" />
+                <noderef id="hardLightBridge" />
                 <noderef id="ground" />
                 <noderef id="walls" />
+            </descendants>
+        </node>
+
+        <node id="square">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
 
@@ -144,7 +164,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                <noderef id="square" />
             </descendants>
         </node>
 
@@ -174,7 +194,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                <noderef id="square" />
             </descendants>
         </node>
 
@@ -212,7 +232,128 @@
         </node>
         <!-- END WALLS -->
 
+                <!-- START HARD LIGHT BRIDGE -->
+                <node id="hardLightBridge">
+                    <material id="null" />
+        
+                    <texture id="clear">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <transformations>
+                        <translation x="-1" y="1" z="-2" />>
+                        <translation x="0" y="0.2" z="-0.5" />
+                    </transformations>
+        
+                    <descendants>
+                        <noderef id="hardLightBridgePlatform" />
+                        <noderef id="hardLightBridgeSupport" />
+                    </descendants>
+                </node>
+        
+                <node id="hardLightBridgePlatform">
+                    <material id="hardLight" />
+        
+                    <texture id="clear">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <transformations>
+                        <translation x="0" y="0" z="0.5" />
+                        <rotation axis="xx" angle="-90" />
+                        <scale sx="0.75" sy="1" sz="1" />
+                    </transformations>
+        
+                    <descendants>
+                        <noderef id="hardLightBridgeUnderneath" />
+                        <noderef id="square" />
+                    </descendants>
+                </node>
+
+                <node id="hardLightBridgeUnderneath">
+                    <material id="null" />
+        
+                    <texture id="null">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <transformations>
+                        <rotation axis="yy" angle="180" />
+                    </transformations>
+        
+                    <descendants>
+                        <noderef id="square" />
+                    </descendants>
+                </node>
+
+                <node id="hardLightBridgeSupport">
+                    <material id="null" />
+        
+                    <texture id="clear">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <descendants>
+                        <noderef id="hardLightBridgeSpawn" />
+                        <noderef id="hardLightBridgeSupportCover" />
+                    </descendants>
+                </node>
+
+                <node id="hardLightBridgeSpawn">
+                    <material id="null" />
+        
+                    <texture id="clear">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <transformations>
+                        <translation x="-0.37" y="0" z="0" />
+                        <rotation axis="yy" angle="90" />
+                    </transformations>
+        
+                    <descendants>
+                        <leaf type="cylinder" height="0.75" topRadius="0.015" bottomRadius="0.015" slices="8" stacks="8" />
+                    </descendants>
+                </node>
+
+                <!-- <node id="hardLightBridgeSupportCover">
+                    <material id="null" />
+        
+                    <texture id="clear">
+                        <amplification afs="1.0" aft="1.0" />
+                    </texture>
+        
+                    <descendants>
+                        <leaf type="cylinder" height=""
+                    </descendants>
+                </node> -->
+                <!-- END HARD LIGHT BRIDGE -->
+
         <!-- START BUTTON -->
+        <node id="flat_button">
+            <material id="demoMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.48" sy="1" sz="0.48" />
+                <rotation axis="xx" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="button_base" />
+                <noderef id="button_piston" />
+                <noderef id="button_plate" />
+                <noderef id="button_support_0" />
+                <noderef id="button_support_1" />
+                <noderef id="button_support_2" />
+                <noderef id="button_support_3" />
+                <noderef id="button_light_detail" />
+            </descendants>
+        </node>
+
         <node id="button_light_detail">
             <material id="lightBlueMaterial" />
 
@@ -338,29 +479,6 @@
 
             <descendants>
                 <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
-            </descendants>
-        </node>
-
-        <node id="flat_button">
-            <material id="demoMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <rotation axis="xx" angle="-90" />
-            </transformations>
-
-            <descendants>
-                <noderef id="button_base" />
-                <noderef id="button_piston" />
-                <noderef id="button_plate" />
-                <noderef id="button_support_0" />
-                <noderef id="button_support_1" />
-                <noderef id="button_support_2" />
-                <noderef id="button_support_3" />
-                <noderef id="button_light_detail" />
             </descendants>
         </node>
         <!-- End Button -->

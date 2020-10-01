@@ -1026,9 +1026,6 @@ class MySceneGraph {
      * @param {block element} node 
      */
     parsePrimitive(node) {
-
-        console.log(node);
-
         var type = this.reader.getString(node, "type", false);
         if(type == null){
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
