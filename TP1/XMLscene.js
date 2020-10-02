@@ -52,6 +52,17 @@ class XMLscene extends CGFscene {
 
         this.showAxis = false;
         this.showNormals = false;
+
+        //Used to control the lights from the GUI
+        this.lightCount = 0;
+        this.lightEnabled0;
+        this.lightEnabled1;
+        this.lightEnabled2;
+        this.lightEnabled3;
+        this.lightEnabled4;
+        this.lightEnabled5;
+        this.lightEnabled6;
+        this.lightEnabled7;
     }
 
     /**
@@ -94,8 +105,12 @@ class XMLscene extends CGFscene {
                 else
                     this.lights[i].disable();
 
-                this.lights[i].update();
+                this["lightEnabled" + i] = graphLight[0];
 
+                this.lights[i].update();
+                
+                //Used to update the lights in the GUI
+                this.lightCount++;
                 i++;
             }
         }
@@ -141,11 +156,18 @@ class XMLscene extends CGFscene {
                 break;
             }
         }
-
     };
 
     updateGraphLights() {
+        //Only updates instantiated lights
+        for (let i = 0; i < this.lightCount; i++){
+            if(this["lightEnabled" + i])
+                this.lights[i].enable();
+            else
+                this.lights[i].disable();
 
+            this.lights[i].update();
+        }
     }
 
     pushMaterial(material) {
@@ -188,6 +210,10 @@ class XMLscene extends CGFscene {
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
         this.loadIdentity();
+
+
+        //Update lights after GUI changes
+        this.updateGraphLights();
 
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();

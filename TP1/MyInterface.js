@@ -32,6 +32,11 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'showAxis').name("Show Axis");
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
         this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
+
+        var lightFolder = this.gui.addFolder("Illumination");
+        for (let i = 0; i < this.scene.lightCount; i++){
+            lightFolder.add(this.scene, 'lightEnabled' + i).name("Light " + i + 1);
+        }
     }
 
     /**
