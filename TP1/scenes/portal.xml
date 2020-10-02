@@ -9,8 +9,8 @@
     <views default="Overview">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Overview" near="0.1" far="500" angle="70">
-            <from x="10" y="7" z="10" />
-            <to x="5" y="1.5" z="5" />
+            <from x="11" y="6" z="10" />
+            <to x="6" y="1.5" z="5" />
         </perspective>
 
         <perspective id="From Entrance" near="0.1" far="500" angle="70">

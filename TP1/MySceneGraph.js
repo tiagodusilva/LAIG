@@ -363,7 +363,7 @@ class MySceneGraph {
                 }
 
                 // Create Camera
-                this.cameras.set(id, new CGFcamera(fov, near, far, position, target));
+                this.cameras.set(id, new MyCGFcamera(fov, near, far, position, target));
             }
             // Ortho Camera
             else if (nodeName == "ortho") {
@@ -413,7 +413,7 @@ class MySceneGraph {
                 }
 
                 // Create Camera
-                this.cameras.set(id, new CGFcameraOrtho(left, right, bot, top, near, far, position, target, up));
+                this.cameras.set(id, new MyCGFcameraOrtho(left, right, bot, top, near, far, position, target, up));
             }
             else {
                 this.onXMLMinorError("Invalid view tag (must be <perspective> or <ortho>): Skipping camera with id '" + id + "'");

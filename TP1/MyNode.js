@@ -144,12 +144,9 @@ class MyNode {
      * @param {bool} val 
      */
     setNormalViz(val) {
-        for (let descendant of this.children) {
-            if (descendant instanceof CGFobject) {
-                console.log(descendant);
+        for (let descendant of this.children)
+            if (descendant instanceof CGFobject)
                 descendant.setNormalViz(val);
-            }
-        }
     }
 
 }

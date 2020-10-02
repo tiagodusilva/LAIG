@@ -52,6 +52,7 @@ class XMLscene extends CGFscene {
 
         this.showAxis = false;
         this.showNormals = false;
+        this.resetCameraGUI = false;
 
         //Used to control the lights from the GUI
         this.lightCount = 0;
@@ -77,7 +78,7 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new MyCGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -151,12 +152,18 @@ class XMLscene extends CGFscene {
 
         for (const property in this.cameraDropdown) {
             if (this.cameraDropdown[property] == this.selectedCamera) {
-                this.camera = this.graph.cameras.get(property);
+                var selectedCamera = this.graph.cameras.get(property);
+                this.camera = selectedCamera;
                 this.interface.setActiveCamera(this.camera);
                 break;
             }
         }
     };
+
+    resetCamera() {
+        this.camera.reset();
+        this.resetCameraGUI = false;
+    }
 
     updateGraphLights() {
         //Only updates instantiated lights
