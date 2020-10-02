@@ -76,7 +76,10 @@ class MySceneGraph {
 
         // Pre-process nodes and other information
         console.log("Read XML: Pre-processing nodes");
-        this.preProcessing();
+        if ((error = this.preProcessing()) != null) {
+            this.onXMLError(error);
+            return;
+        }
         console.log("Finished pre-processing nodes");
 
         this.loadedOk = true;
@@ -88,8 +91,7 @@ class MySceneGraph {
     preProcessing() {
         this.rootNode = this.getNode(this.idRoot);
         if (this.rootNode === undefined) {
-            this.onXMLError("Root node does not exist (id = '" + this.idRoot + "')");
-            return;
+            return "Root node does not exist (id = '" + this.idRoot + "')";
         }
         for (let node of this.nodes.values()) {
             node.preProcess(this);
@@ -715,12 +717,16 @@ class MySceneGraph {
 
             // Get id of the current node.
             var nodeID = this.reader.getString(children[i], 'id');
-            if (nodeID == null)
-                return "no ID defined for nodeID";
+            if (nodeID == null) {
+                this.onXMLMinorError("no ID defined for nodeID: Skipping node");
+                continue;
+            }
 
             // Checks for repeated IDs.
-            if (this.nodes.has(nodeID))
-                return "ID must be unique for each node (conflict: ID = " + nodeID + ")";
+            if (this.nodes.has(nodeID)) {
+                this.onXMLMinorError("ID must be unique for each node (conflict: ID = " + nodeID + "): Skipping node");
+                continue;
+            }
 
             grandChildren = children[i].children;
 

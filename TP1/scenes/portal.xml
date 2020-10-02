@@ -44,16 +44,18 @@
 
 
     <textures>
-        <texture id="chamberSign" path="./portalImages/chamberSign.png" />
-        <texture id="portalablePanel" path="./portalImages/portalablePanel.png" />
+        <texture id="chamberSign" path="./portalImages/chamber_sign.png" />
         <texture id="panel" path="./portalImages/square_panel.png" />
-        <texture id="hardLightBridge" path="./portalImages/hardLightBridge.png" />
+        <texture id="portalablePanel" path="./portalImages/portalable_panel.png" />
         <texture id="floor" path="./portalImages/floor.png" />
         <texture id="portalableFloor" path="./portalImages/portalable_floor_tiles.png" />
         <texture id="ceiling" path="./portalImages/ceiling_tiles.jpg" />
+        <texture id="portalableCeiling" path="./portalImages/portalable_roof_tiles.png" />
         <texture id="observation" path="./portalImages/observation_room.png" />
+        <texture id="hardLightBridge" path="./portalImages/hardLightBridge.png" />
         <texture id="button_top" path="./portalImages/button_top.png" />
         <texture id="button_color" path="./portalImages/button_color.png" />
+        <texture id="mud_water" path="portalImages/mud_water.png" />
     </textures>
 
 
@@ -309,12 +311,26 @@
                 <noderef id="floor" />
                 <noderef id="ceiling" />
                 <noderef id="walls" />
+                <noderef id="hazards" />
             </descendants>
         </node>
 
             <!-- START CEILING -->
             <node id="ceiling">
                 <material id="default" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <descendants>
+                    <noderef id="ceilingMain" />
+                    <noderef id="ceilingButtonCorner" />
+                </descendants>
+            </node>
+
+            <node id="ceilingMain">
+                <material id="null" />
 
                 <texture id="ceiling">
                     <amplification afs="8.0" aft="6.0" />
@@ -327,6 +343,23 @@
 
                 <descendants>
                     <leaf type="rectangle" x1="0" y1="0" x2="8" y2="6" />
+                </descendants>
+            </node>
+
+            <node id="ceilingButtonCorner">
+                <material id="null" />
+
+                <texture id="portalableCeiling">
+                    <amplification afs="3.0" aft="2.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="5" y="2" z="6" />
+                    <rotation axis="x" angle="90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="0" y1="0" x2="3" y2="2" />
                 </descendants>
             </node>
             <!-- END CEILING -->
@@ -418,6 +451,13 @@
                     <noderef id="wallRightBottom" />
                     <noderef id="wallExitCornerLeft" />
                     <noderef id="wallExitCornerFront" />
+                    <noderef id="wallButtonCornerBack" />
+                    <noderef id="wallButtonCornerLeft" />
+                    <noderef id="wallPitFront" />
+                    <noderef id="wallPitBack" />
+                    <noderef id="wallPitLeft" />
+                    <noderef id="wallPitRight" />
+                    <noderef id="wallPitBottom" />
                 </descendants>
             </node>
 
@@ -591,7 +631,157 @@
                         <leaf type="rectangle" x1="0" y1="0" x2="3" y2="2" />
                     </descendants>
                 </node>
+
+                <node id="wallButtonCornerBack">
+                    <material id="null" />
+
+                    <texture id="portalablePanel">    
+                        <amplification afs="3.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="8" y="0" z="8" />
+                        <rotation axis="y" angle="180" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="3" y2="2" />
+                    </descendants>
+                </node>
+                
+                <node id="wallButtonCornerLeft">
+                    <material id="null" />
+
+                    <texture id="portalablePanel">    
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="5" y="0" z="8" />
+                        <rotation axis="y" angle="90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="2" y2="2" />
+                    </descendants>
+                </node>
+
+                <node id="wallPitFront">
+                    <material id="null" />
+
+                    <texture id="panel">    
+                        <amplification afs="2.0" aft="1.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="3" y="-1" z="0" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="2" y2="1" />
+                    </descendants>
+                </node>
+                
+                <node id="wallPitBack">
+                    <material id="null" />
+
+                    <texture id="panel">    
+                        <amplification afs="2.0" aft="1.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="5" y="-1" z="6" />
+                        <rotation axis="y" angle="180" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="2" y2="1" />
+                    </descendants>
+                </node>
+ 
+                <node id="wallPitLeft">
+                    <material id="null" />
+
+                    <texture id="panel">    
+                        <amplification afs="6.0" aft="1.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="3" y="-1" z="6" />
+                        <rotation axis="y" angle="90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="6" y2="1" />
+                    </descendants>
+                </node>
+
+                <node id="wallPitRight">
+                    <material id="null" />
+
+                    <texture id="panel"> 
+                        <amplification afs="3.0" aft="1.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="5" y="-1" z="3" />
+                        <rotation axis="y" angle="-90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="3" y2="1" />
+                    </descendants>
+                </node>
+
+                <node id="wallPitBottom">
+                    <material id="null" />
+
+                    <texture id="panel"> 
+                        <amplification afs="2.0" aft="6.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="3" y="-1" z="6" />
+                        <rotation axis="x" angle="-90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="2" y2="6" />
+                    </descendants>
+                </node>
             <!-- END WALLS -->
+
+            <!-- START HAZARDS -->
+            <node id="hazards">
+                <material id="null" />
+
+                <texture id="mud_water"> 
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <descendants>
+                    <noderef id="mud_water" />
+                </descendants>
+            </node>
+
+            <node id="mud_water">
+                <material id="default" />
+
+                <texture id="mud_water"> 
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="3" y="-0.2" z="6" />
+                    <rotation axis="x" angle="-90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="0" y1="0" x2="2" y2="6" />
+                </descendants>
+            </node>
+            <!-- END HAZARDS -->
+
         <!-- END BOUNDARIES -->
 
         <!-- START HARD LIGHT BRIDGE -->        
