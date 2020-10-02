@@ -50,7 +50,7 @@ class XMLscene extends CGFscene {
 
         this.activeTexture = null;
 
-        this.showAxis = true;
+        this.showAxis = false;
         this.showNormals = false;
     }
 

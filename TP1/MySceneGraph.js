@@ -835,8 +835,8 @@ class MySceneGraph {
                     descendants.push(noderef);
                 }
                 else if (curNode.nodeName == "leaf") {
-                    // TODO PRIMITIVES:
-                    var primitive = this.parsePrimitive(curNode);
+                    // Primitive (leaf "node")
+                    var primitive = this.parsePrimitive(curNode, afs, aft);
                     if (primitive == null) {
                         this.onXMLMinorError("Invalid <leaf> tag of node ");
                         continue;
@@ -1024,15 +1024,15 @@ class MySceneGraph {
      * 
      * @param {block element} node 
      */
-    parsePrimitive(node) {
+    parsePrimitive(node, afs, aft) {
         var type = this.reader.getString(node, "type", false);
         if(type == null){
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
             return null;
         } else if (type === "rectangle"){
-            return this.parseRectangle(node);
+            return this.parseRectangle(node, afs, aft);
         } else if (type === "triangle"){
-            return this.parseTriangle(node);
+            return this.parseTriangle(node, afs, aft);
         } else if (type === "sphere"){
             return this.parseSphere(node);
         } else if (type === "cylinder"){
@@ -1049,7 +1049,7 @@ class MySceneGraph {
      * 
      * @param {block element} node 
      */
-    parseRectangle(node) {
+    parseRectangle(node, afs, aft) {
 
         var x1,y1,x2,y2;
 
@@ -1062,14 +1062,14 @@ class MySceneGraph {
         if((y2 = this.parseFloat(node,"y2", "Rectangle", false)) == null)
             return null;
 
-        return new MyRectangle(this.scene, x1, y1, x2, y2);
+        return new MyRectangle(this.scene, x1, y1, x2, y2, afs, aft);
     }
 
     /**
     *  
     * @param {block element} node 
     */
-    parseTriangle(node) {
+    parseTriangle(node, afs, aft) {
 
         var x1,y1,x2,y2,x3,y3;
         
@@ -1086,7 +1086,7 @@ class MySceneGraph {
         if((y3 = this.parseFloat(node,"y3", "Triangle", false)) == null)
             return null;
 
-        return new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3);
+        return new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3, afs, aft);
     }
 
     /**

@@ -9,8 +9,8 @@
     <views default="defaultCamera">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="70">
-            <from x="8" y="10" z="8" />
-            <to x="0" y="0" z="0" />
+            <from x="6" y="7" z="6" />
+            <to x="0" y="1.5" z="0" />
         </perspective>
         <perspective id="demoCamera" near="0.1" far="500" angle="45">
             <from x="10" y="10" z="10" />
@@ -24,8 +24,8 @@
     </views>
 
     <illumination>
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" /> <!-- global ambient -->
-        <background r="0.1" g="0.7" b="1.0" a="1.0" /> <!-- background color -->
+        <ambient r="0.45" g="0.45" b="0.45" a="1.0" /> <!-- global ambient -->
+        <background r="0.8039" g="0.8157" b="0.8078" a="1.0" /> <!-- background color -->
     </illumination>
 
 
@@ -45,10 +45,23 @@
 
     <textures>
         <texture id="chamberSign" path="./portalImages/chamberSign.png" />
+        <texture id="portalablePanel" path="./portalImages/portalablePanel.png" />
+        <texture id="panel" path="./portalImages/square_panel.png" />
+        <texture id="hardLightBridge" path="./portalImages/hardLightBridge.png" />
+        <texture id="floor" path="./portalImages/floor.png" />
+        <texture id="portalableFloor" path="portalableRoofTile.png" />
+        <texture id="ceiling" path="./portalImages/ceiling_tiles.jpg" />
     </textures>
 
 
     <materials>
+        <material id="default">
+            <shininess value="10" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
         <material id="groundMaterial">
             <shininess value="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
@@ -124,24 +137,12 @@
 
             <descendants>
                 <noderef id="placedButton" />
-                <noderef id="ground" />
+                <noderef id="floor" />
                 <noderef id="ceiling" />
                 <noderef id="walls" />
                 <noderef id="placedTurret" />
                 <noderef id="hardLightBridge" />
                 <noderef id="chamberSign" />
-            </descendants>
-        </node>
-
-        <node id="square">
-            <material id="null" />
-
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
 
@@ -153,7 +154,8 @@
             </texture>
 
             <transformations>
-                <translation x="-2" y="0" z="1" />
+                <translation x="0" y="0.1" z="0" />
+                <translation x="-1" y="1" z="1" />
                 <rotation axis="yy" angle="60" />
             </transformations>
 
@@ -203,7 +205,7 @@
 
             <transformations>
                 <translation x="-1" y="1" z="-2" />>
-                <translation x="0" y="0.2" z="-0.5" />
+                <translation x="0" y="0.1" z="-0.5" />
             </transformations>
 
             <descendants>
@@ -220,21 +222,21 @@
             </texture>
 
             <transformations>
-                <translation x="1.5" y="3" z="-2.499" />
+                <translation x="1" y="3" z="-2.499" />
                 <scale sx="1" sy="2" sz="1" />
             </transformations>
 
             <descendants>
-                <noderef id="square" />
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
         <!-- END SCENE -->
 
-        <node id="ground">
-            <material id="groundMaterial" />
+        <node id="floor">
+            <material id="default" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="floor">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -243,15 +245,15 @@
             </transformations>
 
             <descendants>
-                <noderef id="square" />
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
 
         <node id="ceiling">
-            <material id="groundMaterial" />
+            <material id="default" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="ceiling">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -261,15 +263,15 @@
             </transformations>
 
             <descendants>
-                <noderef id="square" />
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
 
         <!-- START WALLS -->
         <node id="walls">
-            <material id="null" />
+            <material id="default" />
 
-            <texture id="clear">
+            <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -281,27 +283,11 @@
             </descendants>
         </node>
 
-        <node id="wall">
-            <material id="wallMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <scale sx="5" sy="5" sz="1" />
-            </transformations>
-
-            <descendants>
-                <noderef id="square" />
-            </descendants>
-        </node>
-
         <node id="wallNegX">
             <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="panel">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -310,15 +296,15 @@
             </transformations>
 
             <descendants>
-                <noderef id="wall" />
+                <leaf type="rectangle" x1="-2.5" y1="-2.5" x2="2.5" y2="2.5" />
             </descendants>
         </node>
 
         <node id="wallNegZ">
             <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="portalablePanel">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -326,15 +312,15 @@
             </transformations>
 
             <descendants>
-                <noderef id="wall" />
+                <leaf type="rectangle" x1="-2.5" y1="-2.5" x2="2.5" y2="2.5" />
             </descendants>
         </node>
         
         <node id="wallPosX">
             <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="portalablePanel">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -343,15 +329,15 @@
             </transformations>
 
             <descendants>
-                <noderef id="wall" />
+                <leaf type="rectangle" x1="-2.5" y1="-2.5" x2="2.5" y2="2.5" />
             </descendants>
         </node>
 
         <node id="wallPosZ">
             <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
+            <texture id="panel">
+                <amplification afs="5.0" aft="5.0" />
             </texture>
 
             <transformations>
@@ -360,7 +346,7 @@
             </transformations>
 
             <descendants>
-                <noderef id="wall" />
+                <leaf type="rectangle" x1="-2.5" y1="-2.5" x2="2.5" y2="2.5" />
             </descendants>
         </node>
         <!-- END WALLS -->
@@ -369,7 +355,7 @@
                 <node id="hardLightBridgePlatform">
                     <material id="hardLight" />
         
-                    <texture id="clear">
+                    <texture id="hardLightBridge">
                         <amplification afs="1.0" aft="1.0" />
                     </texture>
         
@@ -381,7 +367,19 @@
         
                     <descendants>
                         <noderef id="hardLightBridgeUnderneath" />
-                        <noderef id="square" />
+                        <noderef id="hardLightBridgeUpper" />
+                    </descendants>
+                </node>
+
+                <node id="hardLightBridgeUpper">
+                    <material id="null" />
+        
+                    <texture id="null">
+                        <amplification afs="1.0" aft="5.0" />
+                    </texture>
+        
+                    <descendants>
+                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
                     </descendants>
                 </node>
 
@@ -389,7 +387,7 @@
                     <material id="null" />
         
                     <texture id="null">
-                        <amplification afs="1.0" aft="1.0" />
+                        <amplification afs="1.0" aft="5.0" />
                     </texture>
         
                     <transformations>
@@ -397,7 +395,7 @@
                     </transformations>
         
                     <descendants>
-                        <noderef id="square" />
+                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
                     </descendants>
                 </node>
 
@@ -446,7 +444,7 @@
                     </transformations>
         
                     <descendants>
-                        <noderef id="square"/>
+                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
                     </descendants>
                 </node>                
 
@@ -548,7 +546,7 @@
             </texture>
 
             <transformations>
-                <scale sx="0.48" sy="1" sz="0.48" />
+                <scale sx="0.425" sy="1" sz="0.425" />
                 <rotation axis="xx" angle="-90" />
             </transformations>
 
