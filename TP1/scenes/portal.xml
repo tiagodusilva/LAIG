@@ -72,9 +72,14 @@
         <texture id="hardLightBridge" path="./portalImages/hardLightBridge.png" />
         <texture id="button_top" path="./portalImages/button_top.png" />
         <texture id="button_color" path="./portalImages/button_color.png" />
-        <texture id="mud_water" path="portalImages/mud_water.png" />
-        <texture id="exit_door" path="portalImages/exit_door.png" />
-        <texture id="entry_door" path="portalImages/entry_door.png" />
+        <texture id="mud_water" path="./portalImages/mud_water.png" />
+        <texture id="exit_door" path="./portalImages/exit_door.png" />
+        <texture id="entry_door" path="./portalImages/entry_door.png" />
+        <texture id="cross_symbol" path="./portalImages/symbols/cross.png" />
+        <texture id="square_symbol" path="./portalImages/symbols/square.png" />
+        <texture id="unchecked_symbol" path="./portalImages/symbols/unchecked.png" />
+        <texture id="exit_symbol" path="./portalImages/symbols/exit.png" />
+        <texture id="arrow_down_symbol" path="./portalImages/symbols/arrow_down.png" />
     </textures>
 
 
@@ -182,8 +187,112 @@
                 <noderef id="observation" />
                 <noderef id="placed_exit_door" />
                 <noderef id="placed_entry_door" />
+                <noderef id="button_square_symbol" />
+                <noderef id="button_cross_symbol" />
+                <noderef id="exit_door_locked_symbol" />
+                <noderef id="exit_door_square_symbol" />
+                <noderef id="exit_door_symbol" />
+                <noderef id="exit_door_arrow_symbol" />
             </descendants>
         </node>
+
+        <node id="button_square_symbol" >
+            <material id="null" />
+
+            <texture id="square_symbol">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="7.99" y="0.25" z="7.25" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="symbol" />
+            </descendants>
+        </node>
+
+        <node id="button_cross_symbol" >
+            <material id="null" />
+
+            <texture id="cross_symbol">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="7.99" y="0.25" z="7.5" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="symbol" />
+            </descendants>
+        </node>
+
+            <node id="exit_door_square_symbol" >
+                <material id="null" />
+
+                <texture id="square_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="7.25" y="2.75" z="0.01" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
+
+            <node id="exit_door_locked_symbol" >
+                <material id="null" />
+
+                <texture id="unchecked_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="7" y="2.75" z="0.01" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
+
+            <node id="exit_door_symbol" >
+                <material id="null" />
+
+                <texture id="exit_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="6" y="3" z="0.01" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
+
+            <node id="exit_door_arrow_symbol" >
+                <material id="null" />
+
+                <texture id="arrow_down_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="6.25" y="3" z="0.01" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
 
             <node id="placed_exit_door">
                 <material id="null" />
@@ -1543,5 +1652,24 @@
             </descendants>
         </node>
         <!-- END DOOR -->
+
+        <!-- START SYMBOL -->
+        <node id="symbol">
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.005" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="0.25" y2="0.25" />
+            </descendants>
+        </node>
+        <!-- END SYMBOL -->
+
     </nodes>
 </lsf>
