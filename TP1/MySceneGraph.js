@@ -1132,7 +1132,7 @@ class MySceneGraph {
         if((slices = this.parseInt(node,"slices", "Cylinder", false)) == null)
             return null;
 
-        return new MyCilinder(this.scene, bottomRadius, topRadius, height, slices, stacks);
+        return new MyCylinder(this.scene, bottomRadius, topRadius, height, slices, stacks);
     }
 
         /**
