@@ -52,6 +52,8 @@
         <texture id="portalableFloor" path="./portalImages/portalable_floor_tiles.png" />
         <texture id="ceiling" path="./portalImages/ceiling_tiles.jpg" />
         <texture id="observation" path="./portalImages/observation_room.png" />
+        <texture id="button_top" path="./portalImages/button_top.png" />
+        <texture id="button_color" path="./portalImages/button_color.png" />
     </textures>
 
 
@@ -574,6 +576,7 @@
                 <noderef id="button_base" />
                 <noderef id="button_piston" />
                 <noderef id="button_plate" />
+                <noderef id="button_plate_top" />
                 <noderef id="button_support_0" />
                 <noderef id="button_support_1" />
                 <noderef id="button_support_2" />
@@ -681,9 +684,9 @@
         </node>
 
         <node id="button_plate">
-            <material id="redMaterial" />
+            <material id="default" />
 
-            <texture id="clear">
+            <texture id="button_color">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -693,6 +696,22 @@
 
             <descendants>
                 <leaf type="cylinder" height="0.025" topRadius="0.75" bottomRadius="0.8" slices="40" stacks="4" />
+            </descendants>
+        </node>
+
+        <node id="button_plate_top">
+            <material id="default" />
+
+            <texture id="button_top">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.135" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.0001" topRadius="0.75" bottomRadius="0.75" slices="40" stacks="0" />
             </descendants>
         </node>
 
