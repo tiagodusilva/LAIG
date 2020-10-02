@@ -33,7 +33,7 @@
             <to x="4" y="2" z="4" />
         </perspective>
 
-        <ortho id="Top Down ~ Orthographical" near="0.2" far="100" left="-6" right="6" top="2.5" bottom="-2.5">
+        <ortho id="Top Down ~ Orthographical" near="0.2" far="100" left="-8" right="8" top="4.5" bottom="-4.5">
             <from x="4.001" y="10" z="4" />
             <to x="4" y="2" z="4" />
             <up x="0" y="-1" z="0" />
