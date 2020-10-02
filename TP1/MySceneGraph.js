@@ -748,9 +748,9 @@ class MySceneGraph {
 
             var matrix = mat4.create();
             var axisConvertor = {
-                "xx": [1.0, 0.0, 0.0],
-                "yy": [0.0, 1.0, 0.0],
-                "zz": [0.0, 0.0, 1.0]
+                "x": [1.0, 0.0, 0.0],
+                "y": [0.0, 1.0, 0.0],
+                "z": [0.0, 0.0, 1.0]
             };
             var curNode = null;
 
