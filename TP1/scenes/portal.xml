@@ -24,8 +24,8 @@
         </perspective>
 
         <perspective id="From Exit" near="0.1" far="500" angle="70">
-            <from x="7.5" y="2.7" z="1.49" />
-            <to x="7.49" y="2.7" z="1.5" />
+            <from x="6.5" y="2.7" z="1.49" />
+            <to x="6.49" y="2.7" z="1.5" />
         </perspective>
 
         <perspective id="Top Down ~ Perspective" near="0.1" far="500" angle="70">
@@ -73,12 +73,14 @@
         <texture id="button_top" path="./portalImages/button_top.png" />
         <texture id="button_color" path="./portalImages/button_color.png" />
         <texture id="mud_water" path="portalImages/mud_water.png" />
+        <texture id="exit_door" path="portalImages/exit_door.png" />
+        <texture id="entry_door" path="portalImages/entry_door.png" />
     </textures>
 
 
     <materials>
         <material id="default">
-            <shininess value="10" />
+            <shininess value="1.0" />
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
@@ -134,7 +136,7 @@
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
         <material id="blackMaterial">
-            <shininess value="1.0" />
+            <shininess value="0.25" />
             <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
             <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
             <specular r="0.05" g="0.05" b="0.05" a="1.0" />
@@ -178,8 +180,42 @@
                 <noderef id="hardLightBridge" />
                 <noderef id="chamberSign" />
                 <noderef id="observation" />
+                <noderef id="placed_exit_door" />
+                <noderef id="placed_entry_door" />
             </descendants>
         </node>
+
+            <node id="placed_exit_door">
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="6.5" y="2.33" z="0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="exit_door" />
+                </descendants>
+            </node>
+
+            <node id="placed_entry_door">
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="1.5" y="0.33" z="6" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="entry_door" />
+                </descendants>
+            </node>
 
             <node id="placedTurret0">
                 <material id="null" />
@@ -1013,150 +1049,150 @@
             </descendants>
         </node>
 
-        <node id="button_light_detail">
-            <material id="lightBlueMaterial" />
+            <node id="button_light_detail">
+                <material id="lightBlueMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0.02" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0.02" />
+                </transformations>
 
-            <descendants>
-                <leaf type="torus" inner="0.02" outer="0.945" slices="4" loops="40" />
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="torus" inner="0.02" outer="0.945" slices="4" loops="40" />
+                </descendants>
+            </node>
 
-        <node id="button_support_0">
-            <material id="darkGreyMaterial" />
+            <node id="button_support_0">
+                <material id="darkGreyMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="1" z="0" />
-                <rotation axis="x" angle="-30" />
-                <scale sx="0.6" sy="1" sz="0.2" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="1" z="0" />
+                    <rotation axis="x" angle="-30" />
+                    <scale sx="0.6" sy="1" sz="0.2" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.2" topRadius="0.2" bottomRadius="0.2" slices="4" stacks="4" />
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="cylinder" height="0.2" topRadius="0.2" bottomRadius="0.2" slices="4" stacks="4" />
+                </descendants>
+            </node>
 
-        <node id="button_support_1">
-            <material id="null" />
+            <node id="button_support_1">
+                <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <rotation axis="z" angle="90" />
-            </transformations>
+                <transformations>
+                    <rotation axis="z" angle="90" />
+                </transformations>
 
-            <descendants>
-                <noderef id="button_support_0" />
-            </descendants>
-        </node>
+                <descendants>
+                    <noderef id="button_support_0" />
+                </descendants>
+            </node>
 
-        <node id="button_support_2">
-            <material id="null" />
+            <node id="button_support_2">
+                <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <rotation axis="z" angle="180" />
-            </transformations>
+                <transformations>
+                    <rotation axis="z" angle="180" />
+                </transformations>
 
-            <descendants>
-                <noderef id="button_support_0" />
-            </descendants>
-        </node>
+                <descendants>
+                    <noderef id="button_support_0" />
+                </descendants>
+            </node>
 
-        <node id="button_support_3">
-            <material id="null" />
+            <node id="button_support_3">
+                <material id="null" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <rotation axis="z" angle="270" />
-            </transformations>
+                <transformations>
+                    <rotation axis="z" angle="270" />
+                </transformations>
 
-            <descendants>
-                <noderef id="button_support_0" />
-            </descendants>
-        </node>
+                <descendants>
+                    <noderef id="button_support_0" />
+                </descendants>
+            </node>
 
-        <node id="button_piston">
-            <material id="darkGreyMaterial" />
+            <node id="button_piston">
+                <material id="darkGreyMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0.1" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0.1" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.025" topRadius="0.1" bottomRadius="0.1" slices="10" stacks="1" />
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="cylinder" height="0.025" topRadius="0.1" bottomRadius="0.1" slices="10" stacks="1" />
+                </descendants>
+            </node>
 
-        <node id="button_plate">
-            <material id="default" />
+            <node id="button_plate">
+                <material id="default" />
 
-            <texture id="button_color">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="button_color">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0.11" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0.11" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.025" topRadius="0.75" bottomRadius="0.8" slices="40" stacks="4" />
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="cylinder" height="0.025" topRadius="0.75" bottomRadius="0.8" slices="40" stacks="4" />
+                </descendants>
+            </node>
 
-        <node id="button_plate_top">
-            <material id="default" />
+            <node id="button_plate_top">
+                <material id="default" />
 
-            <texture id="button_top">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="button_top">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0.135" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0.135" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.0001" topRadius="0.75" bottomRadius="0.75" slices="40" stacks="0" />
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="cylinder" height="0.0001" topRadius="0.75" bottomRadius="0.75" slices="40" stacks="0" />
+                </descendants>
+            </node>
 
-        <node id="button_base">
-            <material id="whiteMaterial" />
+            <node id="button_base">
+                <material id="whiteMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <descendants>
-                <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
-            </descendants>
-        </node>
-        <!-- End Button -->
+                <descendants>
+                    <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
+                </descendants>
+            </node>
+        <!-- END BUTTON -->
 
-        <!-- Start Turret-->
+        <!-- START TURRET -->
         <node id="turret">
             <material id="null" />
 
@@ -1165,8 +1201,10 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0.5" z="0" />
-                <scale sx="0.25" sy="0.25" sz="0.25" />
+                <!-- <translation x="0" y="0.5" z="0" /> -->
+                <!-- <scale sx="0.25" sy="0.25" sz="0.25" /> -->
+                <translation x="0" y="0.414" z="0" />
+                <scale sx="0.2" sy="0.2" sz="0.2" />
             </transformations>
 
             <descendants>
@@ -1181,274 +1219,330 @@
 
         </node>
 
-        <node id="turret_head_stripe">
-            <material id="blackMaterial" />
+            <node id="turret_head_stripe">
+                <material id="blackMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <rotation axis="y" angle="90" />
-                <scale sx="0.395" sy="0.9875" sz="0.395"/>
-            </transformations>
+                <transformations>
+                    <rotation axis="y" angle="90" />
+                    <scale sx="0.395" sy="0.9875" sz="0.395"/>
+                </transformations>
 
-            <descendants>
-                <leaf type="torus" inner="0.05" outer="0.97" slices="12" loops="30"/>
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="torus" inner="0.05" outer="0.97" slices="12" loops="30"/>
+                </descendants>
+            </node>
 
-        <node id="turret_antenna">
-            <material id="blackMaterial" />
+            <node id="turret_antenna">
+                <material id="blackMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <rotation axis="x" angle="-90" />
-                <translation x="-0.1" y="0" z="0.8"/>
-            </transformations>
+                <transformations>
+                    <rotation axis="x" angle="-90" />
+                    <translation x="-0.1" y="0" z="0.8"/>
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.5" topRadius="0.005" bottomRadius="0.005" slices="12" stacks="12"/>
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="cylinder" height="0.5" topRadius="0.005" bottomRadius="0.005" slices="12" stacks="12"/>
+                </descendants>
+            </node>
 
-        <node id="turret_head">
-            <material id="whiteMaterial" />
+            <node id="turret_head">
+                <material id="whiteMaterial" />
 
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <scale sx="0.4" sy="1" sz="0.4"/>
-            </transformations>
+                <transformations>
+                    <scale sx="0.4" sy="1" sz="0.4"/>
+                </transformations>
 
-            <descendants>
-                <leaf type="sphere" radius="1" slices="20" stacks="20"/>
-            </descendants>
-        </node>
+                <descendants>
+                    <leaf type="sphere" radius="1" slices="20" stacks="20"/>
+                </descendants>
+            </node>
 
-        <node id="turret_eye">
+            <node id="turret_eye">
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="0" z="0.38"/>
+                </transformations>
+
+                <descendants>
+                    <noderef id="turret_eye_red" />
+                    <noderef id="turret_eye_iris" />
+                </descendants>
+            </node>
+
+            <node id="turret_eye_red">
+                <material id="redMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <scale sx="1.1" sy="1.1" sz="0.35"/>
+                </transformations>
+
+                <descendants>
+                    <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+                </descendants>
+            </node>
+
+            <node id="turret_eye_iris">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="0" z="0.035"/>
+                    <scale sx="1" sy="1" sz="0.1"/>
+                </transformations>
+
+                <descendants>
+                    <leaf type="sphere" radius="0.025" slices="20" stacks="20"/>
+                </descendants>
+            </node>
+
+            <node id="turret_front_leg">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                </transformations>
+
+                <descendants>
+                    <noderef id="turret_front_leg_joint" />
+                    <noderef id="turret_front_leg_bottom" />
+                    <noderef id="turret_front_leg_joint_connection" />
+                </descendants>
+            </node>
+
+
+            <node id="turret_back_leg">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="-0.3" z="-0.58"/>
+                </transformations>
+
+                <descendants>
+                    <noderef id="turret_back_leg_joint" />
+                    <noderef id="turret_back_leg_bottom" />
+                    <noderef id="turret_back_leg_joint_connection" />
+                </descendants>
+
+            </node>
+
+            <node id="turret_front_leg_right">
+                <material id="whiteMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="-0.5" y="-1" z="0.5" />
+                    <rotation axis="y" angle="-45" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="turret_front_leg" />
+                </descendants>
+            </node>
+
+            <node id="turret_front_leg_left">
+                <material id="whiteMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.5" y="-1" z="0.5" />
+                    <rotation axis="y" angle="45" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="turret_front_leg" />
+                </descendants>
+            </node>
+
+            <node id="turret_front_leg_joint">
+                <material id="whiteMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                </transformations>
+
+                <descendants>
+                    <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+                </descendants>
+            </node>
+            <node id="turret_front_leg_bottom">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <rotation axis="x" angle="75" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+                </descendants>
+
+            </node>
+
+            <node id="turret_front_leg_joint_connection">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <rotation axis="x" angle="-150" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+                </descendants>
+
+            </node>
+
+            <node id="turret_back_leg_joint">
+                <material id="whiteMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                </transformations>
+
+                <descendants>
+                    <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
+                </descendants>
+            </node>
+
+            <node id="turret_back_leg_bottom">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <rotation axis="x" angle="120" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1.925" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+                </descendants>
+
+            </node>
+
+            <node id="turret_back_leg_joint_connection">
+                <material id="blackMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <rotation axis="x" angle="35" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
+                </descendants>
+
+            </node>
+        <!-- END TURRET -->
+
+        <!-- START DOOR -->
+        <node id="exit_door">
             <material id="null" />
+
+            <texture id="exit_door">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="door_face" />
+                <noderef id="door_torus" />
+            </descendants>
+        </node>
+
+        <node id="entry_door">
+            <material id="null" />
+
+            <texture id="entry_door">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="door_torus" />
+                <noderef id="door_face" />
+            </descendants>
+        </node>
+
+        <node id="door_torus">
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <leaf type="torus" inner="0.025" outer="0.42" slices="10" loops="60"/>
+            </descendants>
+        </node>
+
+        <node id="door_face">
+            <material id="default" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.38"/>
+                <translation x="0" y="0" z="-0.005" />
+                <rotation axis="z" angle="-90" />
             </transformations>
 
             <descendants>
-                <noderef id="turret_eye_red" />
-                <noderef id="turret_eye_iris" />
+                <leaf type="cylinder" height="0.01" topRadius="0.4" bottomRadius="0.4" slices="20" stacks="20" />
             </descendants>
         </node>
-
-        <node id="turret_eye_red">
-            <material id="redMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <scale sx="1.1" sy="1.1" sz="0.35"/>
-            </transformations>
-
-            <descendants>
-                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
-            </descendants>
-        </node>
-
-        <node id="turret_eye_iris">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <translation x="0" y="0" z="0.035"/>
-                <scale sx="1" sy="1" sz="0.1"/>
-            </transformations>
-
-            <descendants>
-                <leaf type="sphere" radius="0.025" slices="20" stacks="20"/>
-            </descendants>
-        </node>
-
-        <node id="turret_front_leg">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-            </transformations>
-
-            <descendants>
-                <noderef id="turret_front_leg_joint" />
-                <noderef id="turret_front_leg_bottom" />
-                <noderef id="turret_front_leg_joint_connection" />
-            </descendants>
-        </node>
-
-
-        <node id="turret_back_leg">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <translation x="0" y="-0.3" z="-0.58"/>
-            </transformations>
-
-            <descendants>
-                <noderef id="turret_back_leg_joint" />
-                <noderef id="turret_back_leg_bottom" />
-                <noderef id="turret_back_leg_joint_connection" />
-            </descendants>
-
-        </node>
-
-        <node id="turret_front_leg_right">
-            <material id="whiteMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <translation x="-0.5" y="-1" z="0.5" />
-                <rotation axis="y" angle="-45" />
-            </transformations>
-
-            <descendants>
-                <noderef id="turret_front_leg" />
-            </descendants>
-        </node>
-
-        <node id="turret_front_leg_left">
-            <material id="whiteMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <translation x="0.5" y="-1" z="0.5" />
-                <rotation axis="y" angle="45" />
-            </transformations>
-
-            <descendants>
-                <noderef id="turret_front_leg" />
-            </descendants>
-        </node>
-
-        <node id="turret_front_leg_joint">
-            <material id="whiteMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-            </transformations>
-
-            <descendants>
-                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
-            </descendants>
-        </node>
-        <node id="turret_front_leg_bottom">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <rotation axis="x" angle="75" />
-            </transformations>
-
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
-            </descendants>
-
-        </node>
-
-        <node id="turret_front_leg_joint_connection">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <rotation axis="x" angle="-150" />
-            </transformations>
-
-            <descendants>
-                <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
-            </descendants>
-
-        </node>
-
-        <node id="turret_back_leg_joint">
-            <material id="whiteMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-            </transformations>
-
-            <descendants>
-                <leaf type="sphere" radius="0.1" slices="20" stacks="20"/>
-            </descendants>
-        </node>
-
-        <node id="turret_back_leg_bottom">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <rotation axis="x" angle="120" />
-            </transformations>
-
-            <descendants>
-                <leaf type="cylinder" height="1.925" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
-            </descendants>
-
-        </node>
-
-        <node id="turret_back_leg_joint_connection">
-            <material id="blackMaterial" />
-
-            <texture id="clear">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <rotation axis="x" angle="35" />
-            </transformations>
-
-            <descendants>
-                <leaf type="cylinder" height="0.75" topRadius="0.05" bottomRadius="0.05" slices="12" stacks="12"/>
-            </descendants>
-
-        </node>
-        <!-- End Turret-->
-
+        <!-- END DOOR -->
     </nodes>
 </lsf>

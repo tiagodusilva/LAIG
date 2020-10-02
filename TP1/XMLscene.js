@@ -177,23 +177,38 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Applies a material without messing with textures
+     * CGFappearance.apply() would casually unbind the current texture and change the value of this.activeTexture, so this a way to circumvent that
+     * Using this method allows us to bind/unbind textures only when needed, resulting is superior performance ;D
+     * @param {CGFappearance} material 
+     */
+    applyMaterial(material) {
+        this.setAmbient(material.ambient[0], material.ambient[1], material.ambient[2], material.ambient[3]);
+        this.setDiffuse(material.diffuse[0], material.diffuse[1], material.diffuse[2], material.diffuse[3]);
+        this.setSpecular(material.specular[0], material.specular[1], material.specular[2], material.specular[3]);
+        this.setShininess(material.shininess);
+        this.setEmission(material.emission[0], material.emission[1], material.emission[2], material.emission[3]);
+    }
+
     pushMaterial(material) {
         this.materialStack.push(this.material);
         this.material = material;
-        this.material.apply();
+        this.applyMaterial(this.material);
+        // this.material.apply();
     }
 
     popMaterial() {
-        this.materialStack.pop().apply();
+        this.applyMaterial(this.materialStack.pop());
+        // this.materialStack.pop().apply();
     }
 
     pushTexture(texture) {
         this.textureStack.push(this.activeTexture);
-        if (texture != null)
-            texture.bind(0);
-        else if (this.activeTexture != null)
-            this.activeTexture.unbind(0);
         this.activeTexture = texture;
+        if (texture != null) {
+            texture.bind(0);
+        }
     }
 
     popTexture() {
