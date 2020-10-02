@@ -1516,7 +1516,7 @@
         </node>
 
         <node id="door_torus">
-            <material id="blackMaterial" />
+            <material id="darkGreyMaterial" />
 
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -1536,7 +1536,6 @@
 
             <transformations>
                 <translation x="0" y="0" z="-0.005" />
-                <rotation axis="z" angle="-90" />
             </transformations>
 
             <descendants>
