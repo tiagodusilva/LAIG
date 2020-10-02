@@ -49,8 +49,9 @@
         <texture id="panel" path="./portalImages/square_panel.png" />
         <texture id="hardLightBridge" path="./portalImages/hardLightBridge.png" />
         <texture id="floor" path="./portalImages/floor.png" />
-        <texture id="portalableFloor" path="portalableRoofTile.png" />
+        <texture id="portalableFloor" path="./portalImages/portalable_floor_tiles.png" />
         <texture id="ceiling" path="./portalImages/ceiling_tiles.jpg" />
+        <texture id="observation" path="./portalImages/observation_room.png" />
     </textures>
 
 
@@ -143,6 +144,7 @@
                 <noderef id="placedTurret" />
                 <noderef id="hardLightBridge" />
                 <noderef id="chamberSign" />
+                <noderef id="observation" />
             </descendants>
         </node>
 
@@ -176,7 +178,7 @@
             </transformations>
 
             <descendants>
-                <noderef id="flat_button" />
+                <noderef id="button" />
             </descendants>
         </node>
 
@@ -230,12 +232,30 @@
                 <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
+    
+        <node id="observation">
+            <material id="whiteMaterial" />
+
+            <texture id="observation">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-2.499" y="4.5" z="-1.5" />
+                <scale sx="1" sy="1" sz="2" />
+                <rotation axis="yy" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
         <!-- END SCENE -->
 
         <node id="floor">
             <material id="default" />
 
-            <texture id="floor">
+            <texture id="portalableFloor">
                 <amplification afs="5.0" aft="5.0" />
             </texture>
 
@@ -538,7 +558,7 @@
                 <!-- END HARD LIGHT BRIDGE -->
 
         <!-- START BUTTON -->
-        <node id="flat_button">
+        <node id="button">
             <material id="null" />
 
             <texture id="clear">
