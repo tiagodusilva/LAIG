@@ -44,21 +44,12 @@
 
 
     <textures>
-        <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-        <texture id="demoTexture" path="./scenes/images/vidral.jpg" />
+        <texture id="buttonTop" path="./portalImages/button.png" />
+        <texture id="buttonBaseStripe" path="./portalImages/buttonBaseStripe.png" />
     </textures>
 
 
     <materials>
-        <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
-         requires a distinct "id". At least one material should be present. -->
-        <material id="demoMaterial">
-            <shininess value="1.0" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-            <diffuse r="0.6" g="0.2" b="0.2" a="1.0" />
-            <specular r="0.2" g="0.6" b="0.2" a="1.0" />
-            <emissive r="0.2" g="0.2" b="0.6" a="1.0" />
-        </material>
         <material id="groundMaterial">
             <shininess value="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
@@ -462,7 +453,7 @@
 
         <!-- START BUTTON -->
         <node id="flat_button">
-            <material id="demoMaterial" />
+            <material id="null" />
 
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -493,11 +484,11 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.07" />
+                <translation x="0" y="0" z="0.05" />
             </transformations>
 
             <descendants>
-                <leaf type="torus" inner="0.025" outer="0.875" slices="4" loops="40" />
+                <leaf type="torus" inner="0.015" outer="0.9" slices="4" loops="40" />
             </descendants>
         </node>
 
@@ -586,7 +577,7 @@
         <node id="button_plate">
             <material id="redMaterial" />
 
-            <texture id="clear">
+            <texture id="buttonTop">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -602,11 +593,9 @@
         <node id="button_base">
             <material id="whiteMaterial" />
 
-            <texture id="clear">
+            <texture id="buttonBaseStripe">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
-
-            <transformations></transformations>
 
             <descendants>
                 <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
@@ -616,7 +605,7 @@
 
         <!-- Start Turret-->
         <node id="turret">
-            <material id="demoMaterial" />
+            <material id="null" />
 
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />

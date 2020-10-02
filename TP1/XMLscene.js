@@ -40,10 +40,10 @@ class XMLscene extends CGFscene {
 
         
         // Texture stack
-        this.textureStack = [];
+        this.textureStack = [ null ];
 
         //Material Stack
-        this.materialStack = [];
+        this.materialStack = [ null ];
 
         this.material = this.defaultAppearance;
         this.material.apply();
@@ -52,11 +52,6 @@ class XMLscene extends CGFscene {
 
         this.showAxis = true;
         this.showNormals = false;
-
-        //Test Purposes
-        this.earthAppearance = new CGFappearance(this);
-        this.earthAppearance.loadTexture("earth.jpg");
-
     }
 
     /**
@@ -165,15 +160,19 @@ class XMLscene extends CGFscene {
 
     pushTexture(texture) {
         this.textureStack.push(this.activeTexture);
+        if (texture != null)
+            texture.bind(0);
+        else if (this.activeTexture != null)
+            this.activeTexture.unbind(0);
         this.activeTexture = texture;
-        if (this.activeTexture != null)
-            this.activeTexture.bind(0);
     }
 
     popTexture() {
         var popped = this.textureStack.pop();
         if (popped != null)
             popped.bind(0);
+        else if (this.activeTexture != null)
+            this.activeTexture.unbind(0);
     }
 
     /**
@@ -201,6 +200,7 @@ class XMLscene extends CGFscene {
         }
 
         if (this.sceneInited) {
+            this.looped = true;
             // Draw axis
             if (this.showAxis) {
                 this.defaultAppearance.apply();

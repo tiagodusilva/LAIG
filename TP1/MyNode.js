@@ -47,7 +47,7 @@ class MyNode {
             this.materialStatus = MaterialStatus.DEFAULT;
         }
         else if (typeof(this.material = graphScene.getMaterial(this.materialId)) === "undefined") {
-            graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid texture: Using parent's appearance");
+            graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid material: Using parent's material");
             this.materialStatus = MaterialStatus.KEEP;
         }
         else {
@@ -60,10 +60,12 @@ class MyNode {
         }
         else if (this.textureId === "clear") {
             this.textureStatus = TextureStatus.DEFAULT;
+            this.texture = null;
         }
         else if (typeof(this.texture = graphScene.getTexture(this.textureId)) === "undefined") {
             graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid texture: Using default texture");
             this.textureStatus = TextureStatus.DEFAULT;
+            this.texture = null;
         }
         else {
             this.textureStatus = TextureStatus.SET;

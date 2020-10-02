@@ -55,7 +55,7 @@
         <!--
      NOTE: this block "TEXTURE" must be repeated as necessary with different "id" 
     -->
-        <texture id="demoTexture" path="./scenes/images/vidral.jpg" />
+        <texture id="demoTexture" path="./images/vidral.jpg" />
     </textures>
     <materials>
         <!--

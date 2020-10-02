@@ -94,7 +94,6 @@ class MySceneGraph {
         for (let node of this.nodes.values()) {
             node.preProcess(this);
         }
-
     }
 
     /*
@@ -1150,49 +1149,11 @@ class MySceneGraph {
         return new MyTorus(this.scene, inner, outer, loops, slices);
     }
 
-
-
-
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        
-        //To do: Create display loop for transversing the scene graph, calling the root node's display function
-        
         this.rootNode.display();
-
-
-        //Testing Purposes:
-
-        
-        // var testTriangle = new MyTriangle(this.scene,0,0,3,0,0,3);
-        // this.scene.earthAppearance.apply();
-        // testTriangle.display();
-        
-
-       
-        /*
-        var testSphere = new MySphere(this.scene, 20, 20, 0.5);
-
-        this.scene.earthAppearance.apply();
-        testSphere.display();
-        */
-
-        /*
-        var testCilinder = new MyCilinder(this.scene,5,5,3,40,40);
-        testCilinder.enableNormalViz();
-        this.scene.earthAppearance.apply();
-        testCilinder.display();
-        */
-        
-        /*
-        var testTorus = new MyTorus(this.scene,1,3,40,20);
-        testTorus.enableNormalViz();
-        this.scene.earthAppearance.apply();
-        testTorus.display();
-        */
     }
-
 
 }
