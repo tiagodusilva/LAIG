@@ -119,6 +119,13 @@
             <specular r="1.0" g="0" b="0" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
+        <material id="brightRedMaterial">
+            <shininess value="1.0" />
+            <ambient r="1.0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="0" b="0" a="1.0" />
+            <specular r="1.0" g="0" b="0" a="1.0" />
+            <emissive r="1.0" g="0" b="0" a="1.0" />
+        </material>
         <material id="lightBlueMaterial">
             <shininess value="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -133,6 +140,13 @@
             <specular r="1" g="1" b="1" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
+        <material id="brightWhiteMaterial">
+            <shininess value="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <emissive r="0.4" g="0.4" b="0.4" a="1.0" />
+        </material>
         <material id="darkGreyMaterial">
             <shininess value="1.0" />
             <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
@@ -140,12 +154,26 @@
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
+        <material id="slighlyBrightDarkGreyMaterial">
+            <shininess value="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+            <emissive r="0.01" g="0.01" b="0.01" a="1.0" />
+        </material>
         <material id="blackMaterial">
             <shininess value="0.25" />
             <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
             <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
             <specular r="0.05" g="0.05" b="0.05" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="slighlyBlackMaterial">
+            <shininess value="0.25" />
+            <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
+            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
+            <specular r="0.05" g="0.05" b="0.05" a="1.0" />
+            <emissive r="0.01" g="0.01" b="0.01" a="1.0" />
         </material>
     </materials>
 
@@ -427,7 +455,7 @@
             </node>
 
             <node id="chamberSign">
-                <material id="whiteMaterial" />
+                <material id="brightWhiteMaterial" />
 
                 <texture id="chamberSign">
                     <amplification afs="1.0" aft="1.0" />
@@ -442,9 +470,9 @@
                     <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
                 </descendants>
             </node>
-        
+
             <node id="observation">
-                <material id="whiteMaterial" />
+                <material id="brightWhiteMaterial" />
 
                 <texture id="observation">
                     <amplification afs="1.0" aft="1.0" />
@@ -1010,7 +1038,7 @@
         </node>
 
         <node id="hardLightBridgeSpawn">
-            <material id="whiteMaterial" />
+            <material id="brightWhiteMaterial" />
 
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -1381,7 +1409,7 @@
             <node id="turret_eye">
                 <material id="null" />
 
-                <texture id="null">
+                <texture id="clear">
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
@@ -1396,7 +1424,7 @@
             </node>
 
             <node id="turret_eye_red">
-                <material id="redMaterial" />
+                <material id="brightRedMaterial" />
 
                 <texture id="clear">
                     <amplification afs="1.0" aft="1.0" />
@@ -1412,7 +1440,7 @@
             </node>
 
             <node id="turret_eye_iris">
-                <material id="blackMaterial" />
+                <material id="slighlyBlackMaterial" />
 
                 <texture id="clear">
                     <amplification afs="1.0" aft="1.0" />
@@ -1625,7 +1653,7 @@
         </node>
 
         <node id="door_torus">
-            <material id="darkGreyMaterial" />
+            <material id="slighlyBrightDarkGreyMaterial" />
 
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -1637,7 +1665,7 @@
         </node>
 
         <node id="door_face">
-            <material id="default" />
+            <material id="brightWhiteMaterial" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
@@ -1655,7 +1683,7 @@
 
         <!-- START SYMBOL -->
         <node id="symbol">
-            <material id="whiteMaterial" />
+            <material id="brightWhiteMaterial" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
