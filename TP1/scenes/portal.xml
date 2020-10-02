@@ -44,8 +44,7 @@
 
 
     <textures>
-        <texture id="buttonTop" path="./portalImages/button.png" />
-        <texture id="buttonBaseStripe" path="./portalImages/buttonBaseStripe.png" />
+        <texture id="chamberSign" path="./portalImages/chamberSign.png" />
     </textures>
 
 
@@ -126,9 +125,11 @@
             <descendants>
                 <noderef id="placedButton" />
                 <noderef id="ground" />
+                <noderef id="ceiling" />
                 <noderef id="walls" />
                 <noderef id="placedTurret" />
                 <noderef id="hardLightBridge" />
+                <noderef id="chamberSign" />
             </descendants>
         </node>
 
@@ -176,6 +177,57 @@
                 <noderef id="flat_button" />
             </descendants>
         </node>
+
+        <node id="hardLightLongBridge">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="1" sy="1" sz="5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="hardLightBridgePlatform" />
+            </descendants>
+        </node>
+
+        <node id="hardLightBridge">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-1" y="1" z="-2" />>
+                <translation x="0" y="0.2" z="-0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="hardLightLongBridge" />
+                <noderef id="hardLightBridgeSupport" />
+            </descendants>
+        </node>
+
+        <node id="chamberSign">
+            <material id="whiteMaterial" />
+
+            <texture id="chamberSign">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1.5" y="3" z="-2.499" />
+                <scale sx="1" sy="2" sz="1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="square" />
+            </descendants>
+        </node>
         <!-- END SCENE -->
 
         <node id="ground">
@@ -195,6 +247,24 @@
             </descendants>
         </node>
 
+        <node id="ceiling">
+            <material id="groundMaterial" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="5" z="0" />
+                <rotation axis="xx" angle="90" />
+                <scale sx="5" sy="5" sz="1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="square" />
+            </descendants>
+        </node>
+
         <!-- START WALLS -->
         <node id="walls">
             <material id="null" />
@@ -206,6 +276,8 @@
             <descendants>
                 <noderef id="wallNegX" />
                 <noderef id="wallNegZ" />
+                <noderef id="wallPosX" />
+                <noderef id="wallPosZ" />
             </descendants>
         </node>
 
@@ -233,8 +305,8 @@
             </texture>
 
             <transformations>
+                <translation x="-2.5" y="2.5" z="0" />
                 <rotation axis="yy" angle="90" />
-                <translation x="0" y="2.5" z="-2.5" />
             </transformations>
 
             <descendants>
@@ -257,27 +329,43 @@
                 <noderef id="wall" />
             </descendants>
         </node>
+        
+        <node id="wallPosX">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="2.5" y="2.5" z="0" />
+                <rotation axis="yy" angle="270" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wall" />
+            </descendants>
+        </node>
+
+        <node id="wallPosZ">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="2.5" z="2.5" />
+                <rotation axis="yy" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wall" />
+            </descendants>
+        </node>
         <!-- END WALLS -->
 
-                <!-- START HARD LIGHT BRIDGE -->
-                <node id="hardLightBridge">
-                    <material id="null" />
-        
-                    <texture id="clear">
-                        <amplification afs="1.0" aft="1.0" />
-                    </texture>
-        
-                    <transformations>
-                        <translation x="-1" y="1" z="-2" />>
-                        <translation x="0" y="0.2" z="-0.5" />
-                    </transformations>
-        
-                    <descendants>
-                        <noderef id="hardLightBridgePlatform" />
-                        <noderef id="hardLightBridgeSupport" />
-                    </descendants>
-                </node>
-        
+                <!-- START HARD LIGHT BRIDGE -->        
                 <node id="hardLightBridgePlatform">
                     <material id="hardLight" />
         
@@ -484,11 +572,11 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.05" />
+                <translation x="0" y="0" z="0.02" />
             </transformations>
 
             <descendants>
-                <leaf type="torus" inner="0.015" outer="0.9" slices="4" loops="40" />
+                <leaf type="torus" inner="0.02" outer="0.945" slices="4" loops="40" />
             </descendants>
         </node>
 
@@ -577,7 +665,7 @@
         <node id="button_plate">
             <material id="redMaterial" />
 
-            <texture id="buttonTop">
+            <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -593,7 +681,7 @@
         <node id="button_base">
             <material id="whiteMaterial" />
 
-            <texture id="buttonBaseStripe">
+            <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
