@@ -740,17 +740,17 @@ class MySceneGraph {
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
             if (materialIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <material> tag found: Skipping object");
+                this.onXMLMinorError("No <material> tag found on node with id '" + nodeID + "': Skipping object");
                 continue;
             }
             var textureIndex = nodeNames.indexOf("texture");
             if (textureIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <texture> tag found; Skipping object");
+                this.onXMLMinorError("No <texture> tag found on node with id '" + nodeID + "': Skipping object");
                 continue;
             }
             var descendantsIndex = nodeNames.indexOf("descendants");
             if (descendantsIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <descendants> tag found: Skipping object");
+                this.onXMLMinorError("No <descendants> tag found on node with id '" + nodeID + "': Skipping object");
                 continue;
             }
 
@@ -771,7 +771,7 @@ class MySceneGraph {
                     if (nodeType == "translation") {
                         var coords = this.parseCoordinates3D(curNode);
                         if (!Array.isArray(coords)) {
-                            this.onXMLMinorError("Failed to read translation coords: Skipping translation");
+                            this.onXMLMinorError("Failed to read translation coords on node with id '" + nodeID + "': Skipping translation");
                             continue;
                         }
                         mat4.translate(matrix, matrix, coords);
@@ -779,7 +779,7 @@ class MySceneGraph {
                     else if (nodeType == "rotation") {
                         var axis = this.reader.getString(curNode, "axis", true);
                         if (!axisConvertor.hasOwnProperty(axis)) {
-                            this.onXMLMinorError("Unexpected axis: Skipping rotation");
+                            this.onXMLMinorError("Unexpected axis on node with id '" + nodeID + "': Skipping rotation");
                             continue;
                         }
                         else
@@ -791,14 +791,14 @@ class MySceneGraph {
                     else if (nodeType == "scale") {
                         var scale = this.parseFloat3(curNode, "sx", "sy", "sz");
                         if (!Array.isArray(scale)) {
-                            this.onXMLMinorError("Couldn't read scale: Skipping scale");
+                            this.onXMLMinorError("Couldn't read scale on node with id '" + nodeID + "': Skipping scale");
                             continue;
                         }
                         else
                             mat4.scale(matrix, matrix, scale);
                     }
                     else {
-                        this.onXMLMinorError("Unexpected tag on node transformations");
+                        this.onXMLMinorError("Unexpected tag on transformations on node with id '" + nodeID + "': Skipping transformation");
                     }
                 }
             }
