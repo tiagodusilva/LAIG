@@ -224,39 +224,39 @@
             </descendants>
         </node>
 
-        <node id="button_square_symbol" >
-            <material id="null" />
+            <node id="button_square_symbol" >
+                <material id="null" />
 
-            <texture id="square_symbol">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="square_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="7.99" y="0.25" z="7.25" />
-                <rotation axis="y" angle="-90" />
-            </transformations>
+                <transformations>
+                    <translation x="7.99" y="0.25" z="7.25" />
+                    <rotation axis="y" angle="-90" />
+                </transformations>
 
-            <descendants>
-                <noderef id="symbol" />
-            </descendants>
-        </node>
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
 
-        <node id="button_cross_symbol" >
-            <material id="null" />
+            <node id="button_cross_symbol" >
+                <material id="null" />
 
-            <texture id="cross_symbol">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="cross_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="7.99" y="0.25" z="7.5" />
-                <rotation axis="y" angle="-90" />
-            </transformations>
+                <transformations>
+                    <translation x="7.99" y="0.25" z="7.5" />
+                    <rotation axis="y" angle="-90" />
+                </transformations>
 
-            <descendants>
-                <noderef id="symbol" />
-            </descendants>
-        </node>
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
 
             <node id="exit_door_square_symbol" >
                 <material id="null" />
@@ -1698,6 +1698,126 @@
             </descendants>
         </node>
         <!-- END SYMBOL -->
+
+        <!-- START CUBE -->
+        <node id="cube">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="cubeFront" />
+                <noderef id="cubeBack" />
+                <noderef id="cubeRight" />
+                <noderef id="cubeLeft" />
+                <noderef id="cubeTop" />
+                <noderef id="cubeBottom" />
+            </descendants>
+        </node>
+
+        <node id="cubeFront">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeBack">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.5" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeRight">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.5" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeLeft">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0" z="0" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeTop">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.5" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeBottom">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.5" z="0" />
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+        <!-- END CUBE -->
 
     </nodes>
 </lsf>
