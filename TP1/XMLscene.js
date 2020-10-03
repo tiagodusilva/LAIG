@@ -38,15 +38,14 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
-        
+        this.material = this.defaultAppearance;
+        this.material.apply();
+
         // Texture stack
         this.textureStack = [ null ];
 
         //Material Stack
-        this.materialStack = [ null ];
-
-        this.material = this.defaultAppearance;
-        this.material.apply();
+        this.materialStack = [ this.material ];
 
         this.activeTexture = null;
 
@@ -187,32 +186,45 @@ class XMLscene extends CGFscene {
         this.setEmission(material.emission[0], material.emission[1], material.emission[2], material.emission[3]);
     }
 
+    /**
+     * Unbinds any texture set on the scene
+     * Once again just a more convenient way to use it, as unlike the CGFtexture.unbind(e) method, this one does not require an active texture object
+     * @param {int} index
+     */
+    unbindTexture(index = 0) {
+        var e = index || 0;
+        this.gl.activeTexture(this.gl.TEXTURE0 + e);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+        this.activeTexture = null;
+    }
+
     pushMaterial(material) {
         this.materialStack.push(this.material);
         this.material = material;
         this.applyMaterial(this.material);
-        // this.material.apply();
     }
 
     popMaterial() {
-        this.applyMaterial(this.materialStack.pop());
-        // this.materialStack.pop().apply();
+        var popped = this.materialStack.pop();
+        this.applyMaterial(popped);
+        this.material = popped;
     }
 
     pushTexture(texture) {
         this.textureStack.push(this.activeTexture);
         this.activeTexture = texture;
-        if (texture != null) {
+        if (texture != null)
             texture.bind(0);
-        }
+        else
+            this.unbindTexture(0);
     }
 
     popTexture() {
         var popped = this.textureStack.pop();
         if (popped != null)
             popped.bind(0);
-        else if (this.activeTexture != null)
-            this.activeTexture.unbind(0);
+        else
+            this.unbindTexture(0);
     }
 
     /**

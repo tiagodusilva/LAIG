@@ -92,8 +92,9 @@ class MyNode {
 
         this.children = result;
 
+        // TODO:
         if (result.length == 0) {
-            graphScene.onXMLMinorError("TO DO\nEliminate nodes with no descendants due to errors\nTO DO\n");
+            graphScene.onXMLMinorError("TO DO\nEliminate nodes with no descendants due to errors?\nTO DO\n");
         }
         
     }
