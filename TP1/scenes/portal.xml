@@ -241,9 +241,10 @@
                 </texture>
 
                 <transformations>
-                    <translation x="4.5" y="-0.2" z="0.5" />
-                    <rotation axis="y" angle="30" />
-                    <rotation axis="z" angle="60" />
+                    <!-- <translation x="4.5" y="-0.2" z="0.5" /> -->
+                    <translation x="5.5" y="1.5" z="4.5" />
+                    <!-- <rotation axis="y" angle="30" />
+                    <rotation axis="z" angle="60" /> -->
                 </transformations>
 
                 <descendants>
@@ -1760,22 +1761,6 @@
         <!-- END SYMBOL -->
 
         <!-- START CUBE -->
-        <node id="weighted_cube">
-            <material id="default" />
-            
-            <texture id="weighted_cube" >
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <scale sx="0.25" sy="0.25" sz="0.25" />
-            </transformations>
-
-            <descendants>
-                <noderef id="cube" />
-            </descendants>
-        </node>
-
         <node id="cube">
             <material id="null" />
 
@@ -1895,6 +1880,511 @@
         </node>
         <!-- END CUBE -->
         
+        <!-- START WEIGTHED CUBE -->
+        <node id="weighted_cube">
+            <material id="default" />
+            
+            <texture id="weighted_cube" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <!-- <scale sx="0.25" sy="0.25" sz="0.25" /> -->
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+                <noderef id="weighed_cube_side_extremities" />
+                <noderef id="weighed_cube_side_x_rotated_extremities" />
+                <noderef id="weighed_cube_side_z_rotated_extremities" />
+                <noderef id="weighed_cube_corners" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corners" >
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+                <noderef id="weighed_cube_corner_2" />
+                <noderef id="weighed_cube_corner_3" />
+                <noderef id="weighed_cube_corner_4" />
+                <noderef id="weighed_cube_corner_5" />
+                <noderef id="weighed_cube_corner_6" />
+                <noderef id="weighed_cube_corner_7" />
+                <noderef id="weighed_cube_corner_8" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_1" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.375" y="-0.375" z="0.375" />
+                <scale sx="0.25" sy="0.25" sz="0.25" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_corner_cube" />
+                <noderef id="weighed_cube_corner_upright_cube" />
+                <noderef id="weighed_cube_corner_right_cube" />
+                <noderef id="weighed_cube_corner_left_cube" />
+                <noderef id="weighed_cube_rounded_corner" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_2">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_3">
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_4">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="270" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_5">
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_6">
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="90" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_7">
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="180" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_8">
+            <material id="null" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="270" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_1" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_rounded_corner" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0.5" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_rounded_part_1" />
+                <noderef id="weighed_cube_corner_rounded_part_2" />
+                <noderef id="weighed_cube_corner_rounded_part_3" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_rounded_part_1" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.625" y="-0.375" z="0.25" />
+                <scale sx=".75" sy=".75" sz=".75" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_triangle_1" />
+                <noderef id="weighed_cube_corner_triangle_2" />
+                <noderef id="weighed_cube_corner_triangle_3" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_rounded_part_2" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.25" y="-0.375" z="-0.625" />
+                <scale sx=".75" sy=".75" sz=".75" />
+                <rotation axis="x" angle="-90" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_triangle_1" />
+                <noderef id="weighed_cube_corner_triangle_2" />
+                <noderef id="weighed_cube_corner_triangle_3" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_rounded_part_3" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.625" y="-1.25" z="-0.625" />
+                <scale sx=".75" sy=".75" sz=".75" />
+                <rotation axis="y" angle="-90" />
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_corner_triangle_1" />
+                <noderef id="weighed_cube_corner_triangle_2" />
+                <noderef id="weighed_cube_corner_triangle_3" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_triangle_1" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="-0.5" y1="-0.5" x2="-0.34" y2="0" x3="-0.5" y3="0.5"/>
+            </descendants>
+        </node>
+        
+        <node id="weighed_cube_corner_triangle_2" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="-0.5" y1="-0.5" x2="0.5" y2="-0.5" x3="0" y3="-0.34"/>
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_triangle_3" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="-0.5" y1="-0.5" x2="0" y2="-0.34" x3="-0.34" y3="0"/>
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_corner_cube">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="-0.5" z="0.5" />
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_corner_upright_cube" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0" z="0.5" />
+                <scale sx="0.5" sy="1" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+        
+        <node id="weighed_cube_corner_right_cube" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="-0.5" z="0" />
+                <scale sx="0.5" sy="0.5" sz="1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+        
+        <node id="weighed_cube_corner_left_cube" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.5" z="0.5" />
+                <scale sx="1" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+        
+
+        <node id="weighed_cube_side_extremities">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="weighed_cube_side_1" />
+                <noderef id="weighed_cube_side_2" />
+                <noderef id="weighed_cube_side_3" />
+                <noderef id="weighed_cube_side_4" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_x_rotated_extremities">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side_1" />
+                <noderef id="weighed_cube_side_2" />
+                <noderef id="weighed_cube_side_3" />
+                <noderef id="weighed_cube_side_4" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_z_rotated_extremities">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side_1" />
+                <noderef id="weighed_cube_side_2" />
+                <noderef id="weighed_cube_side_3" />
+                <noderef id="weighed_cube_side_4" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side">
+            <material id="default" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.1459" sy="0.22257" sz="0.1459" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_1">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.465" y="0" z="0.465" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_2">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.465" y="0" z="0.465" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_3">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.465" y="0" z="-0.465" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side" />
+            </descendants>
+        </node>
+
+        <node id="weighed_cube_side_4">
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.465" y="0" z="-0.465" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighed_cube_side" />
+            </descendants>
+        </node>
+        <!-- END WEIGHTED CUBE -->
         
         <!--START CUBE DISPENSER-->
         <node id="cube_dropper">

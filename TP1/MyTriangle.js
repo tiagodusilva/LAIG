@@ -19,8 +19,8 @@ class MyTriangle extends CGFobject {
 		this.x3 = x3;
 		this.y3 = y3;
 
-		this.ats = ats;
-		this.atf = atf;
+		this.afs = afs;
+		this.aft = aft;
 
 		this.a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 		this.b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
@@ -66,9 +66,9 @@ class MyTriangle extends CGFobject {
 		// ];
 		
 		this.texCoords = [
-			0, 0,															//T1
-			this.a * afs, 0,												//T2
-			-this.c * this.cosAlpha * afs, -this.c * this.sinAlpha * aft	//T3
+			0, 0,																	//T1
+			this.a * this.afs, 0,													//T2
+			-this.c * this.cosAlpha * this.afs, -this.c * this.sinAlpha * this.aft	//T3
 		];
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
