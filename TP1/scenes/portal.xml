@@ -199,6 +199,7 @@
             </texture>
 
             <descendants>
+                <noderef id="lights" />
                 <noderef id="roomBoundary" />
                 <noderef id="props" />
             </descendants>
@@ -2869,7 +2870,7 @@
             </node>
 
             <node id="piston_platform_cube" >
-                <material id="piston_color_light" />
+                <material id="null" />
 
                 <texture id="piston_color_dark" >
                     <amplification afs="1.0" aft="1.0" />
@@ -2903,6 +2904,186 @@
                 </descendants>
             </node>
         <!-- END PISTON PLATFORM -->
+
+        <!-- START LIGHTS -->
+        <node id="lights" >
+            <material id="default" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="lightFrontLeft" />
+                <noderef id="lightFrontRight" />
+                <noderef id="lightBackLeft" />
+                <noderef id="lightBackRight" />
+            </descendants>
+        </node>
+
+        <node id="lightFrontLeft" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />                
+            </texture>
+
+            <transformations>
+                <translation x="2" y="4" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="light" />
+            </descendants>
+        </node>
+
+        <node id="lightFrontRight" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />                
+            </texture>
+
+            <transformations>
+                <translation x="5" y="4" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="light" />
+            </descendants>
+        </node>
+
+        <node id="lightBackLeft" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />                
+            </texture>
+
+            <transformations>
+                <translation x="2" y="4" z="6" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="light" />
+            </descendants>
+        </node>
+
+        <node id="lightBackRight" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />                
+            </texture>
+
+            <transformations>
+                <translation x="5" y="4" z="6" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="light" />
+            </descendants>
+        </node>
+
+            <node id="light" >
+                <material id="null" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="-0.12" z="0.01" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="light_fixture" />
+                    <noderef id="light_bulb" />
+                    <noderef id="light_bult_end_left" />
+                    <noderef id="light_bult_end_right" />
+                </descendants>
+            </node>
+
+            <node id="light_fixture" >
+                <material id="blackMaterial" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.5" y="0" z="-0.015" />
+                    <scale sx="0.85" sy="0.16" sz="0.04" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="cube" />
+                </descendants>
+            </node>
+
+            <node id="light_bulb" >
+                <material id="brightDefault" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.175" y="0" z="0" />
+                    <rotation axis="y" angle="90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="0.65" topRadius="0.02" bottomRadius="0.02" slices="20" stacks="20" />
+                </descendants>
+            </node>
+
+            <node id="light_bult_end">
+                <material id="brightDefault" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <descendants>
+                    <leaf type="sphere" radius="0.02" slices="20" stacks="20"/>
+                </descendants>
+            </node>
+
+            <node id="light_bult_end_left">
+                <material id="null" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.82" y="0" z="0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="light_bult_end" />
+                </descendants>
+            </node>
+
+            <node id="light_bult_end_right">
+                <material id="null" />
+
+                <texture id="null" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.175" y="0" z="0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="light_bult_end" />
+                </descendants>
+            </node>
+        <!-- END LIGHTS -->
 
     </nodes>
 </lsf>
