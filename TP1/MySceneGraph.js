@@ -472,7 +472,7 @@ class MySceneGraph {
     parseLights(lightsNode) {
         var children = lightsNode.children;
 
-        this.lights = [];
+        this.lights = new Map();
         var numLights = 0;
 
         var grandChildren = [];
@@ -502,8 +502,10 @@ class MySceneGraph {
                 return "no ID defined for light";
 
             // Checks for repeated IDs.
-            if (this.lights[lightId] != null)
-                return "ID must be unique for each light (conflict: ID = " + lightId + ")";
+            if (this.lights.has(lightId)) {
+                this.onXMLMinorError("ID must be unique for each light (conflict: ID = " + lightId + "): Skipping light");
+                continue;
+            }
 
             grandChildren = children[i].children;
             // Specifications for the current light.
@@ -532,13 +534,13 @@ class MySceneGraph {
                 else
                     return "light " + attributeNames[i] + " undefined for ID = " + lightId;
             }
-            this.lights[lightId] = global;
-            numLights++;
+
+            this.lights.set(lightId, global);
         }
 
-        if (numLights == 0)
+        if (this.lights.size == 0)
             return "at least one light must be defined";
-        else if (numLights > 8)
+        else if (this.lights.size > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
         this.log("Parsed lights");

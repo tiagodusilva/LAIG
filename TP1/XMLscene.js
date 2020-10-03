@@ -88,32 +88,28 @@ class XMLscene extends CGFscene {
         // Lights index.
 
         // Reads the lights from the scene graph.
-        for (var key in this.graph.lights) {
+        for (var [lightId, light] of this.graph.lights.entries()) {
             if (i >= 8)
                 break;              // Only eight lights allowed by WebCGF on default shaders.
 
-            if (this.graph.lights.hasOwnProperty(key)) {
-                var graphLight = this.graph.lights[key];
+            this.lights[i].setPosition(...light[1]);
+            this.lights[i].setAmbient(...light[2]);
+            this.lights[i].setDiffuse(...light[3]);
+            this.lights[i].setSpecular(...light[4]);
 
-                this.lights[i].setPosition(...graphLight[1]);
-                this.lights[i].setAmbient(...graphLight[2]);
-                this.lights[i].setDiffuse(...graphLight[3]);
-                this.lights[i].setSpecular(...graphLight[4]);
+            this.lights[i].setVisible(true);
+            if (light[0])
+                this.lights[i].enable();
+            else
+                this.lights[i].disable();
 
-                this.lights[i].setVisible(true);
-                if (graphLight[0])
-                    this.lights[i].enable();
-                else
-                    this.lights[i].disable();
+            this["lightEnabled" + i] = light[0];
 
-                this["lightEnabled" + i] = graphLight[0];
-
-                this.lights[i].update();
-                
-                //Used to update the lights in the GUI
-                this.lightCount++;
-                i++;
-            }
+            this.lights[i].update();
+            
+            //Used to update the lights in the GUI
+            this.lightCount++;
+            i++;
         }
     }
 

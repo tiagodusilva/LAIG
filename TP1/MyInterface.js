@@ -35,9 +35,15 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
 
         var lightFolder = this.gui.addFolder("Illumination");
-        for (let i = 0; i < this.scene.lightCount; i++){
-            lightFolder.add(this.scene, 'lightEnabled' + i).name("Light " + i + 1);
+        var i = 0;
+        for (var lightId of this.scene.graph.lights.keys()) {
+            if (i >= 8)
+                break;
+            
+            lightFolder.add(this.scene, 'lightEnabled' + i).name(lightId);
+            i++;
         }
+
     }
 
     /**
