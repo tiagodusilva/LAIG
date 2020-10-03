@@ -80,6 +80,11 @@
         <texture id="unchecked_symbol" path="./portalImages/symbols/unchecked.png" />
         <texture id="exit_symbol" path="./portalImages/symbols/exit.png" />
         <texture id="arrow_down_symbol" path="./portalImages/symbols/arrow_down.png" />
+        <texture id="dropper_top" path="./portalImages/dropper_top.png" />
+        <texture id="dropper_shutter" path="./portalImages/dropper_shutter.png" />
+        <texture id="dropper_support_color" path="./portalImages/dropper_support_color.png" />
+        <texture id="dropper_bottom_color" path="./portalImages/dropper_bottom_color.png" />
+        <texture id="weighted_cube" path="./portalImages/weighted_cube_face.png" />
     </textures>
 
 
@@ -221,9 +226,43 @@
                 <noderef id="exit_door_square_symbol" />
                 <noderef id="exit_door_symbol" />
                 <noderef id="exit_door_arrow_symbol" />
-                <noderef id="cube_dispenser" />
+                <noderef id="placed_cube_dropper" />
+                <noderef id="placed_cube_dropper_cube" />
             </descendants>
         </node>
+
+        <node id="placed_cube_dropper_cube" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="4.5" y="3.35" z="0.5" />
+                <rotate axis="y" angle="45" />
+            </transformations>
+
+            <descendants>
+                <noderef id="weighted_cube" />
+            </descendants>
+        </node>
+
+            <node id="placed_cube_dropper" >
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="4.5" y="3" z="0.5" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="cube_dropper" />
+                </descendants>
+            </node>
 
             <node id="button_square_symbol" >
                 <material id="null" />
@@ -1701,6 +1740,22 @@
         <!-- END SYMBOL -->
 
         <!-- START CUBE -->
+        <node id="weighted_cube">
+            <material id="default" />
+            
+            <texture id="weighted_cube" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.25" sy="0.25" sz="0.25" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+
         <node id="cube">
             <material id="null" />
 
@@ -1822,7 +1877,7 @@
         
         
         <!--START CUBE DISPENSER-->
-        <node id="cube_dispenser">
+        <node id="cube_dropper">
             <material id="null" />
 
             <texture id="null">
@@ -1830,192 +1885,203 @@
             </texture>
 
             <transformations>
-                <scale sx="0.6" sy="0.6" sz="0.6"/>
+                <translation x="0" y="0.2" z="0" />
+                <scale sx="0.45" sy="0.45" sz="0.45"/>
                 <rotation axis="x" angle="-90"/>
-                <translation x="7" y="-1" z="5"/>
             </transformations>
 
             <descendants>
-                <noderef id="dispenser_bottom_inner" />
-                <noderef id="dispenser_bottom_outer" />
-                <noderef id="dispenser_top" />
-                <noderef id="dispenser_support_1"/>
-                <noderef id="dispenser_support_2"/>
-                <noderef id="dispenser_support_3"/>
-                <noderef id="dispenser_support_4"/>
-                <noderef id="dispenser_support_5"/>
-                <noderef id="dispenser_support_6"/>
-                <noderef id="dispenser_support_7"/>
-                <noderef id="dispenser_support_8"/>
+                <noderef id="dropper_bottom_inner" />
+                <noderef id="dropper_bottom_outer" />
+                <noderef id="dropper_top" />
+                <noderef id="dropper_support_1"/>
+                <noderef id="dropper_support_2"/>
+                <noderef id="dropper_support_3"/>
+                <noderef id="dropper_support_4"/>
+                <noderef id="dropper_support_5"/>
+                <noderef id="dropper_support_6"/>
+                <noderef id="dropper_support_7"/>
+                <noderef id="dropper_support_8"/>
             </descendants>
         </node>
 
-        <node id="dispenser_bottom_inner">
-            <material id="blackMaterial" />
+            <node id="dropper_bottom_inner">
+                <material id="default" />
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="dropper_shutter">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.2" topRadius="0.5" bottomRadius="0.5" slices="20" stacks="20" />
-            </descendants>
-        </node>
-        <node id="dispenser_bottom_outer">
-            <material id="whiteMaterial" />
+                <descendants>
+                    <leaf type="cylinder" height="0.025" topRadius="0.875" bottomRadius="0.875" slices="20" stacks="2" />
+                </descendants>
+            </node>
+            <node id="dropper_bottom_outer">
+                <material id="default" />
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="dropper_bottom_color">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="0" />
+                </transformations>
 
-            <descendants>
-                <leaf type="torus" height="0.1" outer="0.75" inner="0.25" slices="10" loops="20" />
-            </descendants>
-        </node>
-        <node id="dispenser_top">
-            <material id="blackMaterial" />
+                <descendants>
+                    <leaf type="torus" height="0.1" outer="0.9" inner="0.1" slices="20" loops="20" />
+                </descendants>
+            </node>
+            <node id="dropper_top">
+                <material id="default" />
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="dropper_top">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="1" />
-            </transformations>
+                <transformations>
+                    <translation x="0" y="0" z="1" />
+                </transformations>
 
-            <descendants>
-                <leaf type="cylinder" height="0.7" topRadius="1" bottomRadius="1" slices="20" stacks="20" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_1">
-            <material id="whiteMaterial" />
+                <descendants>
+                    <leaf type="cylinder" height="0.8" topRadius="1" bottomRadius="1" slices="20" stacks="20" />
+                </descendants>
+            </node>
+            <node id="dropper_support">
+                <material id="default" />
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <texture id="dropper_support_color">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <transformations>
-                <translation x="0.9" y="0" z="0" />
-            </transformations>
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.04" bottomRadius="0.04" slices="10" stacks="10" />
+                </descendants>
+            </node>
+            <node id="dropper_support_1">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_2">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="0.9" y="0" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="0.65" y="0.65" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_2">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_3">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="0.6369" y="0.6369" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="0" y="0.9" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_3">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_4">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="0" y="0.9" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="-0.65" y="0.65" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_4">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_5">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="-0.6369" y="0.6369" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="-0.9" y="0" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_5">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_6">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="-0.9" y="0" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="-0.65" y="-0.65" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_6">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_7">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="-0.6369" y="-0.6369" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="0" y="-0.9" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_7">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
-        <node id="dispenser_support_8">
-            <material id="whiteMaterial" />
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
+                <transformations>
+                    <translation x="0" y="-0.9" z="0" />
+                </transformations>
 
-            <transformations>
-                <translation x="0.65" y="-0.65" z="0" />
-            </transformations>
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+            <node id="dropper_support_8">
+                <material id="null" />
 
-            <descendants>
-                <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" slices="10" stacks="10" />
-            </descendants>
-        </node>
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
+                <transformations>
+                    <translation x="0.6369" y="-0.6369" z="0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="dropper_support" />
+                </descendants>
+            </node>
+        <!-- END CUBE DISPENSER -->
 
     </nodes>
 </lsf>
