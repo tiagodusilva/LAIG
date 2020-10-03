@@ -1894,6 +1894,8 @@
                 <noderef id="dropper_bottom_inner" />
                 <noderef id="dropper_bottom_outer" />
                 <noderef id="dropper_top" />
+                <noderef id="dropper_top_hole" />
+                <noderef id="dropper_top_hole_cover" />
                 <noderef id="dropper_support_1"/>
                 <noderef id="dropper_support_2"/>
                 <noderef id="dropper_support_3"/>
@@ -1920,6 +1922,7 @@
                     <leaf type="cylinder" height="0.025" topRadius="0.875" bottomRadius="0.875" slices="20" stacks="2" />
                 </descendants>
             </node>
+
             <node id="dropper_bottom_outer">
                 <material id="default" />
 
@@ -1935,6 +1938,7 @@
                     <leaf type="torus" height="0.1" outer="0.9" inner="0.1" slices="20" loops="20" />
                 </descendants>
             </node>
+
             <node id="dropper_top">
                 <material id="default" />
 
@@ -1950,6 +1954,39 @@
                     <leaf type="cylinder" height="0.8" topRadius="1" bottomRadius="1" slices="20" stacks="20" />
                 </descendants>
             </node>
+            
+            <node id="dropper_top_hole">
+                <material id="blackMaterial" />
+
+                <texture id="dropper_bottom_color">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="0" z="0.998" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="0.001" topRadius="0.8" bottomRadius="0.8" slices="20" stacks="1" />
+                </descendants>
+            </node>
+
+            <node id="dropper_top_hole_cover">
+                <material id="default" />
+
+                <texture id="">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="0" z="0.999" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="0.001" topRadius="1" bottomRadius="1" slices="20" stacks="1" />
+                </descendants>
+            </node>
+
             <node id="dropper_support">
                 <material id="default" />
 
@@ -1961,6 +1998,7 @@
                     <leaf type="cylinder" height="1" topRadius="0.04" bottomRadius="0.04" slices="10" stacks="10" />
                 </descendants>
             </node>
+
             <node id="dropper_support_1">
                 <material id="null" />
 
@@ -1976,6 +2014,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_2">
                 <material id="null" />
 
@@ -1991,6 +2030,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_3">
                 <material id="null" />
 
@@ -2006,6 +2046,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_4">
                 <material id="null" />
 
@@ -2021,6 +2062,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_5">
                 <material id="null" />
 
@@ -2036,6 +2078,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_6">
                 <material id="null" />
 
@@ -2051,6 +2094,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_7">
                 <material id="null" />
 
@@ -2066,6 +2110,7 @@
                     <noderef id="dropper_support" />
                 </descendants>
             </node>
+
             <node id="dropper_support_8">
                 <material id="null" />
 
