@@ -87,6 +87,10 @@
         <texture id="dropper_bottom_color" path="./portalImages/dropper_bottom_color.png" />
         <texture id="weighted_cube" path="./portalImages/weighted_cube_face.png" />
         <texture id="cube_color" path="./portalImages/cube_color.png" />
+        <texture id="piston_grate" path="./portalImages/piston_grate.png" />
+        <texture id="piston_platform" path="./portalImages/piston_platform.png" />
+        <texture id="piston_color_dark" path="./portalImages/piston_color_dark.png" />
+        <texture id="piston_color_light" path="./portalImages/piston_color_light.png" />
     </textures>
 
 
@@ -194,10 +198,6 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
-            <transformations>
-                <translation x="0" y="0" z="0" />
-            </transformations>
-
             <descendants>
                 <noderef id="roomBoundary" />
                 <noderef id="props" />
@@ -231,8 +231,43 @@
                 <noderef id="placed_cube_dropper" />
                 <noderef id="placed_cube_dropper_cube" />
                 <noderef id="placed_water_cube" />
+                <noderef id="placed_piston_platform" />
+                <noderef id="piston_cross_symbol" />
             </descendants>
         </node>
+
+            <node id="piston_cross_symbol" >
+                <material id="null" />
+
+                <texture id="cross_symbol">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="6.75" y="0.01" z="3.75" />
+                    <rotation axis="x" angle="-90" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="symbol" />
+                </descendants>
+            </node>
+
+            <node id="placed_piston_platform" >
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="7.5" y="0" z="3.5" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="piston_platform" />
+                </descendants>
+            </node>
 
             <node id="placed_water_cube" >
                 <material id="null" />
@@ -2763,6 +2798,111 @@
                 </descendants>
             </node>
         <!-- END CUBE DISPENSER -->
+
+        <!-- START PISTON PLATFORM -->
+        <node id="piston_platform" >
+            <material id="default" />
+
+            <texture id="clear" >
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="piston_grate" />
+                <noderef id="piston_large_piston" />
+                <noderef id="piston_small_piston" />
+                <noderef id="piston_platform_cube" />
+                <noderef id="piston_platform_top" />
+            </descendants>
+        </node>
+
+            <node id="piston_grate" >
+                <material id="null" />
+
+                <texture id="piston_grate" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="0.001" z="0" />
+                    <rotation axis="x" angle="90" />
+                    <rotation axis="y" angle="180" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                </descendants>
+            </node>
+
+            <node id="piston_small_piston" >
+                <material id="null" />
+
+                <texture id="clear" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="2" z="0" />
+                    <rotation axis="x" angle="90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.075" bottomRadius="0.075" slices="20" stacks="20" />
+                </descendants>
+            </node>
+
+            <node id="piston_large_piston" >
+                <material id="null" />
+
+                <texture id="piston_color_light" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="1" z="0" />
+                    <rotation axis="x" angle="90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.1" bottomRadius="0.1" slices="20" stacks="20" />
+                </descendants>
+            </node>
+
+            <node id="piston_platform_cube" >
+                <material id="piston_color_light" />
+
+                <texture id="piston_color_dark" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="1.975" z="0" />
+                    <scale sx="1" sy="0.05" sz="1" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="cube" />
+                </descendants>
+            </node>
+
+            <node id="piston_platform_top" >
+                <material id="null" />
+
+                <texture id="piston_platform" >
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0" y="2.0001" z="0" />
+                    <rotation axis="x" angle="90" />
+                    <rotation axis="y" angle="180" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                </descendants>
+            </node>
+        <!-- END PISTON PLATFORM -->
 
     </nodes>
 </lsf>
