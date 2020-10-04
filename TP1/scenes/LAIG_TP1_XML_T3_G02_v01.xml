@@ -690,7 +690,7 @@
                 <material id="null" />
 
                 <texture id="ceiling">
-                    <amplification afs="8.0" aft="6.0" />
+                    <amplification afs="0.125" aft="0.1666666666" />
                 </texture>
 
                 <transformations>
@@ -707,7 +707,7 @@
                 <material id="null" />
 
                 <texture id="portalableCeiling">
-                    <amplification afs="3.0" aft="2.0" />
+                    <amplification afs="0.3333333333" aft="0.5" />
                 </texture>
 
                 <transformations>
@@ -743,7 +743,7 @@
                     <material id="null" />
 
                     <texture id="floor">
-                        <amplification afs="3.0" aft="3.0" />
+                        <amplification afs="0.3333333333" aft="0.3333333333" />
                     </texture>
 
                     <transformations>
@@ -760,7 +760,7 @@
                     <material id="null" />
 
                     <texture id="floor">
-                        <amplification afs="3.0" aft="5.0" />
+                        <amplification afs="0.3333333333" aft="0.2" />
                     </texture>
 
                     <transformations>
@@ -777,7 +777,7 @@
                     <material id="null" />
 
                     <texture id="portalableFloor">
-                        <amplification afs="3.0" aft="6.0" />
+                        <amplification afs="0.3333333333" aft="0.1666666666" />
                     </texture>
 
                     <transformations>
@@ -828,7 +828,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="8.0" aft="2.0" />
+                        <amplification afs="0.125" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -843,7 +843,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="8.0" aft="2.0" />
+                        <amplification afs="0.125" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -858,7 +858,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="5.0" aft="2.0" />
+                        <amplification afs="0.2" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -873,7 +873,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="6.0" aft="2.0" />
+                        <amplification afs="0.1666666666" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -890,7 +890,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="6.0" aft="2.0" />
+                        <amplification afs="0.1666666666" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -907,7 +907,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="8.0" aft="2.0" />
+                        <amplification afs="0.125" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -924,7 +924,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="5.0" aft="2.0" />
+                        <amplification afs="0.2" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -941,7 +941,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="6.0" aft="2.0" />
+                        <amplification afs="0.1666666666" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -958,7 +958,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="5.0" aft="2.0" />
+                        <amplification afs="0.2" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -975,7 +975,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="3.0" aft="3.0" />
+                        <amplification afs="0.3333333333" aft="0.3333333333" />
                     </texture>
 
                     <transformations>
@@ -992,7 +992,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="3.0" aft="2.0" />
+                        <amplification afs="0.3333333333" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -1008,7 +1008,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="3.0" aft="2.0" />
+                        <amplification afs="0.3333333333" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -1025,7 +1025,7 @@
                     <material id="null" />
 
                     <texture id="portalablePanel">    
-                        <amplification afs="2.0" aft="2.0" />
+                        <amplification afs="0.5" aft="0.5" />
                     </texture>
 
                     <transformations>
@@ -1042,7 +1042,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="2.0" aft="1.0" />
+                        <amplification afs="0.5" aft="1.0" />
                     </texture>
 
                     <transformations>
@@ -1058,7 +1058,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="2.0" aft="1.0" />
+                        <amplification afs="0.5" aft="1.0" />
                     </texture>
 
                     <transformations>
@@ -1075,7 +1075,7 @@
                     <material id="null" />
 
                     <texture id="panel">    
-                        <amplification afs="6.0" aft="1.0" />
+                        <amplification afs="0.1666666666" aft="1.0" />
                     </texture>
 
                     <transformations>
@@ -1092,7 +1092,7 @@
                     <material id="null" />
 
                     <texture id="panel"> 
-                        <amplification afs="3.0" aft="1.0" />
+                        <amplification afs="0.3333333333" aft="1.0" />
                     </texture>
 
                     <transformations>
@@ -1109,7 +1109,7 @@
                     <material id="null" />
 
                     <texture id="panel"> 
-                        <amplification afs="2.0" aft="6.0" />
+                        <amplification afs="0.5" aft="0.1666666666" />
                     </texture>
 
                     <transformations>
@@ -1183,7 +1183,7 @@
             <material id="null" />
 
             <texture id="null">
-                <amplification afs="1.0" aft="5.0" />
+                <amplification afs="1.0" aft="0.2" />
             </texture>
 
             <transformations>
@@ -1198,7 +1198,7 @@
             <material id="null" />
 
             <texture id="null">
-                <amplification afs="1.0" aft="5.0" />
+                <amplification afs="1.0" aft="0.2" />
             </texture>
 
             <transformations>
