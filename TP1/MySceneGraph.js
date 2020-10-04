@@ -754,7 +754,6 @@ class MySceneGraph {
             var matrix = mat4.create();
             if (transformationsIndex == INDEX_NOT_FOUND) {
                 this.onXMLMinorError("No <transformations> tag found on node with id '" + nodeID + "': Using default transformation matrix");
-                continue;
             }
             else {
                 var transformations = grandChildren[transformationsIndex].children;
@@ -823,7 +822,7 @@ class MySceneGraph {
                 curNode = grandChildren[textureIndex];
                 texture = this.reader.getString(curNode, "id", true);
                 if (texture == null) {
-                    this.onXMLMinorError("Tag <texture> had no id on node with id'" + nodeID + "': Using clear texture");
+                    this.onXMLMinorError("Tag <texture> had no id on node with id '" + nodeID + "': Using clear texture");
                     texture = "clear";
                 }
                 
@@ -833,12 +832,21 @@ class MySceneGraph {
                     nodeNames.push(curNode.children[j].nodeName);
                 }
                 var ampIndex = nodeNames.indexOf("amplification");
-                var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
-                if (val != null)
-                    afs = val;
-                val = this.reader.getFloat(curNode.children[ampIndex], "aft", false);
-                if (val != null)
-                    aft = val;
+                if (ampIndex == INDEX_NOT_FOUND) {
+                    this.onXMLMinorError("Tag <amplification> on node with id '" + nodeID + "' not found: Using default amplification");
+                }
+                else {
+                    var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
+                    if (val != null)
+                        afs = val;
+                    else
+                        this.onXMLMinorError("Amplification value afs not found on node with id '" + nodeID + "': Using default afs");
+                    val = this.reader.getFloat(curNode.children[ampIndex], "aft", false);
+                    if (val != null)
+                        aft = val;
+                    else
+                        this.onXMLMinorError("Amplification value aft not found on node with id '" + nodeID + "': Using default aft");
+                }
             }
 
             // Descendants
@@ -863,7 +871,7 @@ class MySceneGraph {
                         // Primitive (leaf "node")
                         var primitive = this.parsePrimitive(curNode, afs, aft);
                         if (primitive == null) {
-                            this.onXMLMinorError("Invalid <leaf> tag of node ");
+                            this.onXMLMinorError("Invalid <leaf> tag of node with id '" + nodeID + "': Skipping this descendant");
                             continue;
                         }
                         else {
@@ -886,9 +894,10 @@ class MySceneGraph {
         if (this.nodes.size <= 0)
             return "There must be at least 1 valid node";
 
+        console.log(this.nodes);
+
         this.log("Parsed Nodes");
         return null;
-
     }
 
 
