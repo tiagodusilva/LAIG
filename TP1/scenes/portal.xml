@@ -41,7 +41,7 @@
     </views>
 
     <illumination>
-        <ambient r="0.1" g="0.1" b="0.1" a="1.0" /> <!-- global ambient -->
+        <ambient r="0.05" g="0.05" b="0.05" a="1.0" /> <!-- global ambient -->
         <background r="0.8039" g="0.8157" b="0.8078" a="1.0" /> <!-- background color -->
     </illumination>
 
@@ -50,34 +50,42 @@
         <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
         <light id="Entry Side Left">
             <enable value="1" />
-            <position x="2.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="1.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.75" g="0.75" b="0.75" a="1.0" />
-            <specular r="0.75" g="0.75" b="0.75" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </light>
 
         <light id="Entry Side Right">
             <enable value="1" />
-            <position x="2.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="4.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.75" g="0.75" b="0.75" a="1.0" />
-            <specular r="0.75" g="0.75" b="0.75" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </light>
 
         <light id="Exit Side Left">
             <enable value="1" />
-            <position x="2.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="1.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.75" g="0.75" b="0.75" a="1.0" />
-            <specular r="0.75" g="0.75" b="0.75" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </light>
 
         <light id="Exit Side Right">
             <enable value="1" />
-            <position x="5.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="4.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.75" g="0.75" b="0.75" a="1.0" />
-            <specular r="0.75" g="0.75" b="0.75" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </light>
+
+        <light id="Button Corner">
+            <enable value="1" />
+            <position x="6.5" y="1.85" z="7.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </light>
 
         <light id="Observation Room">
@@ -2948,6 +2956,7 @@
                 <noderef id="lightFrontRight" />
                 <noderef id="lightBackLeft" />
                 <noderef id="lightBackRight" />
+                <noderef id="lightCorner" />
             </descendants>
         </node>
 
@@ -3009,6 +3018,23 @@
 
             <transformations>
                 <translation x="5" y="4" z="6" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="light" />
+            </descendants>
+        </node>
+
+        <node id="lightCorner" >
+            <material id="null" />
+
+            <texture id="null" >
+                <amplification afs="1.0" aft="1.0" />                
+            </texture>
+
+            <transformations>
+                <translation x="7" y="2" z="8" />
                 <rotation axis="y" angle="180" />
             </transformations>
 
