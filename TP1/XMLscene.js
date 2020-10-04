@@ -52,6 +52,8 @@ class XMLscene extends CGFscene {
         this.showAxis = false;
         this.showNormals = false;
         this.resetCameraGUI = false;
+        this.enableLightsBool = false;
+        this.disableLightsBool = false;
 
         //Used to control the lights from the GUI
         this.lightCount = 0;
@@ -63,6 +65,42 @@ class XMLscene extends CGFscene {
         this.lightEnabled5;
         this.lightEnabled6;
         this.lightEnabled7;
+    }
+
+    /**
+     * Enables all lights
+     * @param {bool} val 
+     */
+    enableAllLights(val) {
+        this.enableLightsBool = false;
+
+        var i = 0;
+        for (var lightId of this.graph.lights.keys()) {
+            if (i >= 8)
+                break;
+
+            this['lightEnabled' + i] = true;
+            i++;
+        }
+        this.interface.updateLightDisplay();
+    }
+
+    /**
+     * Disables all lights
+     * @param {bool} val 
+     */
+    disableAllLights(val) {
+        this.disableLightsBool = false;
+
+        var i = 0;
+        for (var lightId of this.graph.lights.keys()) {
+            if (i >= 8)
+                break;
+
+            this['lightEnabled' + i] = false;
+            i++;
+        }
+        this.interface.updateLightDisplay();
     }
 
     /**

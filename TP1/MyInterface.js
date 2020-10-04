@@ -33,17 +33,30 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
         this.gui.add(this.scene, 'resetCameraGUI').name('Reset Camera').onChange(this.scene.resetCamera.bind(this.scene));
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
+        
 
         var lightFolder = this.gui.addFolder("Illumination");
+        lightFolder.open();
+
+        this.gui.add(this.scene, 'enableLightsBool').name("Enable All").onChange(this.scene.enableAllLights.bind(this.scene));
+        this.gui.add(this.scene, 'disableLightsBool').name("Disable all").onChange(this.scene.disableAllLights.bind(this.scene));
+
         var i = 0;
+        this.lightButtons = [];
         for (var lightId of this.scene.graph.lights.keys()) {
             if (i >= 8)
                 break;
             
-            lightFolder.add(this.scene, 'lightEnabled' + i).name(lightId);
+            this.lightButtons.push(lightFolder.add(this.scene, 'lightEnabled' + i).name(lightId));
             i++;
         }
 
+    }
+
+    updateLightDisplay() {
+        for (let toggle of this.lightButtons) {
+            toggle.updateDisplay();
+        }
     }
 
     /**
