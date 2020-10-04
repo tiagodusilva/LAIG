@@ -1,4 +1,9 @@
 <lsf>
+
+    <!-- If you want to actually play this chamber in portal 2 (don't know why the hell you would, this chamber sucks) -->
+    <!-- Here's the workshop link :D -->
+    <!-- https://steamcommunity.com/sharedfiles/filedetails/?id=2247466358 -->
+
     <initials>
         <reference length="2" />
         <!-- axis length; "0" means no axis displayed -->
@@ -41,7 +46,7 @@
     </views>
 
     <illumination>
-        <ambient r="0.05" g="0.05" b="0.05" a="1.0" /> <!-- global ambient -->
+        <ambient r="0.125" g="0.125" b="0.125" a="1.0" /> <!-- global ambient -->
         <background r="0.8039" g="0.8157" b="0.8078" a="1.0" /> <!-- background color -->
     </illumination>
 
@@ -147,6 +152,13 @@
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
             <emissive r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+        <material id="mildlyBrightDefault">
+            <shininess value="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <emissive r="0.35" g="0.35" b="0.35" a="1.0" />
         </material>
         <material id="brightDefault">
             <shininess value="1.0" />
@@ -1808,7 +1820,7 @@
         </node>
 
         <node id="door_face">
-            <material id="brightDefault" />
+            <material id="mildlyBrightDefault" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
