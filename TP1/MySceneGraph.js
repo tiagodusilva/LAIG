@@ -709,6 +709,13 @@ class MySceneGraph {
         var grandgrandChildren = [];
         var nodeNames = [];
 
+        var axisConvertor = {
+            "x": [1.0, 0.0, 0.0],
+            "y": [0.0, 1.0, 0.0],
+            "z": [0.0, 0.0, 1.0]
+        };
+        var curNode = null;
+
         // Any number of nodes.
         for (var i = 0; i < children.length; i++) {
 
@@ -739,31 +746,17 @@ class MySceneGraph {
 
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
-            if (materialIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <material> tag found on node with id '" + nodeID + "': Skipping object");
-                continue;
-            }
             var textureIndex = nodeNames.indexOf("texture");
-            if (textureIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <texture> tag found on node with id '" + nodeID + "': Skipping object");
-                continue;
-            }
             var descendantsIndex = nodeNames.indexOf("descendants");
-            if (descendantsIndex == INDEX_NOT_FOUND) {
-                this.onXMLMinorError("No <descendants> tag found on node with id '" + nodeID + "': Skipping object");
+
+
+            // Transformations (there may be none)
+            var matrix = mat4.create();
+            if (transformationsIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <transformations> tag found on node with id '" + nodeID + "': Using default transformation matrix");
                 continue;
             }
-
-            var matrix = mat4.create();
-            var axisConvertor = {
-                "x": [1.0, 0.0, 0.0],
-                "y": [0.0, 1.0, 0.0],
-                "z": [0.0, 0.0, 1.0]
-            };
-            var curNode = null;
-
-            // Transformations (optional)
-            if (transformationsIndex != INDEX_NOT_FOUND) {
+            else {
                 var transformations = grandChildren[transformationsIndex].children;
                 for (let k = 0; k < transformations.length; k++) {
                     curNode = transformations[k];
@@ -803,58 +796,83 @@ class MySceneGraph {
                 }
             }
 
-            // Material (mandatory)
-            curNode = grandChildren[materialIndex];
-            var material = this.reader.getString(curNode, "id", true);
-            if (material == null)
-                return "Tag <material> had no id";
-
-
-            // Texture (mandatory)
-            curNode = grandChildren[textureIndex];
-            var texture = this.reader.getString(curNode, "id", true);
-            if (texture == null)
-                return "Tag <texture> had no id";
-            
-            // texture amplification
-            var afs = 1.0, aft = 1.0;
-            nodeNames = [];
-            for (var j = 0; j < curNode.children.length; j++) {
-                nodeNames.push(curNode.children[j].nodeName);
+            // Material ("mandatory")
+            var material = null;
+            if (materialIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <material> tag found on node with id '" + nodeID + "': Using parent's material");
+                material = "null";
             }
-            var ampIndex = nodeNames.indexOf("amplification");
-            var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
-            if (val != null)
-                afs = val;
-            val = this.reader.getFloat(curNode.children[ampIndex], "aft", false);
-            if (val != null)
-                aft = val;
+            else {
+                curNode = grandChildren[materialIndex];
+                var material = this.reader.getString(curNode, "id", true);
+                if (material == null) {
+                    this.onXMLMinorError("Tag <material> had no id on node with id'" + nodeID + "': Using parent's material");
+                    material = "null";
+                }
+            }           
+
+
+            // Texture ("mandatory")
+            var texture = null;
+            var afs = 1.0, aft = 1.0;
+            if (textureIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <texture> tag found on node with id '" + nodeID + "': Using clear texture and default amplification");
+                texture = "clear";
+            }
+            else {
+                curNode = grandChildren[textureIndex];
+                texture = this.reader.getString(curNode, "id", true);
+                if (texture == null) {
+                    this.onXMLMinorError("Tag <texture> had no id on node with id'" + nodeID + "': Using clear texture");
+                    texture = "clear";
+                }
+                
+                // texture amplification
+                nodeNames = [];
+                for (var j = 0; j < curNode.children.length; j++) {
+                    nodeNames.push(curNode.children[j].nodeName);
+                }
+                var ampIndex = nodeNames.indexOf("amplification");
+                var val = this.reader.getFloat(curNode.children[ampIndex], "afs", false);
+                if (val != null)
+                    afs = val;
+                val = this.reader.getFloat(curNode.children[ampIndex], "aft", false);
+                if (val != null)
+                    aft = val;
+            }
 
             // Descendants
             // declaring descendants, at least one node or one leaf must be present: descendants may be mixed, nodes and leafs
-            var descendants = [];
-            var descendantTags = grandChildren[descendantsIndex].children;
-            for (let j = 0; j < descendantTags.length; j++) {
-                curNode = descendantTags[j];
-                if (curNode.nodeName == "noderef") {
-                    var noderef = this.reader.getString(curNode, "id", "id of <noderef> of node with id '" + nodeID + "': Ignoring noderef");
-                    if (noderef == null)
-                        continue;
-                    descendants.push(noderef);
-                }
-                else if (curNode.nodeName == "leaf") {
-                    // Primitive (leaf "node")
-                    var primitive = this.parsePrimitive(curNode, afs, aft);
-                    if (primitive == null) {
-                        this.onXMLMinorError("Invalid <leaf> tag of node ");
-                        continue;
+
+            if (descendantsIndex == INDEX_NOT_FOUND) {
+                this.onXMLMinorError("No <descendants> tag found on node with id '" + nodeID + "': Skipping object");
+                continue;
+            }
+            else {
+                var descendants = [];
+                var descendantTags = grandChildren[descendantsIndex].children;
+                for (let j = 0; j < descendantTags.length; j++) {
+                    curNode = descendantTags[j];
+                    if (curNode.nodeName == "noderef") {
+                        var noderef = this.reader.getString(curNode, "id", "id of <noderef> of node with id '" + nodeID + "': Ignoring noderef");
+                        if (noderef == null)
+                            continue;
+                        descendants.push(noderef);
+                    }
+                    else if (curNode.nodeName == "leaf") {
+                        // Primitive (leaf "node")
+                        var primitive = this.parsePrimitive(curNode, afs, aft);
+                        if (primitive == null) {
+                            this.onXMLMinorError("Invalid <leaf> tag of node ");
+                            continue;
+                        }
+                        else {
+                            descendants.push(primitive);
+                        }
                     }
                     else {
-                        descendants.push(primitive);
+                        this.onXMLMinorError("Invalid descendant tag (should be <noderef> or <leaf>) for node with id '" + nodeID + "': Ignoring this descendant");
                     }
-                }
-                else {
-                    this.onXMLMinorError("Invalid descendant tag (should be <noderef> or <leaf>) for node with id '" + nodeID + "': Ignoring this descendant");
                 }
             }
 
@@ -870,10 +888,11 @@ class MySceneGraph {
 
         this.log("Parsed Nodes");
         return null;
+
     }
 
 
-    parseBoolean(node, name, messageError){
+    parseBoolean(node, name, messageError) {
         var boolVal = true;
         boolVal = this.reader.getBoolean(node, name);
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))

@@ -256,6 +256,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="lights" />
                 <noderef id="roomBoundary" />
@@ -270,6 +273,9 @@
             <texture id="null" >
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="placedButton" />
@@ -652,6 +658,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="floor" />
                 <noderef id="ceiling" />
@@ -667,6 +676,9 @@
                 <texture id="null">
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
+
+                <transformations>
+                </transformations>
 
                 <descendants>
                     <noderef id="ceilingMain" />
@@ -716,6 +728,9 @@
                 <texture id="null">
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
+
+                <transformations>
+                </transformations>
 
                 <descendants>
                     <noderef id="floorExit" />
@@ -784,6 +799,9 @@
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
+                <transformations>
+                </transformations>
+    
                 <descendants>
                     <noderef id="wallExit" />
                     <noderef id="wallExitFront" />
@@ -813,6 +831,9 @@
                         <amplification afs="8.0" aft="2.0" />
                     </texture>
 
+                    <transformations>
+                    </transformations>
+
                     <descendants>
                         <leaf type="rectangle" x1="0" y1="2" x2="8" y2="4" />
                     </descendants>
@@ -825,6 +846,9 @@
                         <amplification afs="8.0" aft="2.0" />
                     </texture>
 
+                    <transformations>
+                    </transformations>
+
                     <descendants>
                         <leaf type="rectangle" x1="0" y1="2" x2="8" y2="4" />
                     </descendants>
@@ -836,6 +860,9 @@
                     <texture id="portalablePanel">    
                         <amplification afs="5.0" aft="2.0" />
                     </texture>
+
+                    <transformations>
+                    </transformations>
 
                     <descendants>
                         <leaf type="rectangle" x1="0" y1="0" x2="5" y2="2" />
@@ -1104,6 +1131,9 @@
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
+                <transformations>
+                </transformations>
+
                 <descendants>
                     <noderef id="mud_water" />
                 </descendants>
@@ -1156,6 +1186,9 @@
                 <amplification afs="1.0" aft="5.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
@@ -1183,6 +1216,9 @@
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="hardLightBridgeSpawn" />
@@ -1267,6 +1303,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="hardLightBridgeSupportSideSmallCylinder" />
                 <noderef id="hardLightBridgeSupportSideCylinder" />
@@ -1297,6 +1336,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <leaf type="cylinder" height="0.065" topRadius="0.06" bottomRadius="0.05" slices="12" stacks="12" />
             </descendants>
@@ -1308,6 +1350,9 @@
             <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <leaf type="sphere" radius="0.05" slices="12" stacks="12"/>
@@ -1477,6 +1522,9 @@
                 <texture id="clear">
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
+
+                <transformations>
+                </transformations>
 
                 <descendants>
                     <leaf type="cylinder" height="0.1" topRadius="0.85" bottomRadius="1" slices="40" stacks="4" />
@@ -1788,6 +1836,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="door_face" />
                 <noderef id="door_torus" />
@@ -1801,6 +1852,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="door_torus" />
                 <noderef id="door_face" />
@@ -1808,11 +1862,14 @@
         </node>
 
         <node id="door_torus">
-            <material id="slighlyBrightDefault" />
+            <material id="slightlyBrightDefault" />
 
             <texture id="door_frame_color">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <leaf type="torus" inner="0.025" outer="0.42" slices="10" loops="60"/>
@@ -1861,6 +1918,9 @@
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="cubeFront" />
@@ -2002,6 +2062,9 @@
                 <texture id="cube_color" >
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
+
+                <transformations>
+                </transformations>
 
                 <descendants>
                     <noderef id="weighed_cube_corner_1" />
@@ -2478,6 +2541,9 @@
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
+                <transformations>
+                </transformations>
+
                 <descendants>
                     <noderef id="weighed_cube_side_1" />
                     <noderef id="weighed_cube_side_2" />
@@ -2724,6 +2790,9 @@
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
+                <transformations>
+                </transformations>
+
                 <descendants>
                     <leaf type="cylinder" height="1" topRadius="0.04" bottomRadius="0.04" slices="10" stacks="10" />
                 </descendants>
@@ -2866,6 +2935,9 @@
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
+            <transformations>
+            </transformations>
+
             <descendants>
                 <noderef id="piston_grate" />
                 <noderef id="piston_large_piston" />
@@ -2970,6 +3042,9 @@
             <texture id="clear" >
                 <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="lightFrontLeft" />
@@ -3123,6 +3198,9 @@
                     <amplification afs="1.0" aft="1.0" />
                 </texture>
 
+                <transformations>
+                </transformations>
+    
                 <descendants>
                     <leaf type="sphere" radius="0.02" slices="20" stacks="20"/>
                 </descendants>
