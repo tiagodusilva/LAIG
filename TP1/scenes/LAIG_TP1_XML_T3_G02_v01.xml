@@ -19,18 +19,28 @@
         </perspective>
 
         <perspective id="From Entrance" near="0.1" far="500" angle="70">
-            <from x="1" y="0.7" z="5" />
-            <to x="1" y="0.7" z="4" />
-        </perspective>
-
-        <perspective id="On Button" near="0.1" far="500" angle="70">
-            <from x="7.5" y="0.7" z="7.5" />
-            <to x="7.49" y="0.7" z="7.49" />
+            <from x="1.5" y="0.7" z="5" />
+            <to x="1.54" y="0.7" z="4.99" />
         </perspective>
 
         <perspective id="From Exit" near="0.1" far="500" angle="70">
             <from x="6.5" y="2.7" z="1.49" />
             <to x="6.49" y="2.7" z="1.5" />
+        </perspective>
+
+        <perspective id="Button" near="0.1" far="500" angle="70">
+            <from x="6.5" y="0.5" z="7.5" />
+            <to x="7.51" y="0.25" z="7.5" />
+        </perspective>
+
+        <perspective id="Turret" near="0.1" far="500" angle="70">
+            <from x="6.5" y="0.4" z="5.5" />
+            <to x="5.5" y="0.4" z="5.5" />
+        </perspective>
+
+        <perspective id="Cube Dropper" near="0.1" far="500" angle="70">
+            <from x="4.5" y="3.6" z="2.5" />
+            <to x="4.51" y="3.6" z="0.5" />
         </perspective>
 
         <perspective id="Top Down ~ Perspective" near="0.1" far="500" angle="70">

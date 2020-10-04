@@ -9,11 +9,18 @@
 ----
 ## Project information
 
-- (items describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+- [Scene](./scenes/LAIG_TP1_XML_T3_G02_v01.xml)
+- A portal 2 test chamber (to those who love the game the XML should have a nice surprise at the start), featuring many different and detailed props:
+  - Cube dropper
+  - Cubes
+  - Doors
+  - Turrets
+  - Hard light bridge
+  - Piston platform
+- The walls use texture amplification to use the same texture file containing a single "tile" to be repeated.
+- Parser with a very extensive error checking and correction, giving detailed logs when something is wrong and fixing the problem the best it can.
+
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- Missing some parser verifications
