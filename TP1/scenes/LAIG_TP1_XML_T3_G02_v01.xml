@@ -55,7 +55,7 @@
         <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
         <light id="Entry Side Left">
             <enable value="1" />
-            <position x="2.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="2.5" y="3.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
@@ -63,7 +63,7 @@
 
         <light id="Entry Side Right">
             <enable value="1" />
-            <position x="5.5" y="4.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="5.5" y="3.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
@@ -71,7 +71,7 @@
 
         <light id="Exit Side Left">
             <enable value="1" />
-            <position x="2.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="2.5" y="3.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
@@ -79,7 +79,7 @@
 
         <light id="Exit Side Right">
             <enable value="1" />
-            <position x="5.5" y="4.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="5.5" y="3.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
