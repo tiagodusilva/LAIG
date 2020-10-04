@@ -894,8 +894,6 @@ class MySceneGraph {
         if (this.nodes.size <= 0)
             return "There must be at least 1 valid node";
 
-        console.log(this.nodes);
-
         this.log("Parsed Nodes");
         return null;
     }
