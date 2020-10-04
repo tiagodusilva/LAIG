@@ -85,7 +85,7 @@ class MyCylinder extends CGFobject {
         var middleIndex = vertexCount;
         vertexCount++;
 
-        for (let angle = 0; angle < verts; angle++) {
+        for (let angle = 0; angle <= verts; angle++) {
             this.vertices.push(Math.cos(theta) * this.bottomRadius, Math.sin(theta) * this.bottomRadius, 0);
             this.texCoords.push(0.5 + 0.5 * Math.cos(theta), 0.5 - 0.5 * Math.sin(theta));
 
@@ -110,7 +110,7 @@ class MyCylinder extends CGFobject {
         middleIndex = vertexCount;
         vertexCount++;
 
-        for (let angle = 0; angle < verts; angle++) {
+        for (let angle = 0; angle <= verts; angle++) {
             this.vertices.push(Math.cos(theta) * this.topRadius, Math.sin(theta) * this.topRadius, this.height);
             this.texCoords.push(0.5 + 0.5 * Math.cos(theta), 0.5 - 0.5 * Math.sin(theta));
 
