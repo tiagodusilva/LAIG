@@ -99,6 +99,14 @@ class MySceneGraph {
         for (let node of this.nodes.values()) {
             node.preProcess(this);
         }
+
+        // Check for root node inconsistencies
+        if (this.rootNode.textureStatus == TextureStatus.KEEP) {
+            this.onXMLMinorError("Root node should not have texture set to 'null', using default texture");
+        }
+        if (this.rootNode.materialStatus == MaterialStatus.KEEP) {
+            this.onXMLMinorError("Root node should not have material set to 'null', using default CGFappearance material");
+        }
     }
 
     validateTextures() {
