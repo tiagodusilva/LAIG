@@ -36,7 +36,7 @@ class XMLscene extends CGFscene {
         this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
         this.loadingProgress=0;
 
-        this.defaultAppearance=new CGFappearance(this);
+        this.defaultAppearance=new MyCGFmaterial(this);
 
         this.material = this.defaultAppearance;
         this.material.apply();
@@ -213,20 +213,6 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Applies a material without messing with textures
-     * CGFappearance.apply() would casually unbind the current texture and change the value of this.activeTexture, so this a way to circumvent that
-     * Using this method allows us to bind/unbind textures only when needed, resulting is superior performance ;D
-     * @param {CGFappearance} material 
-     */
-    applyMaterial(material) {
-        this.setAmbient(material.ambient[0], material.ambient[1], material.ambient[2], material.ambient[3]);
-        this.setDiffuse(material.diffuse[0], material.diffuse[1], material.diffuse[2], material.diffuse[3]);
-        this.setSpecular(material.specular[0], material.specular[1], material.specular[2], material.specular[3]);
-        this.setShininess(material.shininess);
-        this.setEmission(material.emission[0], material.emission[1], material.emission[2], material.emission[3]);
-    }
-
-    /**
      * Unbinds any texture set on the scene
      * Once again just a more convenient way to use it, as unlike the CGFtexture.unbind(e) method, this one does not require an active texture object
      * @param {int} index
@@ -241,12 +227,12 @@ class XMLscene extends CGFscene {
     pushMaterial(material) {
         this.materialStack.push(this.material);
         this.material = material;
-        this.applyMaterial(this.material);
+        this.material.apply();
     }
 
     popMaterial() {
         var popped = this.materialStack.pop();
-        this.applyMaterial(popped);
+        popped.apply();
         this.material = popped;
     }
 

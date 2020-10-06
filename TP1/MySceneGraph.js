@@ -84,6 +84,9 @@ class MySceneGraph {
 
         this.loadedOk = true;
 
+        // Set verification for textures
+        window.setTimeout(this.validateTextures.bind(this), 2*1000);
+
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
     }
@@ -95,6 +98,14 @@ class MySceneGraph {
         }
         for (let node of this.nodes.values()) {
             node.preProcess(this);
+        }
+    }
+
+    validateTextures() {
+        for (let [texId, tex] of this.textures.entries()) {
+            if (tex.texID == -1) {
+                this.onXMLMinorError("Texture with id '" + texId + "hasn't loaded yet, it may be incorrect");
+            }
         }
     }
 
@@ -663,7 +674,7 @@ class MySceneGraph {
                 shininess = this.parseFloat(grandChildren[shininessIndex], "value", "on material with id '" + materialId + "'", false);
 
             // Apply values to the new appearance
-            var newAppearance = new CGFappearance(this.scene);
+            var newAppearance = new MyCGFmaterial(this.scene);
             if (shininess != null)
                 newAppearance.setShininess(shininess);
             else
