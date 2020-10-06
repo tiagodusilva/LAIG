@@ -54,6 +54,7 @@ class XMLscene extends CGFscene {
         this.resetCameraGUI = false;
         this.enableLightsBool = false;
         this.disableLightsBool = false;
+        this.showLights = false;
 
         //Used to control the lights from the GUI
         this.lightCount = 0;
@@ -208,6 +209,7 @@ class XMLscene extends CGFscene {
             else
                 this.lights[i].disable();
 
+            this.lights[i].setVisible(this.showLights);
             this.lights[i].update();
         }
     }
@@ -267,19 +269,13 @@ class XMLscene extends CGFscene {
         this.updateProjectionMatrix();
         this.loadIdentity();
 
-
-        //Update lights after GUI changes
-        this.updateGraphLights();
-
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
         this.pushMatrix();
 
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
-        }
+        //Update lights after GUI changes
+        this.updateGraphLights();
 
         if (this.sceneInited) {
             this.looped = true;
