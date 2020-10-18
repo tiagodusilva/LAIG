@@ -43,6 +43,11 @@
             <to x="4.51" y="3.6" z="0.5" />
         </perspective>
 
+        <perspective id="Chamber Sign" near="0.1" far="500" angle="70">
+            <from x="2.5" y="2" z="2.5" />
+            <to x="2.5" y="2" z="2.49" />
+        </perspective>
+
         <perspective id="Top Down ~ Perspective" near="0.1" far="500" angle="70">
             <from x="4.001" y="13" z="4" />
             <to x="4" y="2" z="4" />

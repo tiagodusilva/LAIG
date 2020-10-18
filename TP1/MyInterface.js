@@ -34,6 +34,7 @@ class MyInterface extends CGFinterface {
 
         var cameraFolder = this.gui.addFolder("Cameras");
         cameraFolder.open();
+        cameraFolder.add(this.scene, 'resetAllCamerasGUI').name('Reset All Cameras').onChange(this.scene.resetAllCameras.bind(this.scene));
         cameraFolder.add(this.scene, 'resetCameraGUI').name('Reset Camera').onChange(this.scene.resetCamera.bind(this.scene));
         cameraFolder.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
 

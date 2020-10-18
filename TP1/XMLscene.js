@@ -52,6 +52,7 @@ class XMLscene extends CGFscene {
         this.showAxis = false;
         this.showNormals = false;
         this.resetCameraGUI = false;
+        this.resetAllCamerasGUI = false;
         this.enableLightsBool = false;
         this.disableLightsBool = false;
         this.showLights = false;
@@ -199,6 +200,13 @@ class XMLscene extends CGFscene {
     resetCamera() {
         this.camera.reset();
         this.resetCameraGUI = false;
+    }
+
+    resetAllCameras() {
+        for (let cam of this.graph.cameras.values()) {
+            cam.reset();
+        }
+        this.resetAllCamerasGUI = false;
     }
 
     updateGraphLights() {
