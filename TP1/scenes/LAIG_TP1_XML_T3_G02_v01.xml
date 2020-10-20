@@ -109,7 +109,7 @@
         </light>
 
         <light id="Observation Room">
-            <enable value="1" />
+            <enable value="0" />
             <position x="7.998" y="3.5" z="3" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.4392156" g="0.5647058" b="0.64313725" a="1.0" />

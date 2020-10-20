@@ -66,7 +66,7 @@ class MyTorus extends CGFobject {
                     Math.sin(theta)
                 );
 
-                this.texCoords.push(1 - tex_t, tex_s);
+                this.texCoords.push(tex_s, tex_t);
 
                 if (outerAngle != outerVerts && innerAngle != innerVerts) {
                     this.indices.push(loopPoints * outerAngle + innerAngle, loopPoints * (outerAngle + 1) + innerAngle, loopPoints * outerAngle + innerAngle + 1);

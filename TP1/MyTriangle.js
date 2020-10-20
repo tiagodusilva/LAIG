@@ -66,9 +66,9 @@ class MyTriangle extends CGFobject {
 		// ];
 		
 		this.texCoords = [
-			0, 0,																	//T1
-			this.a / this.afs, 0,													//T2
-			this.c * this.cosAlpha / this.afs, this.c * this.sinAlpha / this.aft	//T3
+			0, 1,																		//T1
+			this.a / this.afs, 1,														//T2
+			this.c * this.cosAlpha / this.afs, 1 - (this.c * this.sinAlpha / this.aft)	//T3
 		];
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
