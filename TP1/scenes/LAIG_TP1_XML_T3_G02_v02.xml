@@ -119,37 +119,37 @@
 
 
     <textures>
-        <texture id="chamberSign" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/chamber_sign.png" />
-        <texture id="panel" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/square_panel.png" />
-        <texture id="portalablePanel" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/portalable_panel.png" />
-        <texture id="floor" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/floor.png" />
-        <texture id="portalableFloor" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/portalable_floor_tiles.png" />
-        <texture id="ceiling" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/ceiling_tiles.jpg" />
-        <texture id="portalableCeiling" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/portalable_roof_tiles.png" />
-        <texture id="observation" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/observation_room.png" />
-        <texture id="hardLightBridge" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/hardLightBridge.png" />
-        <texture id="button_top" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/button_top.png" />
-        <texture id="button_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/button_color.png" />
-        <texture id="light_blue_highlight_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/light_blue_highlight_color.png" />
-        <texture id="mud_water" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/mud_water.png" />
-        <texture id="door_frame_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/door_frame_color.png" />
-        <texture id="exit_door" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/exit_door.png" />
-        <texture id="entry_door" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/entry_door.png" />
-        <texture id="cross_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/symbols/cross.png" />
-        <texture id="square_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/symbols/square.png" />
-        <texture id="unchecked_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/symbols/unchecked.png" />
-        <texture id="exit_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/symbols/exit.png" />
-        <texture id="arrow_down_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/symbols/arrow_down.png" />
-        <texture id="dropper_top" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/dropper_top.png" />
-        <texture id="dropper_shutter" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/dropper_shutter.png" />
-        <texture id="dropper_support_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/dropper_support_color.png" />
-        <texture id="dropper_bottom_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/dropper_bottom_color.png" />
-        <texture id="weighted_cube" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/weighted_cube_face.png" />
-        <texture id="cube_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/cube_color.png" />
-        <texture id="piston_grate" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/piston_grate.png" />
-        <texture id="piston_platform" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/piston_platform.png" />
-        <texture id="piston_color_dark" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/piston_color_dark.png" />
-        <texture id="piston_color_light" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v01/piston_color_light.png" />
+        <texture id="chamberSign" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/chamber_sign.png" />
+        <texture id="panel" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/square_panel.png" />
+        <texture id="portalablePanel" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/portalable_panel.png" />
+        <texture id="floor" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/floor.png" />
+        <texture id="portalableFloor" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/portalable_floor_tiles.png" />
+        <texture id="ceiling" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/ceiling_tiles.jpg" />
+        <texture id="portalableCeiling" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/portalable_roof_tiles.png" />
+        <texture id="observation" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/observation_room.png" />
+        <texture id="hardLightBridge" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/hardLightBridge.png" />
+        <texture id="button_top" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/button_top.png" />
+        <texture id="button_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/button_color.png" />
+        <texture id="light_blue_highlight_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/light_blue_highlight_color.png" />
+        <texture id="mud_water" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/mud_water.png" />
+        <texture id="door_frame_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/door_frame_color.png" />
+        <texture id="exit_door" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/exit_door.png" />
+        <texture id="entry_door" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/entry_door.png" />
+        <texture id="cross_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/symbols/cross.png" />
+        <texture id="square_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/symbols/square.png" />
+        <texture id="unchecked_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/symbols/unchecked.png" />
+        <texture id="exit_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/symbols/exit.png" />
+        <texture id="arrow_down_symbol" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/symbols/arrow_down.png" />
+        <texture id="dropper_top" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/dropper_top.png" />
+        <texture id="dropper_shutter" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/dropper_shutter.png" />
+        <texture id="dropper_support_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/dropper_support_color.png" />
+        <texture id="dropper_bottom_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/dropper_bottom_color.png" />
+        <texture id="weighted_cube" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/weighted_cube_face.png" />
+        <texture id="cube_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/cube_color.png" />
+        <texture id="piston_grate" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_grate.png" />
+        <texture id="piston_platform" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_platform.png" />
+        <texture id="piston_color_dark" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_dark.png" />
+        <texture id="piston_color_light" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_light.png" />
     </textures>
 
 

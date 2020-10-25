@@ -9,7 +9,7 @@
 ----
 ## Project information
 
-- [Scene](./scenes/LAIG_TP1_XML_T3_G02_v01.xml)
+- [Scene](./scenes/LAIG_TP1_XML_T3_G02_v02.xml)
 - A portal 2 test chamber (to those who love the game the XML should have a nice surprise at the start), featuring many different and detailed props:
   - Cube dropper
   - Cubes
