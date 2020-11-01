@@ -261,6 +261,35 @@
         </material>
     </materials>
 
+
+    <!-- Animations -->
+
+    <animations>
+        <animation id=“placed_cube_dropper_cube” >
+            <keyframe instant=“0”>
+                <translation x=“0” y=“0” z=“0” />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx=“0” sy=“0” sz=“0” />
+            </keyframe>
+            <keyframe instant=“1”>
+                <translation x=“0” y=“-3” z=“0” />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx=“0” sy=“0” sz=“0” />
+            </keyframe>
+            <keyframe instant=“2”>
+                <translation x=“0” y=“-6” z=“0” />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx=“0” sy=“0” sz=“0” />
+            </keyframe>
+        </animation>
+    </animations>
+
     <!-- NODES -->
 
     <nodes>
@@ -378,6 +407,8 @@
                     <translation x="4.5" y="3.35" z="0.5" />
                     <rotation axis="y" angle="30" />
                 </transformations>
+
+                <animationref id=“cube_falling_animation” />
 
                 <descendants>
                     <noderef id="weighted_cube" />
