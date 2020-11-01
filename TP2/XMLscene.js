@@ -23,12 +23,18 @@ class XMLscene extends CGFscene {
 
         this.initCameras();
 
+        // Deltatime
+        this.startT = null;
+        this.currTime = 0; // Update period
+
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
+
+        this.setUpdatePeriod(50); //Update period for update function
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
@@ -261,6 +267,20 @@ class XMLscene extends CGFscene {
             popped.bind(0);
         else
             this.unbindTexture(0);
+    }
+
+    update(t){
+        // Deltatime is normalized to seconds
+        if (this.startT == null){
+            this.startT = t / 1000;
+            this.currTime = this.startT;
+        }
+        else
+            this.currTime = (t - this.startT) / 1000;
+
+        for(let animation of this.graph.animations){
+            animation.update(this.currTime);
+        }
     }
 
     /**

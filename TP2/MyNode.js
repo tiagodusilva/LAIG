@@ -41,6 +41,14 @@ class MyNode {
      * @param {MySceneGraph} graphScene 
      */
     preProcess(graphScene) {
+        //Animation process
+        if (this.animationId === "null") {
+            this.animation = null;
+        } 
+        else if (typeof(this.animation = graphScene.getAnimation(this.animationId)) === "undefined") {
+            graphScene.onXMLMinorError("Node with id '" + this.id + "' has an invalid animation");
+        }
+
         // Process material
         if (this.materialId === "null") {
             this.materialStatus = MaterialStatus.KEEP;
