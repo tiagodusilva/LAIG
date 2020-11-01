@@ -32,6 +32,9 @@ class MyNode {
         this.matrix = transformationMatrix;
         this.scene = xmlScene;
         this.children = descendants;
+
+        //TODO: Do dis
+        this.animation = null;
     }
 
     /**
@@ -106,6 +109,9 @@ class MyNode {
     scenePush() {
         this.scene.pushMatrix();
         this.scene.multMatrix(this.matrix);
+
+        if (this.animation != null)
+            this.scene.multMatrix(this.animation.apply());
 
         switch (this.materialStatus) {
             case MaterialStatus.SET:
