@@ -12,14 +12,15 @@
 
 class Keyframe {
 
-    static blankMatrix = mat4.fromValues(...new Array(16).fill(0));
+    static blankMatrix = new Array(16).fill(0);
 
-    constructor(instant, x, y, z, xAngle, yAngle, zAngle, sx, sy, sz) {
+
+    constructor(instant, translation, rotation, scale) {
         this.instant = instant;
-        this.translation = [x, y, z];
-        this.rotation = [xAngle, yAngle, zAngle];
-        this.scale = [sx, sy, sz];
-    }   
+        this.translation = translation;
+        this.rotation = rotation;
+        this.scale = scale;
+    }
 
     static interpolate(kf1, kf2, t) {
         if (t < kf1.instant)

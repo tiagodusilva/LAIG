@@ -19,7 +19,7 @@ class MyNode {
      * @param {string or CGFobject} descendants
      * @param {XMLscene} xmlScene
      */
-    constructor(nodeId, materialId, textureId, aft, afs, transformationMatrix, descendants, xmlScene) {
+    constructor(nodeId, animationId, materialId, textureId, aft, afs, transformationMatrix, descendants, xmlScene) {
         this.id = nodeId;
         this.materialId = materialId;
         this.material = null;
@@ -29,12 +29,11 @@ class MyNode {
         this.textureStatus = null;
         this.aft = aft;
         this.afs = afs;
+        this.animationId = animationId;
+        this.animation = null;
         this.matrix = transformationMatrix;
         this.scene = xmlScene;
         this.children = descendants;
-
-        //TODO: Do dis
-        this.animation = null;
     }
 
     /**

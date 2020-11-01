@@ -273,6 +273,15 @@ class MySceneGraph {
             if ((error = this.parseNodes(nodes[index])) != null)
                 return error;
         }
+        
+
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) != -1) {
+            // Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+                return error;
+        }
+
         this.log("all parsed");
     }
 
@@ -629,7 +638,7 @@ class MySceneGraph {
 
         var attributeNames = ["ambient", "diffuse", "specular", "emissive"];
 
-        // Any number of textures.
+        // Any number of materials.
         var curNode = null;
         for (var i = 0; i < children.length; i++) {
 
@@ -640,7 +649,7 @@ class MySceneGraph {
                 continue;
             }
 
-            // Get id of the current texture.
+            // Get id of the current material.
             var materialId = this.reader.getString(curNode, 'id');
             if (materialId == null) {
                 this.onXMLMinorError("No id in <material> tag: Skipping material");
@@ -649,7 +658,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials.has(materialId)) {
-                this.onXMLMinorError("ID must be unique for each texture (conflict: ID = " + materialId + "): Skipping material");
+                this.onXMLMinorError("ID must be unique for each material (conflict: ID = " + materialId + "): Skipping material");
                 continue;
             }
 
@@ -764,6 +773,7 @@ class MySceneGraph {
             }
 
             var transformationsIndex = nodeNames.indexOf("transformations");
+            var animationIndex = nodeNames.indexOf("animationref");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
@@ -811,6 +821,16 @@ class MySceneGraph {
                     else {
                         this.onXMLMinorError("Unexpected tag on transformations on node with id '" + nodeID + "': Skipping transformation");
                     }
+                }
+            }
+
+            // Animation ~ Optional
+            var animation = null;
+            if (animationIndex != INDEX_NOT_FOUND) {
+                curNode = grandChildren[animationIndex];
+                var animation = this.reader.getString(curNode, "id", true);
+                if (animation == null) {
+                    this.onXMLMinorError("Tag <animation> had no id on node with id'" + nodeID + "': Using no animation");
                 }
             }
 
@@ -907,7 +927,7 @@ class MySceneGraph {
                 this.onXMLMinorError("There must be at least 1 valid descendant in node with id '" + nodeID + "': Skipping node");
                 continue;
             }
-            this.nodes.set(nodeID, new MyNode(nodeID, material, texture, aft, afs, matrix, descendants, this.scene));
+            this.nodes.set(nodeID, new MyNode(nodeID, animation, material, texture, aft, afs, matrix, descendants, this.scene));
         }
 
         if (this.nodes.size <= 0)
@@ -915,6 +935,148 @@ class MySceneGraph {
 
         this.log("Parsed Nodes");
         return null;
+    }
+
+    /**
+     * Parses the <animations> block.
+     * @param {animations block element} nodesNode
+     */
+    parseAnimations(animationsNode) {
+        var children = animationsNode.children;
+
+        this.animations = Map();
+
+        // Any number of textures.
+        var curNode = null;
+        var keyframe = null;
+        var keyframes = [];
+        for (var i = 0; i < children.length; i++) {
+            curNode = children[i];
+
+            if (curNode.nodeName != "animation") {
+                this.onXMLMinorError("Unknown tag <" + curNode.nodeName + "> in animations block");
+                continue;
+            }
+
+            // Get id of the current material.
+            var animationId = this.reader.getString(curNode, 'id');
+            if (animationId == null) {
+                this.onXMLMinorError("No id in <animation> tag: Skipping animation");
+                continue;
+            }
+
+            // Checks for repeated IDs.
+            if (this.animations.has(materialId)) {
+                this.onXMLMinorError("ID must be unique for each animation (conflict: ID = " + animationId + "): Skipping animation");
+                continue;
+            }
+
+            keyframes = [];
+            var descendantTags = curNode.children;
+            for (let j = 0; j < descendantTags.length; j++) {
+                curNode = descendantTags[j];
+                if (curNode.nodeName != "keyframe") {
+                    this.onXMLMinorError("Invalid descendant tag (should be <keyframe>) for animation with id '" + animationId + "': Skipping keyframe");
+                    continue;
+                }
+                
+                if ((keyframe = this.parseKeyframe(curNode)) != null) {
+                    this.onXMLMinorError("Failed to parse keyframe of animation with id '" + animationId + "': Skipping keyframe");
+                    continue;
+                }
+                
+                keyframes.push(keyframe);
+            }
+
+            if (keyframes.length < 1) {
+                this.onXMLMinorError("Animation with id '" + animationId + "' has no keyframes: Skipping animation");
+                continue;
+            }
+
+            this.animations.set(animationId, new KeyframeAnimation(keyframes));
+        }
+
+        this.log("Parsed animations");
+        return null;
+    }
+
+
+// <keyframe instant=“2”>
+//     <translation x=“0” y=“-6” z=“0” />
+//     <rotation axis="x" angle="0" />
+//     <rotation axis="y" angle="0" />
+//     <rotation axis="z" angle="0" />
+//     <scale sx=“0” sy=“0” sz=“0” />
+// </keyframe>
+
+    parseKeyframe(keyframeNode) {
+        var instant = this.reader.getString(keyframeNode, 'instant');
+        if (instant == null) {
+            this.onXMLMinorError("Keyframe does not have an instant");
+            return null;
+        }
+
+        var children = keyframeNode.children;
+
+        if (children[0].nodeName != "translation") {
+            this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have translation as first child");
+            return null;
+        }
+        var translation = this.parseCoordinates3D(children[0]);
+        if (!Array.isArray(translation)) {
+            this.onXMLMinorError("Failed to read translation coords of keyframe with instant '" + instant + "'");
+            return null;
+        }
+
+        var axis;
+        var rotation = [];
+        if (children[1].nodeName != "rotation" || children[2].nodeName != "rotation" || children[3].nodeName != "rotation") {
+            this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have rotation as second to fourth child");
+            return null;
+        }
+
+        // X AXIS
+        axis = this.reader.getString(children[1], "axis", true);
+        if (axis != "x") {
+            this.onXMLMinorError("First rotation must be on the 'x' axis on node keyframe with instant '" + instant + "'");
+            return null;
+        }
+        rotation[0] = DEGREE_TO_RAD * this.reader.getFloat(children[1], "angle", true);
+
+        // Y AXIS
+        axis = this.reader.getString(children[2], "axis", true);
+        if (axis != "y") {
+            this.onXMLMinorError("Second rotation must be on the 'y' axis on node keyframe with instant '" + instant + "'");
+            return null;
+        }
+        rotation[1] = DEGREE_TO_RAD * this.reader.getFloat(children[2], "angle", true);
+
+        // Z AXIS
+        axis = this.reader.getString(children[3], "axis", true);
+        if (axis != "z") {
+            this.onXMLMinorError("Third rotation must be on the 'z' axis on node keyframe with instant '" + instant + "'");
+            return null;
+        }
+        rotation[2] = DEGREE_TO_RAD * this.reader.getFloat(children[3], "angle", true);
+        
+
+        if (children[0].nodeName != "scale") {
+            this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have scale as fifth child");
+            return null;
+        }
+
+
+        if (nodeType != "scale") {
+            this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have scale as fifth child");
+            return null;
+        }
+        var scale = this.parseFloat3(curNode, "sx", "sy", "sz");
+        if (!Array.isArray(scale)) {
+            this.onXMLMinorError("Failed to read scale of keyframe with instant '" + instant + "'");
+            return null;
+        }
+
+        return Keyframe(instant, translation, rotation, scale);
     }
 
 
