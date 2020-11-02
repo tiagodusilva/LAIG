@@ -11,6 +11,10 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var NODES_INDEX = 6;
 
+function instantCompare(f1, f2) {
+    return f1.instant - f2.instant;
+}
+
 /**
  * MySceneGraph class, representing the scene graph.
  */
@@ -143,6 +147,15 @@ class MySceneGraph {
     }
     
     /**
+     * Gets the animation with given id
+     * Returns undefined if it doesn't exist
+     * @param {string} animationId 
+     */
+    getAnimation(animationId) {
+        return this.animations.get(animationId);
+    }
+
+    /**
      * Gets the material with given id
      * Returns undefined if it doesn't exist
      * @param {string} materialId 
@@ -192,7 +205,7 @@ class MySceneGraph {
 
         // <initials>
         var index;
-        if ((index = nodeNames.indexOf("initials")) == -1)
+        if ((index = nodeNames.indexOf("initials")) == INDEX_NOT_FOUND)
             return "tag <initials> missing";
         else {
             if (index != INITIALS_INDEX)
@@ -204,7 +217,7 @@ class MySceneGraph {
         }
 
         // <views>
-        if ((index = nodeNames.indexOf("views")) == -1)
+        if ((index = nodeNames.indexOf("views")) == INDEX_NOT_FOUND)
             return "tag <views> missing";
         else {
             if (index != VIEWS_INDEX)
@@ -216,7 +229,7 @@ class MySceneGraph {
         }
 
         // <illumination>
-        if ((index = nodeNames.indexOf("illumination")) == -1)
+        if ((index = nodeNames.indexOf("illumination")) == INDEX_NOT_FOUND)
             return "tag <illumination> missing";
         else {
             if (index != ILLUMINATION_INDEX)
@@ -228,7 +241,7 @@ class MySceneGraph {
         }
 
         // <lights>
-        if ((index = nodeNames.indexOf("lights")) == -1)
+        if ((index = nodeNames.indexOf("lights")) == INDEX_NOT_FOUND)
             return "tag <lights> missing";
         else {
             if (index != LIGHTS_INDEX)
@@ -239,7 +252,7 @@ class MySceneGraph {
                 return error;
         }
         // <textures>
-        if ((index = nodeNames.indexOf("textures")) == -1)
+        if ((index = nodeNames.indexOf("textures")) == INDEX_NOT_FOUND)
             return "tag <textures> missing";
         else {
             if (index != TEXTURES_INDEX)
@@ -251,7 +264,7 @@ class MySceneGraph {
         }
 
         // <materials>
-        if ((index = nodeNames.indexOf("materials")) == -1)
+        if ((index = nodeNames.indexOf("materials")) == INDEX_NOT_FOUND)
             return "tag <materials> missing";
         else {
             if (index != MATERIALS_INDEX)
@@ -263,7 +276,7 @@ class MySceneGraph {
         }
 
         // <nodes>
-        if ((index = nodeNames.indexOf("nodes")) == -1)
+        if ((index = nodeNames.indexOf("nodes")) == INDEX_NOT_FOUND)
             return "tag <nodes> missing";
         else {
             if (index != NODES_INDEX)
@@ -276,10 +289,11 @@ class MySceneGraph {
         
 
         // <animations>
-        if ((index = nodeNames.indexOf("animations")) != -1) {
-            // Parse animations block
-            if ((error = this.parseAnimations(nodes[index])) != null)
-                return error;
+        if ((index = nodeNames.indexOf("animations")) == INDEX_NOT_FOUND) {
+            this.animations = new Map();  // Do this to not break the rest of the code
+        }
+        else if ((error = this.parseAnimations(nodes[index])) != null) {
+            return error;
         }
 
         this.log("all parsed");
@@ -937,6 +951,7 @@ class MySceneGraph {
         return null;
     }
 
+
     /**
      * Parses the <animations> block.
      * @param {animations block element} nodesNode
@@ -944,7 +959,7 @@ class MySceneGraph {
     parseAnimations(animationsNode) {
         var children = animationsNode.children;
 
-        this.animations = Map();
+        this.animations = new Map();
 
         // Any number of textures.
         var curNode = null;
@@ -966,7 +981,7 @@ class MySceneGraph {
             }
 
             // Checks for repeated IDs.
-            if (this.animations.has(materialId)) {
+            if (this.animations.has(animationId)) {
                 this.onXMLMinorError("ID must be unique for each animation (conflict: ID = " + animationId + "): Skipping animation");
                 continue;
             }
@@ -980,11 +995,15 @@ class MySceneGraph {
                     continue;
                 }
                 
-                if ((keyframe = this.parseKeyframe(curNode)) != null) {
+                if ((keyframe = this.parseKeyframe(curNode)) == null) {
                     this.onXMLMinorError("Failed to parse keyframe of animation with id '" + animationId + "': Skipping keyframe");
                     continue;
                 }
-                
+
+                if (keyframes.length > 0 && keyframe.instant <= keyframes[keyframes.length - 1].instant) {
+                    this.onXMLMinorError("Keyframe of animation with id '" + animationId + "' with instant '" + keyframe.instant + "' comes before the previous read instant (with id '" + keyframes[keyframes.length - 1].instant + "): We will sort the keyframes, but watch out");
+                }
+
                 keyframes.push(keyframe);
             }
 
@@ -993,6 +1012,7 @@ class MySceneGraph {
                 continue;
             }
 
+            keyframes.sort(instantCompare);
             this.animations.set(animationId, new KeyframeAnimation(keyframes));
         }
 
@@ -1059,24 +1079,18 @@ class MySceneGraph {
         }
         rotation[2] = DEGREE_TO_RAD * this.reader.getFloat(children[3], "angle", true);
         
-
-        if (children[0].nodeName != "scale") {
+        // SCALE
+        if (children[4].nodeName != "scale") {
             this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have scale as fifth child");
             return null;
         }
-
-
-        if (nodeType != "scale") {
-            this.onXMLMinorError("Keyframe with instant '" + instant + "' does not have scale as fifth child");
-            return null;
-        }
-        var scale = this.parseFloat3(curNode, "sx", "sy", "sz");
+        var scale = this.parseFloat3(children[4], "sx", "sy", "sz");
         if (!Array.isArray(scale)) {
             this.onXMLMinorError("Failed to read scale of keyframe with instant '" + instant + "'");
             return null;
         }
 
-        return Keyframe(instant, translation, rotation, scale);
+        return new Keyframe(instant, translation, rotation, scale);
     }
 
 

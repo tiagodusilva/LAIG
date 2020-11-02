@@ -42,7 +42,7 @@ class MyNode {
      */
     preProcess(graphScene) {
         //Animation process
-        if (this.animationId === "null") {
+        if (this.animationId === null) {
             this.animation = null;
         } 
         else if (typeof(this.animation = graphScene.getAnimation(this.animationId)) === "undefined") {
@@ -117,8 +117,9 @@ class MyNode {
         this.scene.pushMatrix();
         this.scene.multMatrix(this.matrix);
 
-        if (this.animation != null)
+        if (this.animation != null) {
             this.scene.multMatrix(this.animation.apply());
+        }
 
         switch (this.materialStatus) {
             case MaterialStatus.SET:

@@ -263,29 +263,28 @@
 
 
     <!-- Animations -->
-
     <animations>
-        <animation id=“placed_cube_dropper_cube” >
-            <keyframe instant=“0”>
-                <translation x=“0” y=“0” z=“0” />
+        <animation id="cube_falling_animation" >
+            <keyframe instant="2">
+                <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
-                <scale sx=“0” sy=“0” sz=“0” />
+                <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant=“1”>
-                <translation x=“0” y=“-3” z=“0” />
+            <keyframe instant="4">
+                <translation x="0" y="-4" z="0" />
                 <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="0" />
+                <rotation axis="y" angle="360" />
                 <rotation axis="z" angle="0" />
-                <scale sx=“0” sy=“0” sz=“0” />
+                <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant=“2”>
-                <translation x=“0” y=“-6” z=“0” />
+            <keyframe instant="5">
+                <translation x="0" y="-6" z="0" />
                 <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="0" />
+                <rotation axis="y" angle="2880" />
                 <rotation axis="z" angle="0" />
-                <scale sx=“0” sy=“0” sz=“0” />
+                <scale sx="0" sy="0" sz="0" />
             </keyframe>
         </animation>
     </animations>
@@ -408,11 +407,11 @@
                     <rotation axis="y" angle="30" />
                 </transformations>
 
-                <animationref id=“cube_falling_animation” />
-
                 <descendants>
                     <noderef id="weighted_cube" />
                 </descendants>
+
+                <animationref id="cube_falling_animation" />
             </node>
 
             <node id="placed_cube_dropper" >
