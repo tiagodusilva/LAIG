@@ -1236,7 +1236,7 @@ class MySceneGraph {
      * @param {bool} 
      */
     parseFloat(node, fieldName, messageError, required = true) {
-        var val = this.reader.getFloat(node, fieldName, true);
+        let val = this.reader.getFloat(node, fieldName, true);
         if (!(val != null && !isNaN(val))) {
             this.onXMLMinorError("Couldn't find '" + fieldName + "' in node: " + messageError);
             return null;
@@ -1252,7 +1252,7 @@ class MySceneGraph {
      * @param {bool} 
      */
     parseInt(node, fieldName, messageError, required = true) {
-        var val = this.reader.getInteger(node, fieldName, true);
+        let val = this.reader.getInteger(node, fieldName, true);
         if (!(val != null && !isNaN(val))) {
             this.onXMLMinorError("Couldn't find '" + fieldName + "' in node: " + messageError);
             return null;
@@ -1265,7 +1265,7 @@ class MySceneGraph {
      * @param {block element} node 
      */
     parsePrimitive(node, afs, aft) {
-        var type = this.reader.getString(node, "type", false);
+        let type = this.reader.getString(node, "type", false);
         if(type == null){
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
             return null;
@@ -1279,6 +1279,8 @@ class MySceneGraph {
             return this.parseCylinder(node);
         } else if (type === "torus"){
             return this.parseTorus(node);
+        } else if (type === "spritetext") {
+            return this.parseSpritetext(node);
         } else {
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
             return null;
@@ -1291,7 +1293,7 @@ class MySceneGraph {
      */
     parseRectangle(node, afs, aft) {
 
-        var x1,y1,x2,y2;
+        let x1,y1,x2,y2;
 
         if((x1 = this.parseFloat(node,"x1", "Rectangle", false)) == null)
             return null;
@@ -1311,7 +1313,7 @@ class MySceneGraph {
     */
     parseTriangle(node, afs, aft) {
 
-        var x1,y1,x2,y2,x3,y3;
+        let x1,y1,x2,y2,x3,y3;
         
         if((x1 = this.parseFloat(node,"x1", "Triangle", false)) == null)
         return null;
@@ -1335,7 +1337,7 @@ class MySceneGraph {
     */
    parseSphere(node) {
 
-        var radius, slices, stacks;
+        let radius, slices, stacks;
         
         if((radius = this.parseFloat(node,"radius", "Sphere", false)) == null)
         return null;
@@ -1353,7 +1355,7 @@ class MySceneGraph {
     */
     parseCylinder(node) {
 
-        var height, topRadius, bottomRadius, stacks, slices;
+        let height, topRadius, bottomRadius, stacks, slices;
         
         if((height = this.parseFloat(node,"height", "Cylinder", false)) == null)
             return null;
@@ -1369,13 +1371,13 @@ class MySceneGraph {
         return new MyCylinder(this.scene, bottomRadius, topRadius, height, slices, stacks);
     }
 
-        /**
+    /**
     *  
     * @param {block element} node 
     */
    parseTorus(node) {
 
-        var inner, outer, loops, slices;
+        let inner, outer, loops, slices;
         
         if((inner = this.parseFloat(node,"inner", "Torus", false)) == null)
             return null;
@@ -1387,6 +1389,20 @@ class MySceneGraph {
             return null;
 
         return new MyTorus(this.scene, inner, outer, loops, slices);
+    }
+
+    /**
+     * 
+     * @param {block element} node 
+     */
+    parseSpritetext(node) {
+        let text = this.reader.getString(node, "text", true);
+
+        if (text == null) {
+            this.onXMLMinorError("Spritetext elements has no text: Ignoring this leaf");
+            return null;
+        }
+        return new MySpriteText(this.scene, text);
     }
 
     /**

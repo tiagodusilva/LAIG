@@ -152,6 +152,14 @@
         <texture id="piston_color_light" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_light.png" />
     </textures>
 
+    <!-- spritesheets -->
+    <!-- o bloco "spritesheets" deve ser declarado -->
+    <!-- imediatamente após o bloco "textures" -->
+    <spritesheets>
+    <!-- Semelhante à declaração de textura,  -->
+    <!-- mas inclui a definição do nº de colunas e linhas -->
+        <spritesheet id="placeholder" path="Imagina eu exitir" sizeM="5" sizeN="4" />
+    </spritesheets>
 
     <materials>
         <material id="default">
@@ -341,8 +349,23 @@
                 <noderef id="placed_water_cube" />
                 <noderef id="placed_piston_platform" />
                 <noderef id="piston_cross_symbol" />
+                <noderef id="are_you_still_there" />
             </descendants>
         </node>
+
+            <node id="are_you_still_there" >
+                <material id="default" />
+
+                <transformations>
+                    <translation x="5.5" y="0.75" z="6.25" />
+                    <rotation axis="y" angle="90" />
+                    <scale sx="0.075" sy="0.075" sz="1" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="spritetext" text="Are you still there?" />
+                </descendants>
+            </node>
 
             <node id="piston_cross_symbol" >
                 <material id="null" />

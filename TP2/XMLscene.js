@@ -20,6 +20,7 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
+        MySpriteSheet.initShader(this.gl);
 
         this.initCameras();
 
@@ -45,11 +46,14 @@ class XMLscene extends CGFscene {
         this.material = this.defaultAppearance;
         this.material.apply();
 
+        //Material Stack
+        this.materialStack = [ this.material ];
+
         // Texture stack
         this.textureStack = [ null ];
 
-        //Material Stack
-        this.materialStack = [ this.material ];
+        // Texture stack
+        this.shaderStack = [ this.defaultShader ];
 
         this.activeTexture = null;
 
@@ -245,7 +249,7 @@ class XMLscene extends CGFscene {
     }
 
     popMaterial() {
-        var popped = this.materialStack.pop();
+        let popped = this.materialStack.pop();
         popped.apply();
         this.material = popped;
     }
@@ -260,11 +264,26 @@ class XMLscene extends CGFscene {
     }
 
     popTexture() {
-        var popped = this.textureStack.pop();
+        let popped = this.textureStack.pop();
         if (popped != null)
             popped.bind(0);
         else
             this.unbindTexture(0);
+    }
+
+    pushShader(shader) {
+        this.shaderStack.push(this.activeShader);
+        this.setActiveShader(shader);
+    }
+
+    popShader() {
+        let popped = this.shaderStack.pop();
+        if (popped != null) {
+            this.setActiveShader(popped);
+        }
+        else {
+            console.log("This should not have happened");
+        }
     }
 
     update(t){
