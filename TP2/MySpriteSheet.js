@@ -39,7 +39,7 @@ class MySpriteText {
         let startMatrix = this.scene.activeMatrix;
         let translationMatrix;
         for(let character of this.text){
-            this.textSheet.activateCellP(this.getCharacterPosition(character));
+            MySpriteText.textSheet.activateCellP(this.getCharacterPosition(character));
             this.rectangle.display();
             mat4.fromTranslation(translationMatrix, Vec3(1, 0, 0));
             this.scene.multMatrix(translationMatrix);
