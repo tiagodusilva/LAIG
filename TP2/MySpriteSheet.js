@@ -10,7 +10,7 @@ class MySpriteSheet {
     }
 
     activateCellP(p) {
-        this.activateCellMN(p % n, Math.floor(p / n));
+        this.activateCellMN(p % sizeN, Math.floor(p / sizeN));
     }
 
 
@@ -26,7 +26,7 @@ class MySpriteText {
     }
 
     getCharacterPosition(character) {
-        
+        return character.charCodeAt(0);
     }
 
     display() {
