@@ -1,12 +1,24 @@
 class MySpriteSheet {
+    
+    static shader = null;
+
     constructor(texture, sizeM, sizeN){
         this.texture = texture;
         this.sizeM = sizeM;
         this.sizeN = sizeN;
     }
 
-    activateCellMN(m, n) {
+    initShader(gl) {
+        MySpriteSheet.shader = new CGFshader(gl, "shaders/spritesheet.vert", "shaders/spritesheet.frag");
+    }
 
+    activateCellMN(m, n) {
+        MySpriteSheet.shader.setUniformsValues({
+            M: this.sizeM,
+            N: this.sizeN,
+            m: m,
+            n: n
+        });
     }
 
     activateCellP(p) {

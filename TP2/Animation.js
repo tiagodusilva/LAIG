@@ -84,6 +84,7 @@ class KeyframeAnimation extends Animation {
     update(t) {
         if (this.keyframeIndex < this.keyframes.length) {
             if (t >= this.nextKeyframe.instant) {
+                // TODO: Find next keyframe (update could be extremely slow)
                 this.curKeyframe = this.nextKeyframe;
                 if (++this.keyframeIndex < this.keyframes.length)
                     this.nextKeyframe = this.keyframes[this.keyframeIndex];
