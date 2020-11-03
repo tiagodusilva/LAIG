@@ -18,6 +18,8 @@ class MySpriteSheet {
 
 class MySpriteText {
 
+    static spriteSheetName = new MySpriteSheet("a", 5, 5);
+
     constructor(scene, text){
         this.scene = scene;
         this.text = text;
@@ -35,9 +37,14 @@ class MySpriteText {
 
 class MySpriteAnimation {
 
+    constructor(spriteSheet, startCell, endCell, animationTime){
+        this.spriteSheet = spriteSheet;
+        this.startCell = startCell;
+        this.endCell = endCell;
+        this.animationTime = animationTime;
+    }
 
-
-    update() {
+    update(t) {
 
     }
 }
