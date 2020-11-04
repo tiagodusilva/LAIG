@@ -357,13 +357,13 @@
                 <material id="default" />
 
                 <transformations>
-                    <translation x="5.5" y="0.75" z="6.25" />
+                    <translation x="5.5" y="0.75" z="5.5" />
                     <rotation axis="y" angle="90" />
                     <scale sx="0.075" sy="0.075" sz="1" />
                 </transformations>
 
                 <descendants>
-                    <leaf type="spritetext" text="Are you still there?" />
+                    <leaf type="spritetext" text="I miss you...&#10;Are you still there?" />
                 </descendants>
             </node>
 

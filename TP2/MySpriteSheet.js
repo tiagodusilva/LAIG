@@ -33,6 +33,7 @@ class MySpriteSheet {
     apply(scene) {
         scene.pushTexture(this.texture);
         scene.pushShader(MySpriteSheet.shader);
+        // this.scene.reapplyCurrentMaterial();
     }
 
     deapply(scene) {
@@ -45,14 +46,20 @@ class MySpriteSheet {
 class MySpriteText {
 
     static textSheet = null;
+    static rectangle = null;
 
     constructor(scene, text){
         if (MySpriteText.textSheet === null) {
             MySpriteText.textSheet = new MySpriteSheet(new CGFtexture(scene, TEXT_SPRITE_SHEET), TEXT_SPRITE_SHEET_M, TEXT_SPRITE_SHEET_N);
         }
+        if (MySpriteText.rectangle == null) {
+            MySpriteText.rectangle = new MyRectangle(scene, 0, 0, 1, 1, 1, 1);
+        }
         this.scene = scene;
-        this.text = text;
-        this.rectangle = new MyRectangle(scene, 0, 0, 1, 1, 1, 1);
+        this.lines = text.split('\n');
+
+        for(let character of text)
+            console.log(character);
     }
 
     getCharacterPosition(character) {
@@ -66,17 +73,28 @@ class MySpriteText {
         this.scene.multMatrix(translationMatrix);
     }
 
+    _displayLine(line) {
+        for(let character of line){
+            MySpriteText.textSheet.activateCellP(this.getCharacterPosition(character));
+            MySpriteText.rectangle.display();
+            this.moveMatrixRight(1);
+        }
+    }
+
     display() {
         MySpriteText.textSheet.apply(this.scene);
 
-        let startMatrix = this.scene.activeMatrix;
-        for(let character of this.text){
-            MySpriteText.textSheet.activateCellP(this.getCharacterPosition(character));
-            this.rectangle.display();
-            this.moveMatrixRight(1);
+        let oldMatrix = this.scene.activeMatrix;
+
+        let height = this.lines.length / 2;
+        let mat = mat4.create();
+        for (let i = 0; i < this.lines.length; i++) {
+            mat4.translate(mat, oldMatrix, [-this.lines[i].length / 2, height - i, 0]);
+            this.scene.setMatrix(mat);
+            this._displayLine(this.lines[i]);
         }
 
-        this.scene.activeMatrix = startMatrix;
+        this.scene.activeMatrix = oldMatrix;
         MySpriteText.textSheet.deapply(this.scene);
     }
 
