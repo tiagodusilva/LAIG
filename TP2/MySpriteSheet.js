@@ -33,7 +33,6 @@ class MySpriteSheet {
     apply(scene) {
         scene.pushTexture(this.texture);
         scene.pushShader(MySpriteSheet.shader);
-        // this.scene.reapplyCurrentMaterial();
     }
 
     deapply(scene) {
@@ -57,9 +56,6 @@ class MySpriteText {
         }
         this.scene = scene;
         this.lines = text.split('\n');
-
-        for(let character of text)
-            console.log(character);
     }
 
     getCharacterPosition(character) {

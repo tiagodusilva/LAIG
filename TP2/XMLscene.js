@@ -242,10 +242,6 @@ class XMLscene extends CGFscene {
         this.activeTexture = null;
     }
 
-    reapplyCurrentMaterial() {
-        this.material.apply();
-    }
-
     pushMaterial(material) {
         this.materialStack.push(this.material);
         this.material = material;

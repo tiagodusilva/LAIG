@@ -354,7 +354,11 @@
         </node>
 
             <node id="are_you_still_there" >
-                <material id="default" />
+                <material id="whiteMaterial" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
 
                 <transformations>
                     <translation x="5.5" y="0.75" z="5.5" />

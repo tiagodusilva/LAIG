@@ -2,6 +2,7 @@
 precision highp float;
 #endif
 
+varying vec4 vFinalColor;
 varying vec2 vTextureCoord;
 
 uniform sampler2D uSampler;
@@ -12,5 +13,5 @@ void main() {
 	if (color.r < 0.1)
 		discard;
 	
-	gl_FragColor = color;
+	gl_FragColor = color * vFinalColor;
 }
