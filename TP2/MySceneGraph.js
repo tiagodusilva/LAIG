@@ -33,8 +33,6 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
-        this.nodes = [];
-
         this.idRoot = null; // The id of the root element.
 
         this.axisCoords = [];
@@ -102,6 +100,9 @@ class MySceneGraph {
         }
         for (let node of this.nodes.values()) {
             node.preProcess(this);
+        }
+        for (let spriteAnim of this.spriteAnims.values()){
+            spriteAnim.preProcess(this);
         }
 
         // Check for root node inconsistencies
@@ -1281,6 +1282,8 @@ class MySceneGraph {
             return this.parseTorus(node);
         } else if (type === "spritetext") {
             return this.parseSpritetext(node);
+        } else if (type === "spriteanim"){
+            return this.parseSpriteAnim(node);
         } else {
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
             return null;
@@ -1403,6 +1406,31 @@ class MySceneGraph {
             return null;
         }
         return new MySpriteText(this.scene, text);
+    }
+
+    /**
+     * 
+     * @param {block element} node 
+     */
+    parseSpriteAnim(node) {
+        let ssid = this.reader.getString(node, "ssid", true);
+        let duration, startCell, endCell;
+
+        if (ssid == null) {
+            this.onXMLMinorError("Spritetext elements has no text: Ignoring this leaf");
+            return null;
+        }
+
+        if((duration = this.parseFloat(node, "duration", "SpriteAnime", false)) == null)
+            return null;
+
+        if((startCell = this.parseInt(node, "startCell", "SpriteAnim", false)) == null)
+            return null;
+
+        if((endCell = this.parseInt(node, "endCell", "SpriteAnim", false)) == null)
+            return null;
+
+        return new MySpriteAnimation(null, startCell, endCell, duration, ssid);
     }
 
     /**

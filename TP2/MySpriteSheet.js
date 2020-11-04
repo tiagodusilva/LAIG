@@ -6,11 +6,16 @@ const TEXT_SPRITE_SHEET_N = 8;
 class MySpriteSheet {
     
     static shader = null;
+    static rectangle = null;
 
-    constructor(texture, sizeM, sizeN){
+    constructor(scene, texture, sizeM, sizeN){
+        this.scene = scene;
         this.texture = texture;
         this.sizeM = sizeM;
         this.sizeN = sizeN;
+        if (MySpriteText.rectangle == null) {
+            MySpriteText.rectangle = new MyRectangle(scene, 0, 0, 1, 1, 1, 1);
+        }
     }
 
     static initShader(gl) {
@@ -30,14 +35,14 @@ class MySpriteSheet {
         this.activateCellMN(p % this.sizeM, Math.floor(p / this.sizeM));
     }
 
-    apply(scene) {
-        scene.pushTexture(this.texture);
-        scene.pushShader(MySpriteSheet.shader);
+    apply() {
+        this.scene.pushTexture(this.texture);
+        this.scene.pushShader(MySpriteSheet.shader);
     }
 
-    deapply(scene) {
-        scene.popTexture();
-        scene.popShader();
+    deapply() {
+        this.scene.popTexture();
+        this.scene.popShader();
     }
 
 }
@@ -45,14 +50,10 @@ class MySpriteSheet {
 class MySpriteText {
 
     static textSheet = null;
-    static rectangle = null;
 
     constructor(scene, text){
         if (MySpriteText.textSheet === null) {
             MySpriteText.textSheet = new MySpriteSheet(new CGFtexture(scene, TEXT_SPRITE_SHEET), TEXT_SPRITE_SHEET_M, TEXT_SPRITE_SHEET_N);
-        }
-        if (MySpriteText.rectangle == null) {
-            MySpriteText.rectangle = new MyRectangle(scene, 0, 0, 1, 1, 1, 1);
         }
         this.scene = scene;
         this.lines = text.split('\n');
@@ -71,8 +72,8 @@ class MySpriteText {
 
     _displayLine(line) {
         for(let character of line){
-            MySpriteText.textSheet.activateCellP(this.getCharacterPosition(character));
-            MySpriteText.rectangle.display();
+            MySpriteSheet.textSheet.activateCellP(this.getCharacterPosition(character));
+            MySpriteSheet.rectangle.display();
             this.moveMatrixRight(1);
         }
     }
@@ -98,14 +99,33 @@ class MySpriteText {
 
 class MySpriteAnimation {
 
-    constructor(spriteSheet, startCell, endCell, animationTime){
+    constructor(spriteSheet, startCell, endCell, animationTime, ssid){
+        this.ssid = ssid;
         this.spriteSheet = spriteSheet;
         this.startCell = startCell;
         this.endCell = endCell;
         this.animationTime = animationTime;
+        this.currentCell = this.startCell;
+        this.cellAmount = Math.abs(this.endCell - this.startCell);
+        this.inverted = this.endCell < this.startCell;
+    }
+
+    preProcess(graphScene){
+        if(typeof(this.spriteSheet = graphScene.getSpriteSheet(this.ssid)) === "undefined") {
+            graphScene.onXMLMinorError("SpriteSheet with id: " + this.ssid + " could not be found");
+        }
+
     }
 
     update(t) {
-
+        this.currentCell = Math.floor(t / this.animationTime * this.cellAmount);
     }
+    
+    display(){
+        this.spriteSheet.apply();
+        MySpriteSheet.rectangle.display();
+        this.spriteSheet.activateCellP(this.inverted ? this.endCell - this.currentCell : this.startCell + this.currentCell);
+        this.spriteSheet.deapply();
+    }
+
 }
