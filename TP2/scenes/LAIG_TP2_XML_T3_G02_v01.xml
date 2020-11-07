@@ -273,21 +273,21 @@
     <!-- Animations -->
     <animations>
         <animation id="cube_falling_animation" >
-            <keyframe instant="2">
+            <keyframe instant="1">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="4">
+            <keyframe instant="3">
                 <translation x="0" y="-4" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="360" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="5">
+            <keyframe instant="4">
                 <translation x="0" y="-6" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="2880" />

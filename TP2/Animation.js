@@ -27,18 +27,18 @@ class Keyframe {
             return this.blankMatrix;
         if (t > kf2.instant) {
             // Calculate matrix of kf2
-            var mat = mat4.create();
+            let mat = mat4.create();
             mat4.translate(mat, mat, kf2.translation);
             mat4.rotate(mat, mat, kf2.rotation[0], [1, 0, 0]);
             mat4.rotate(mat, mat, kf2.rotation[1], [0, 1, 0]);
             mat4.rotate(mat, mat, kf2.rotation[2], [0, 0, 1]);
             mat4.scale(mat, mat, kf2.scale);
-            return mat4;
+            return mat;
         }
 
-        var interpolated = vec3.create();
-        var normalizedTime = (t - kf1.instant) / (kf2.instant - kf1.instant);
-        var mat = mat4.create();
+        let interpolated = vec3.create();
+        let normalizedTime = (t - kf1.instant) / (kf2.instant - kf1.instant);
+        let mat = mat4.create();
 
         // vec3.lerp(interpolated, kf1.translation, kf2.translation, normalizedTime);
         interpolated = lerpVec3(kf1.translation, kf2.translation, normalizedTime);
@@ -81,14 +81,35 @@ class KeyframeAnimation extends Animation {
         this.keyframeIndex = 1;
     }
 
-    update(t) {
-        if (this.keyframeIndex < this.keyframes.length) {
-            if (t >= this.nextKeyframe.instant) {
-                // TODO: Find next keyframe (update could be extremely slow)
-                this.curKeyframe = this.nextKeyframe;
-                if (++this.keyframeIndex < this.keyframes.length)
-                    this.nextKeyframe = this.keyframes[this.keyframeIndex];
+    setNextKeyframe(t) {
+        if (t < this.nextKeyframe.instant) {
+            return;
+        }
+
+        for (let i = this.keyframeIndex; i < this.keyframes.length - 1; i++) {
+            if (t >= this.keyframes[i].instant && t <= this.keyframes[i + 1].instant) {
+                // Somewhere in the middle (and never the beginning)
+                this.curKeyframe = this.keyframes[i];
+                this.nextKeyframe = this.keyframes[i + 1];
+                this.keyframeIndex = i + 1;
+
+                return;
             }
+        }
+
+        // Last keyframe
+        let last = this.keyframes.length - 1;
+        this.curKeyframe = this.keyframes[last];
+        this.nextKeyframe = this.keyframes[last];
+        // Marks the animation and terminated
+        this.keyframeIndex = this.keyframes.length;
+    }
+
+    update(t) {
+        // If animation has not ended
+        if (this.keyframeIndex < this.keyframes.length) {
+            // Find next keyframe (update could be extremely slow or animation have really small time intervals)
+            this.setNextKeyframe(t);
             super.update(t);
         }
     }
