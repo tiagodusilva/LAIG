@@ -20,7 +20,6 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
-        MySpriteSheet.initShader(this.gl);
 
         this.initCameras();
 
@@ -298,6 +297,10 @@ class XMLscene extends CGFscene {
 
             for (let animation of this.graph.animations.values()) {
                 animation.update(this.currTime);
+            }
+
+            for (let spriteAnim of this.graph.spriteAnims) {
+                spriteAnim.update(this.currTime);
             }
         }
     }

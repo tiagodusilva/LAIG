@@ -158,7 +158,7 @@
     <spritesheets>
     <!-- Semelhante à declaração de textura,  -->
     <!-- mas inclui a definição do nº de colunas e linhas -->
-        <spritesheet id="placeholder" path="Imagina eu exitir" sizeM="5" sizeN="4" />
+        <spritesheet id="placeholder" path="images/textspritesheet.png" sizeM="16" sizeN="8" />
     </spritesheets>
 
     <materials>
@@ -350,8 +350,26 @@
                 <noderef id="placed_piston_platform" />
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
+                <noderef id="spriteAnimTest" />
             </descendants>
         </node>
+
+            <node id="spriteAnimTest" >
+                <material id="whiteMaterial" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                    <translation x="0.5" y="0.5" z="0.001" />
+                    <scale sx="0.25" sy="0.25" sz="1" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="spriteanim" ssid="placeholder" duration="80" startCell="33" endCell="59" />
+                </descendants>
+            </node>
 
             <node id="are_you_still_there" >
                 <material id="whiteMaterial" />

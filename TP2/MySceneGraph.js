@@ -40,6 +40,8 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        this.spriteAnims = [];
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -154,6 +156,15 @@ class MySceneGraph {
      */
     getAnimation(animationId) {
         return this.animations.get(animationId);
+    }
+
+    /**
+     * Gets the spritesheet with given id
+     * Returns undefined if it doesn't exist
+     * @param {string} spritesheetId 
+     */
+    getSpriteSheet(spritesheetId) {
+        return this.spritesheets.get(spritesheetId);
     }
 
     /**
@@ -294,6 +305,14 @@ class MySceneGraph {
             this.animations = new Map();  // Do this to not break the rest of the code
         }
         else if ((error = this.parseAnimations(nodes[index])) != null) {
+            return error;
+        }
+
+        // <spritesheets>
+        if ((index = nodeNames.indexOf("spritesheets")) == INDEX_NOT_FOUND) {
+            this.spritesheets = new Map();  // Do this to not break the rest of the code
+        }
+        else if ((error = this.parseSpritesheets(nodes[index])) != null) {
             return error;
         }
 
@@ -953,6 +972,48 @@ class MySceneGraph {
     }
 
 
+    parseSpritesheets(spritesheetsNode) {
+        // <spritesheet id=”ss” path=”ss” sizeM=”ii” sizeN=”ii” />
+        var children = spritesheetsNode.children;
+
+        this.spritesheets = new Map();
+
+        // Any number of textures.
+        var curNode = null;
+        var spritesheet = null;
+        for (var i = 0; i < children.length; i++) {
+            curNode = children[i];
+
+            if (curNode.nodeName != "spritesheet") {
+                this.onXMLMinorError("Unknown tag <" + curNode.nodeName + "> in animations block");
+                continue;
+            }
+
+            // Get id of the current material.
+            var spritesheetId = this.reader.getString(curNode, 'id');
+            if (spritesheetId == null) {
+                this.onXMLMinorError("No id in <spritesheet> tag: Skipping spritesheet");
+                continue;
+            }
+
+            // Checks for repeated IDs.
+            if (this.spritesheets.has(spritesheetId)) {
+                this.onXMLMinorError("ID must be unique for each spritesheet (conflict: ID = " + spritesheetId + "): Skipping spritesheet");
+                continue;
+            }
+
+            if ((spritesheet = this.parseSpritesheet(curNode)) == null) {
+                this.onXMLError("Failed to parse spritesheet with id '" + spritesheetId +  "': Ignoring spritesheet");
+            }
+
+            this.spritesheets.set(spritesheetId, spritesheet);
+        }
+
+        this.log("Parsed spritesheets");
+        return null;
+
+    }
+
     /**
      * Parses the <animations> block.
      * @param {animations block element} nodesNode
@@ -1430,7 +1491,31 @@ class MySceneGraph {
         if((endCell = this.parseInt(node, "endCell", "SpriteAnim", false)) == null)
             return null;
 
-        return new MySpriteAnimation(null, startCell, endCell, duration, ssid);
+        let sa = new MySpriteAnimation(null, startCell, endCell, duration, ssid);
+        this.spriteAnims.push(sa);
+        return sa;
+    }
+
+    parseSpritesheet(node) {
+        
+        let path = this.reader.getString(node, "path", true);
+        if (path == null) {
+            this.onXMLMinorError("Spritesheet has no path");
+            return null;
+        }
+
+        let sizeM, sizeN;
+        if((sizeM = this.parseInt(node, "sizeM", "Spritesheet", false)) == null) {
+            this.onXMLMinorError("Spritesheet has no sizeN");
+            return null;
+        }
+
+        if((sizeN = this.parseInt(node, "sizeN", "Spritesheet", false)) == null) {
+            this.onXMLMinorError("Spritesheet has no sizeN");
+            return null;
+        }
+
+        return new MySpriteSheet(this.scene, new CGFtexture(this.scene, path), sizeM, sizeN);
     }
 
     /**
