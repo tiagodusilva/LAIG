@@ -1345,6 +1345,12 @@ class MySceneGraph {
             return this.parseSpritetext(node);
         } else if (type === "spriteanim"){
             return this.parseSpriteAnim(node);
+        } else if (type === "plane") {
+            return this.parsePlane(node);
+        } else if (type === "patch") {
+            return this.parsePatch(node);
+        } else if (type === "defbarre") {
+            return this.parseBarrel(node);
         } else {
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
             return null;
@@ -1516,6 +1522,38 @@ class MySceneGraph {
         }
 
         return new MySpriteSheet(this.scene, new CGFtexture(this.scene, path), sizeM, sizeN);
+    }
+
+    // <leaf type=”plane” npartsU=“ii” npartsV=“ii” />
+    parsePlane(node) {
+        let npartsU, npartsV;
+        if((npartsU = this.parseInt(node, "npartsU", "Spritesheet", false)) == null) {
+            this.onXMLMinorError("Plane has no npartsU");
+            return null;
+        }
+
+        if((npartsV = this.parseInt(npartsV, "npartsV", "Spritesheet", false)) == null) {
+            this.onXMLMinorError("Plane has no npartsV");
+            return null;
+        }
+
+        return MyPlane(this.scene, npartsU, npartsV);
+    }
+
+    // <leaf type=”patch” npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >
+    //   <controlpoint xx=“ff” yy=“ff” zz=“ff” />
+    //   ...
+    // </leaf>
+    parsePatch(node) {
+        this.onXMLMinorError("PARSE PATCH UNIMPLEMENTED");
+        return null;
+    }
+
+    // <leaf type=”defbarrel” base=“ff” middle=“ff” height=“ff” 
+    //     slices=“ii” stacks=“ii” />
+    parseBarrel(node) {
+        this.onXMLMinorError("PARSE BARREL UNIMPLEMENTED");
+        return null;
     }
 
     /**
