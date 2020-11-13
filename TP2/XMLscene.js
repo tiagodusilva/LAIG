@@ -295,6 +295,7 @@ class XMLscene extends CGFscene {
             else
                 this.currTime = (t - this.startT) / 1000;
 
+
             for (let animation of this.graph.animations.values()) {
                 animation.update(this.currTime);
             }

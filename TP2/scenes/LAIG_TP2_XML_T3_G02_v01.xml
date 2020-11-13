@@ -367,7 +367,7 @@
                 </transformations>
 
                 <descendants>
-                    <leaf type="spriteanim" ssid="placeholder" duration="80" startCell="33" endCell="59" />
+                    <leaf type="spriteanim" ssid="placeholder" duration="5" startCell="33" endCell="37" />
                 </descendants>
             </node>
 

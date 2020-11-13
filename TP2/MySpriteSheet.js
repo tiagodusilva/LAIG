@@ -109,8 +109,8 @@ class MySpriteAnimation {
         this.startCell = startCell;
         this.endCell = endCell;
         this.animationTime = animationTime;
-        this.currentCell = this.startCell;
-        this.cellAmount = Math.abs(this.endCell - this.startCell);
+        this.currentCell = 0;
+        this.cellAmount = Math.abs(this.endCell - this.startCell) + 1;
         this.inverted = this.endCell < this.startCell;
     }
 
@@ -123,12 +123,17 @@ class MySpriteAnimation {
 
     update(t) {
         this.currentCell = Math.floor(t / this.animationTime * this.cellAmount);
-        this.currentCell = this.currentCell < this.cellAmount ? this.currentCell : this.cellAmount - 1; 
+        if(this.currentCell < this.cellAmount){
+            this.currentCell = this.currentCell;
+        } else {
+            this.currentCell = this.currentCell % this.cellAmount;
+        }
+        // this.currentCell = this.currentCell < this.cellAmount ? this.currentCell : this.cellAmount - 1; 
     }
     
     display(){
         this.spriteSheet.apply();
-        this.spriteSheet.activateCellP(this.inverted ? this.endCell - this.currentCell : this.startCell + this.currentCell);
+        this.spriteSheet.activateCellP(this.inverted ? this.startCell - this.currentCell : this.startCell + this.currentCell);
         this.spriteSheet.display();
         this.spriteSheet.deapply();
     }
