@@ -1527,17 +1527,17 @@ class MySceneGraph {
     // <leaf type=”plane” npartsU=“ii” npartsV=“ii” />
     parsePlane(node) {
         let npartsU, npartsV;
-        if((npartsU = this.parseInt(node, "npartsU", "Spritesheet", false)) == null) {
+        if((npartsU = this.parseInt(node, "npartsU", "Plane", false)) == null) {
             this.onXMLMinorError("Plane has no npartsU");
             return null;
         }
 
-        if((npartsV = this.parseInt(npartsV, "npartsV", "Spritesheet", false)) == null) {
+        if((npartsV = this.parseInt(node, "npartsV", "Plane", false)) == null) {
             this.onXMLMinorError("Plane has no npartsV");
             return null;
         }
 
-        return MyPlane(this.scene, npartsU, npartsV);
+        return new MyPlane(this.scene, npartsU, npartsV);
     }
 
     // <leaf type=”patch” npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >
@@ -1545,14 +1545,93 @@ class MySceneGraph {
     //   ...
     // </leaf>
     parsePatch(node) {
-        this.onXMLMinorError("PARSE PATCH UNIMPLEMENTED");
+        let npointsU, npointsV, npartsU, npartsV;
+        if((npointsU = this.parseInt(node, "npointsU", "Patch", false)) == null) {
+            this.onXMLMinorError("Patch has no npointsU");
+            return null;
+        }
+
+        if((npointsV = this.parseInt(node, "npointsV", "Patch", false)) == null) {
+            this.onXMLMinorError("Patch has no npartsV");
+            return null;
+        }
+
+        if((npartsU = this.parseInt(node, "npartsU", "Patch", false)) == null) {
+            this.onXMLMinorError("Patch has no npartsU");
+            return null;
+        }
+
+        if((npartsV = this.parseInt(node, "npartsV", "Patch", false)) == null) {
+            this.onXMLMinorError("Patch has no npartsV");
+            return null;
+        }
+
+        let controlPoints = [];
+        // <controlpoint xx=“ff” yy=“ff” zz=“ff” />
+        for (let child of node.children) {
+            if (child.nodeName != "controlpoint") {
+                this.onXMLMinorError("Unexpected child in Patch control points, expected <controlpoint> but was <" + child.nodeName + ">: Skipping control point");
+                continue;
+            }
+
+            // The gravity will always be 1
+            let coords = [0, 0, 0, 1];
+            if((coords[0] = this.parseFloat(child, "xx", "Controlpoint", false)) == null) {
+                this.onXMLMinorError("Controlpoint has no xx: Skipping Controlpoint");
+                continue;
+            }
+
+            if((coords[1] = this.parseFloat(child, "yy", "Controlpoint", false)) == null) {
+                this.onXMLMinorError("Controlpoint has no yy: Skipping Controlpoint");
+                continue;
+            }
+
+            if((coords[2] = this.parseFloat(child, "zz", "Controlpoint", false)) == null) {
+                this.onXMLMinorError("Controlpoint has no zz: Skipping Controlpoint");
+                continue;
+            }
+
+            controlPoints.push(coords);
+        }
+
+        // TODO: Verify number of control points?
+
+        this.onXMLMinorError("PATCH PRIMITIVE UNIMPLEMENTED");
         return null;
     }
 
     // <leaf type=”defbarrel” base=“ff” middle=“ff” height=“ff” 
     //     slices=“ii” stacks=“ii” />
     parseBarrel(node) {
-        this.onXMLMinorError("PARSE BARREL UNIMPLEMENTED");
+
+        let base, middle, height;
+        if((base = this.parseFloat(node, "base", "Barrel", false)) == null) {
+            this.onXMLMinorError("Barrel has no base");
+            return null;
+        }
+
+        if((middle = this.parseFloat(node, "middle", "Barrel", false)) == null) {
+            this.onXMLMinorError("Barrel has no middle");
+            return null;
+        }
+
+        if((height = this.parseFloat(node, "height", "Barrel", false)) == null) {
+            this.onXMLMinorError("Barrel has no height");
+            return null;
+        }
+
+        let slices, stacks;
+        if((slices = this.parseInt(node, "slices", "Barrel", false)) == null) {
+            this.onXMLMinorError("Barrel has no slices");
+            return null;
+        }
+
+        if((stacks = this.parseInt(node, "stacks", "Barrel", false)) == null) {
+            this.onXMLMinorError("Barrel has no npartsV");
+            return null;
+        }
+
+        this.onXMLMinorError("BARREL PRIMITIVE UNIMPLEMENTED");
         return null;
     }
 
