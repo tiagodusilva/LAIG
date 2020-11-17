@@ -352,8 +352,7 @@
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
                 <noderef id="spriteAnimTest" /> -->
-                <noderef id="portal_gun_back" />
-                <noderef id="portal_gun_back_2" />
+                <noderef id="portal_gun" />
             </descendants>
         </node>
 
@@ -403,67 +402,6 @@
             </descendants>
         </node>´
 
-        <node id="portal_gun_back" >
-            <material id="whiteMaterial" />
-
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-            </transformations>
-
-            <descendants>
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0.8" yy="0" zz="0.15"/>
-                    <controlpoint xx="0.5" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.2" yy="0" zz="0.2"/>
-
-                    <controlpoint xx="1.3" yy="0.3" zz="0.2"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0" yy="0.3" zz="0.4"/>
-
-                    <controlpoint xx="1" yy="0.25" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.5" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.5" zz="0"/>
-                    <controlpoint xx="0" yy="0.4" zz="0"/>
-
-                </leaf>
-            </descendants>
-        </node>
-
-        <node id="portal_gun_back_2" >
-            <material id="whiteMaterial" />
-
-            <texture id="null">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-            </transformations>
-
-            <descendants>
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0.2" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.5" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.8" yy="0" zz="-0.15"/>
-
-                    <controlpoint xx="0" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="1.3" yy="0.3" zz="-0.2"/>
-
-                    <controlpoint xx="0" yy="0.4" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.5" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.5" zz="0"/>
-                    <controlpoint xx="1" yy="0.25" zz="0"/>
-
-                </leaf>
-            </descendants>
-        </node>
 
             <node id="spriteAnimTest" >
                 <material id="whiteMaterial" />
@@ -3439,6 +3377,89 @@
                 </descendants>
             </node>
         <!-- END LIGHTS -->
+
+
+        <!-- START PORTAL GUN -->
+        <node id="portal_gun" >
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="portal_gun_back" />
+                <noderef id="portal_gun_back_2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_back" >
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                    <controlpoint xx="0.8" yy="0" zz="0.15"/>
+                    <controlpoint xx="0.5" yy="0" zz="0.2"/>
+                    <controlpoint xx="0.4" yy="0" zz="0.2"/>
+                    <controlpoint xx="0.2" yy="0" zz="0.2"/>
+
+                    <controlpoint xx="1.3" yy="0.3" zz="0.2"/>
+                    <controlpoint xx="0.5" yy="0.3" zz="0.4"/>
+                    <controlpoint xx="0.3" yy="0.3" zz="0.4"/>
+                    <controlpoint xx="0" yy="0.3" zz="0.4"/>
+
+                    <controlpoint xx="1" yy="0.25" zz="0"/>
+                    <controlpoint xx="0.7" yy="0.5" zz="0"/>
+                    <controlpoint xx="0.3" yy="0.5" zz="0"/>
+                    <controlpoint xx="0" yy="0.4" zz="0"/>
+
+                </leaf>
+            </descendants>
+        </node>
+
+        <node id="portal_gun_back_2" >
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                    <controlpoint xx="0.2" yy="0" zz="-0.2"/>
+                    <controlpoint xx="0.4" yy="0" zz="-0.2"/>
+                    <controlpoint xx="0.5" yy="0" zz="-0.2"/>
+                    <controlpoint xx="0.8" yy="0" zz="-0.15"/>
+
+                    <controlpoint xx="0" yy="0.3" zz="-0.4"/>
+                    <controlpoint xx="0.3" yy="0.3" zz="-0.4"/>
+                    <controlpoint xx="0.5" yy="0.3" zz="-0.4"/>
+                    <controlpoint xx="1.3" yy="0.3" zz="-0.2"/>
+
+                    <controlpoint xx="0" yy="0.4" zz="0"/>
+                    <controlpoint xx="0.3" yy="0.5" zz="0"/>
+                    <controlpoint xx="0.7" yy="0.5" zz="0"/>
+                    <controlpoint xx="1" yy="0.25" zz="0"/>
+
+                </leaf>
+            </descendants>
+        </node>
+        
+        <!-- END PORTAL GUN -->
+
 
     </nodes>
 </lsf>
