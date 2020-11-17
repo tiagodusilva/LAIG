@@ -17,7 +17,6 @@ class Plane extends CGFobject {
     }
 
     display(){
-        console.log("HELLO")
         this.nurbs.display();
     }
 
