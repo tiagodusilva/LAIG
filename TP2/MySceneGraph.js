@@ -1594,10 +1594,24 @@ class MySceneGraph {
             controlPoints.push(coords);
         }
 
-        // TODO: Verify number of control points?
+        if(controlPoints.length != (npointsU * npointsV)){
+            this.onXMLMinorError("Patch: Wrong number of control points");
+            return null;
+        }
 
-        this.onXMLMinorError("PATCH PRIMITIVE UNIMPLEMENTED");
-        return null;
+        let finalControlPoints = [];
+        for(let j = 0; j < npointsV; j++){
+            let aux = [];
+            for(let i = j * npointsU; i < (j + 1) * npointsU ; i++) {
+                aux.push(controlPoints[i]);
+            }
+            finalControlPoints.push(aux);
+        }
+
+        // console.log(controlPoints);
+        // console.log(finalControlPoints);
+
+        return new Patch(this.scene, npartsU, npartsV, npointsU, npointsV, finalControlPoints);
     }
 
     // <leaf type=”defbarrel” base=“ff” middle=“ff” height=“ff” 

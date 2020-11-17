@@ -352,24 +352,55 @@
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
                 <noderef id="spriteAnimTest" />
-                <noderef id="test_plane" />
+                <noderef id="test_patch" />
             </descendants>
         </node>
 
         <node id="test_plane" >
-                <material id="whiteMaterial" />
+            <material id="whiteMaterial" />
 
-                <texture id="null">
-                    <amplification afs="1.0" aft="1.0" />
-                </texture>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
 
-                <transformations>
-                </transformations>
+            <transformations>
+            </transformations>
 
-                <descendants>
-                    <leaf type="plane" npartsU="4" npartsV="4" />
-                </descendants>
-            </node>
+            <descendants>
+                <leaf type="plane" npartsU="4" npartsV="4" />
+            </descendants>
+        </node>
+
+        <node id="test_patch" >
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
+                    <controlpoint xx="1" yy="0" zz="0.5"/>
+                    <controlpoint xx="0.5" yy="0" zz="0.5"/>
+                    <controlpoint xx="-0.5" yy="0" zz="0.5"/>
+
+                    <controlpoint xx="1" yy="0" zz="0"/>
+                    <controlpoint xx="0.5" yy="0.5" zz="0"/>
+                    <controlpoint xx="-0.5" yy="0.5" zz="0"/>
+
+                    <controlpoint xx="1" yy="0" zz="-0.5"/>
+                    <controlpoint xx="0.5" yy="0" zz="-0.5"/>
+                    <controlpoint xx="-0.5" yy="0" zz="-0.5"/>
+
+                    <controlpoint xx="1" yy="0" zz="-1"/>
+                    <controlpoint xx="0.5" yy="0.5" zz="-1"/>
+                    <controlpoint xx="-0.5" yy="0.5" zz="-1"/>
+                </leaf>
+            </descendants>
+        </node>
 
             <node id="spriteAnimTest" >
                 <material id="whiteMaterial" />
