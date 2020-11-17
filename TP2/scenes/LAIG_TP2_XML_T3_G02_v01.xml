@@ -11,7 +11,7 @@
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
-    <views default="Overview">
+    <views default="Origin">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Overview" near="0.1" far="500" angle="70">
             <from x="11" y="6" z="10" />
@@ -58,6 +58,11 @@
             <to x="4" y="2" z="4" />
             <up x="0" y="-1" z="0" />
         </ortho>
+
+        <perspective id="Origin" near="0.1" far="500" angle="70">
+            <from x="2" y="2" z="2" />
+            <to x="0" y="0" z="0" />
+        </perspective>
     </views>
 
     <illumination>
@@ -150,6 +155,7 @@
         <texture id="piston_platform" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_platform.png" />
         <texture id="piston_color_dark" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_dark.png" />
         <texture id="piston_color_light" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_light.png" />
+        <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" />
     </textures>
 
     <!-- spritesheets -->
@@ -353,13 +359,35 @@
                 <noderef id="are_you_still_there" />
                 <noderef id="spriteAnimTest" /> -->
                 <noderef id="portal_gun" />
+
+                <!-- <noderef id="test_plane" /> -->
+                <!-- <noderef id="test_patch" /> -->
+                <!-- <noderef id="test_barrel" /> -->
             </descendants>
         </node>
+
+        <node id="test_barrel" >
+            <material id="whiteMaterial" />
+
+            <texture id="testmap">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0.5" z="0.5" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="defbarrel" base="0.2" middle="0.5" height="1" slices="20" stacks="20" />
+            </descendants>
+        </node>
+
 
         <node id="test_plane" >
             <material id="whiteMaterial" />
 
-            <texture id="null">
+            <texture id="testmap">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -374,7 +402,7 @@
         <node id="test_patch" >
             <material id="whiteMaterial" />
 
-            <texture id="null">
+            <texture id="testmap">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
