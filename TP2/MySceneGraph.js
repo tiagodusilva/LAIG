@@ -1536,8 +1536,8 @@ class MySceneGraph {
             this.onXMLMinorError("Plane has no npartsV");
             return null;
         }
-
-        return new MyPlane(this.scene, npartsU, npartsV);
+        
+        return new Plane(this.scene, npartsU, npartsV);
     }
 
     // <leaf type=”patch” npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >

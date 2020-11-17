@@ -317,6 +317,7 @@
             </descendants>
         </node>
 
+
         <!-- SCENE PROPS -->
         <node id="props" >
             <material id="null" />
@@ -351,8 +352,24 @@
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
                 <noderef id="spriteAnimTest" />
+                <noderef id="test_plane" />
             </descendants>
         </node>
+
+        <node id="test_plane" >
+                <material id="whiteMaterial" />
+
+                <texture id="null">
+                    <amplification afs="1.0" aft="1.0" />
+                </texture>
+
+                <transformations>
+                </transformations>
+
+                <descendants>
+                    <leaf type="plane" npartsU="4" npartsV="4" />
+                </descendants>
+            </node>
 
             <node id="spriteAnimTest" >
                 <material id="whiteMaterial" />
