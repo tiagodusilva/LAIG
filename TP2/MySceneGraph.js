@@ -1349,7 +1349,7 @@ class MySceneGraph {
             return this.parsePlane(node);
         } else if (type === "patch") {
             return this.parsePatch(node);
-        } else if (type === "defbarre") {
+        } else if (type === "defbarrel") {
             return this.parseBarrel(node);
         } else {
             this.onXMLMinorError("Couldn't parse leaf node: Invalid type");
@@ -1645,8 +1645,7 @@ class MySceneGraph {
             return null;
         }
 
-        this.onXMLMinorError("BARREL PRIMITIVE UNIMPLEMENTED");
-        return null;
+        return new MyBarrel(this.scene, base, middle, height, slices, stacks);
     }
 
     /**
