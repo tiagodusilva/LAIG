@@ -3424,7 +3424,8 @@
                 <noderef id="portal_gun_back_2" />
                 <noderef id="portal_gun_front" />
                 <noderef id="portal_gun_front_2" />
-                <noderef id="portal_gun_middle_tube" />
+                <noderef id="portal_gun_back_tube" />
+                <noderef id="portal_gun_front_tube" />
                 <noderef id="portal_gun_handle" />
                 <noderef id="portal_gun_button_orange" />
                 <noderef id="portal_gun_button_blue" />
@@ -3448,7 +3449,7 @@
 
             <descendants>
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0.8" yy="0" zz="0.15"/>
+                    <controlpoint xx="0.8" yy="0" zz="0.16"/>
                     <controlpoint xx="0.5" yy="0" zz="0.2"/>
                     <controlpoint xx="0.4" yy="0" zz="0.2"/>
                     <controlpoint xx="0.2" yy="0" zz="0.2"/>
@@ -3474,7 +3475,7 @@
                     <controlpoint xx="0.3" yy="0.3" zz="0.4"/>
                     <controlpoint xx="0" yy="0.3" zz="0.4"/>
 
-                    <controlpoint xx="0.8" yy="0" zz="0.15"/>
+                    <controlpoint xx="0.8" yy="0" zz="0.16"/>
                     <controlpoint xx="0.5" yy="0" zz="0.2"/>
                     <controlpoint xx="0.4" yy="0" zz="0.2"/>
                     <controlpoint xx="0.2" yy="0" zz="0.2"/>
@@ -3499,7 +3500,7 @@
                     <controlpoint xx="0.2" yy="0" zz="-0.2"/>
                     <controlpoint xx="0.4" yy="0" zz="-0.2"/>
                     <controlpoint xx="0.5" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.8" yy="0" zz="-0.15"/>
+                    <controlpoint xx="0.8" yy="0" zz="-0.16"/>
 
                     <controlpoint xx="0" yy="0.3" zz="-0.4"/>
                     <controlpoint xx="0.3" yy="0.3" zz="-0.4"/>
@@ -3526,7 +3527,7 @@
                     <controlpoint xx="0.2" yy="0" zz="-0.2"/>
                     <controlpoint xx="0.4" yy="0" zz="-0.2"/>
                     <controlpoint xx="0.5" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.8" yy="0" zz="-0.15"/>
+                    <controlpoint xx="0.8" yy="0" zz="-0.16"/>
                 </leaf>
             </descendants>
         </node>
@@ -3744,7 +3745,7 @@
             </descendants>
         </node>
 
-        <node id="portal_gun_middle_tube" >
+        <node id="portal_gun_back_tube" >
             <material id="blackMaterial" />
 
             <texture id="null">
@@ -3752,12 +3753,153 @@
             </texture>
 
             <transformations>
-                <translation x=".7" y="0" z="0" />
+                <translation x="-0.05" y="0.015" z="0" />
                 <rotation axis="y" angle="-90" />
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="1.6" topRadius="0.175" bottomRadius="0.175" slices="20" stacks="2" />
+                <leaf type="cylinder" height="0.85" topRadius="0.18" bottomRadius="0.18" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube" >
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.35" y="0" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="portal_gun_front_tube_1" />
+                <noderef id="portal_gun_front_tube_2" />
+                <noderef id="portal_gun_front_tube_3" />
+                <noderef id="portal_gun_front_tube_4" />
+                <noderef id="portal_gun_front_tube_5" />
+                <noderef id="portal_gun_front_tube_6" />
+                <noderef id="portal_gun_front_tube_7" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_1">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.14" bottomRadius="0.18" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_2">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.1" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.18" bottomRadius="0.18" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_3">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.2" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.16" bottomRadius="0.16" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_4">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.25" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.05" topRadius="0.16" bottomRadius="0.12" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_5">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.45" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="2" topRadius="0.1" bottomRadius="0.1" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_6">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.525" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height=".075" topRadius="0.12" bottomRadius="0.1" slices="20" stacks="2" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_front_tube_7">
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.4" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height=".1" topRadius="0.12" bottomRadius="0.12" slices="20" stacks="2" />
             </descendants>
         </node>
 
