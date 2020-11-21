@@ -436,6 +436,7 @@
                 <noderef id="placed_piston_platform" />
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
+                <noderef id="portal_gun_pedestal" />
 
                 <!-- Alpha related :D -->
                 <noderef id="close_orange_portal"/>
@@ -4230,6 +4231,95 @@
 
             <descendants>
                 <leaf type="spriteanim" ssid="closed_orange_portal" duration="1" startCell="0" endCell="3" />
+            </descendants>
+        </node>
+
+        <node id="close_orange_blue" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="1.5" z="5.999" />
+                <rotation axis="y" angle="180" />
+                <scale sx="0.5" sy="1" sz="0.45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spriteanim" ssid="closed_orange_portal" duration="1" startCell="0" endCell="3" />
+            </descendants>
+        </node>
+
+
+
+        <node id="portal_gun_pedestal" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1.5" y="0" z="1.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="portal_gun_pedestal_base" /> 
+                <noderef id="portal_gun_pedestal_support" />
+                <noderef id="portal_gun_pedestal_portal_gun" />
+            </descendants>
+        </node>
+        
+        <node id="portal_gun_pedestal_base" >
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.025" topRadius="0.15" bottomRadius="0.15" slices="32" stacks="2" /> 
+            </descendants>
+        </node>
+
+        <node id="portal_gun_pedestal_support" >
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="0" z="0.025" />
+            </transformations>
+
+            <descendants>
+                <leaf type="defbarrel" base="0.025" middle="0.04" height="0.4" slices="20" stacks="20" />
+            </descendants>
+        </node>
+
+        <node id="portal_gun_pedestal_portal_gun" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="y" angle="135" />
+                <translation x="0" y="0.44" z="0" />
+                <scale sx="0.2" sy="0.2" sz="0.2" />
+            </transformations>
+
+            <descendants>
+                <noderef id="portal_gun" />
             </descendants>
         </node>
 
