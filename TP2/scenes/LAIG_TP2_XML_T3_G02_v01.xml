@@ -164,7 +164,7 @@
     <spritesheets>
     <!-- Semelhante à declaração de textura,  -->
     <!-- mas inclui a definição do nº de colunas e linhas -->
-        <spritesheet id="placeholder" path="images/textspritesheet.png" sizeM="16" sizeN="8" />
+        <spritesheet id="closed_orange_portal" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/portal_spritesheet_darkened.png" sizeM="4" sizeN="1" />
     </spritesheets>
 
     <materials>
@@ -212,10 +212,10 @@
         </material>
         <material id="hardLight">
             <shininess value="1.0" />
-            <ambient r="0.298" g="0.494" b="0.752" a="0.0" />
-            <diffuse r="0.0298" g="0.0494" b="0.0752" a="0.0" />
-            <specular r="0" g="0" b="0" a="0.0" />
-            <emissive r="0.298" g="0.494" b="0.752" a="0.0" />
+            <ambient r="0.298" g="0.494" b="0.752" a="0.75" />
+            <diffuse r="0.0298" g="0.0494" b="0.0752" a="0.75" />
+            <specular r="0" g="0" b="0" a="0.75" />
+            <emissive r="0.298" g="0.494" b="0.752" a="0.75" />
         </material>
         <material id="redMaterial">
             <shininess value="1.0" />
@@ -301,6 +301,37 @@
                 <scale sx="0" sy="0" sz="0" />
             </keyframe>
         </animation>
+
+        <animation id="are_you_still_there_anim">
+            <keyframe instant="3.5" >
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+            <keyframe instant="4" >
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="12" >
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="12.5" >
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+        </animation>
     </animations>
 
     <!-- NODES -->
@@ -317,8 +348,8 @@
             </transformations>
 
             <descendants>
-                <!-- <noderef id="lights" /> -->
-                <!-- <noderef id="roomBoundary" /> -->
+                <noderef id="lights" />
+                <noderef id="roomBoundary" />
                 <noderef id="props" />
             </descendants>
         </node>
@@ -336,11 +367,10 @@
             </transformations>
 
             <descendants>
-                <!-- <noderef id="placedButton" />
+                <noderef id="placedButton" />
                 <noderef id="placedTurret0" />
                 <noderef id="placedTurret1" />
                 <noderef id="placedTurret2" />
-                <noderef id="hardLightBridge" />
                 <noderef id="chamberSign" />
                 <noderef id="observation" />
                 <noderef id="placed_exit_door" />
@@ -357,8 +387,11 @@
                 <noderef id="placed_piston_platform" />
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
-                <noderef id="spriteAnimTest" /> -->
-                <noderef id="portal_gun" />
+
+                <!-- Alpha related :D -->
+                <noderef id="close_orange_portal"/>
+                <noderef id="hardLightBridge" />
+                <!-- <noderef id="portal_gun" /> -->
 
                 <!-- <noderef id="test_plane" /> -->
                 <!-- <noderef id="test_patch" /> -->
@@ -412,42 +445,24 @@
 
             <descendants>
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
-                    <controlpoint xx="1" yy="0" zz="0.5"/>
-                    <controlpoint xx="0.5" yy="0" zz="0.5"/>
-                    <controlpoint xx="-0.5" yy="0" zz="0.5"/>
+                    <controlpoint x="1" y="0" z="0.5"/>
+                    <controlpoint x="0.5" y="0" z="0.5"/>
+                    <controlpoint x="-0.5" y="0" z="0.5"/>
 
-                    <controlpoint xx="1" yy="0" zz="0"/>
-                    <controlpoint xx="0.5" yy="0.5" zz="0"/>
-                    <controlpoint xx="-0.5" yy="0.5" zz="0"/>
+                    <controlpoint x="1" y="0" z="0"/>
+                    <controlpoint x="0.5" y="0.5" z="0"/>
+                    <controlpoint x="-0.5" y="0.5" z="0"/>
 
-                    <controlpoint xx="1" yy="0" zz="-0.5"/>
-                    <controlpoint xx="0.5" yy="0" zz="-0.5"/>
-                    <controlpoint xx="-0.5" yy="0" zz="-0.5"/>
+                    <controlpoint x="1" y="0" z="-0.5"/>
+                    <controlpoint x="0.5" y="0" z="-0.5"/>
+                    <controlpoint x="-0.5" y="0" z="-0.5"/>
 
-                    <controlpoint xx="1" yy="0" zz="-1"/>
-                    <controlpoint xx="0.5" yy="0.5" zz="-1"/>
-                    <controlpoint xx="-0.5" yy="0.5" zz="-1"/>
+                    <controlpoint x="1" y="0" z="-1"/>
+                    <controlpoint x="0.5" y="0.5" z="-1"/>
+                    <controlpoint x="-0.5" y="0.5" z="-1"/>
                 </leaf>
             </descendants>
-        </node>´
-
-
-            <node id="spriteAnimTest" >
-                <material id="whiteMaterial" />
-
-                <texture id="null">
-                    <amplification afs="1.0" aft="1.0" />
-                </texture>
-
-                <transformations>
-                    <translation x="0.5" y="0.5" z="0.001" />
-                    <scale sx="0.25" sy="0.25" sz="1" />
-                </transformations>
-
-                <descendants>
-                    <leaf type="spriteanim" ssid="placeholder" duration="5" startCell="33" endCell="37" />
-                </descendants>
-            </node>
+        </node>
 
             <node id="are_you_still_there" >
                 <material id="whiteMaterial" />
@@ -465,6 +480,8 @@
                 <descendants>
                     <leaf type="spritetext" text="I miss you...&#10;Are you still there?" />
                 </descendants>
+
+                <animationref id="are_you_still_there_anim" />
             </node>
 
             <node id="piston_cross_symbol" >
@@ -3449,36 +3466,36 @@
 
             <descendants>
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0.8" yy="0" zz="0.16"/>
-                    <controlpoint xx="0.5" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.2" yy="0" zz="0.2"/>
+                    <controlpoint x="0.8" y="0" z="0.16"/>
+                    <controlpoint x="0.5" y="0" z="0.2"/>
+                    <controlpoint x="0.4" y="0" z="0.2"/>
+                    <controlpoint x="0.2" y="0" z="0.2"/>
 
-                    <controlpoint xx="1.3" yy="0.3" zz="0.2"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0" yy="0.3" zz="0.4"/>
+                    <controlpoint x="1.3" y="0.3" z="0.2"/>
+                    <controlpoint x="0.5" y="0.3" z="0.4"/>
+                    <controlpoint x="0.3" y="0.3" z="0.4"/>
+                    <controlpoint x="0.0" y="0.3" z="0.4"/>
 
-                    <controlpoint xx="1" yy="0.35" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.4" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.45" zz="0"/>
-                    <controlpoint xx="0" yy="0.42" zz="0"/>
+                    <controlpoint x="1.0" y="0.35" z="0"/>
+                    <controlpoint x="0.7" y="0.40" z="0"/>
+                    <controlpoint x="0.3" y="0.45" z="0"/>
+                    <controlpoint x="0.0" y="0.42" z="0"/>
                 </leaf>
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="1" yy="0.35" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.4" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.45" zz="0"/>
-                    <controlpoint xx="0" yy="0.42" zz="0"/>
+                    <controlpoint x="1.0" y="0.35" z="0"/>
+                    <controlpoint x="0.7" y="0.40" z="0.0"/>
+                    <controlpoint x="0.3" y="0.45" z="0"/>
+                    <controlpoint x="0.0" y="0.42" z="0"/>
 
-                    <controlpoint xx="1.3" yy="0.3" zz="0.2"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="0.4"/>
-                    <controlpoint xx="0" yy="0.3" zz="0.4"/>
+                    <controlpoint x="1.3" y="0.3" z="0.2"/>
+                    <controlpoint x="0.5" y="0.3" z="0.4"/>
+                    <controlpoint x="0.3" y="0.3" z="0.4"/>
+                    <controlpoint x="0.0" y="0.3" z="0.4"/>
 
-                    <controlpoint xx="0.8" yy="0" zz="0.16"/>
-                    <controlpoint xx="0.5" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="0.2"/>
-                    <controlpoint xx="0.2" yy="0" zz="0.2"/>
+                    <controlpoint x="0.8" y="0" z="0.16"/>
+                    <controlpoint x="0.5" y="0" z="0.2"/>
+                    <controlpoint x="0.4" y="0" z="0.2"/>
+                    <controlpoint x="0.2" y="0" z="0.2"/>
                 </leaf>
             </descendants>
         </node>
@@ -3497,37 +3514,37 @@
 
             <descendants>
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0.2" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.5" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.8" yy="0" zz="-0.16"/>
+                    <controlpoint x="0.2" y="0" z="-0.2"/>
+                    <controlpoint x="0.4" y="0" z="-0.2"/>
+                    <controlpoint x="0.5" y="0" z="-0.2"/>
+                    <controlpoint x="0.8" y="0" z="-0.16"/>
 
-                    <controlpoint xx="0" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="1.3" yy="0.3" zz="-0.2"/>
+                    <controlpoint x="0" y="0.3" z="-0.4"/>
+                    <controlpoint x="0.3" y="0.3" z="-0.4"/>
+                    <controlpoint x="0.5" y="0.3" z="-0.4"/>
+                    <controlpoint x="1.3" y="0.3" z="-0.2"/>
                     
-                    <controlpoint xx="0" yy="0.42" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.45" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.4" zz="0"/>
-                    <controlpoint xx="1" yy="0.35" zz="0"/>
+                    <controlpoint x="0" y="0.42" z="0"/>
+                    <controlpoint x="0.3" y="0.45" z="0"/>
+                    <controlpoint x="0.7" y="0.4" z="0"/>
+                    <controlpoint x="1" y="0.35" z="0"/>
                 </leaf>
 
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
-                    <controlpoint xx="0" yy="0.42" zz="0"/>
-                    <controlpoint xx="0.3" yy="0.45" zz="0"/>
-                    <controlpoint xx="0.7" yy="0.4" zz="0"/>
-                    <controlpoint xx="1" yy="0.35" zz="0"/>
+                    <controlpoint x="0" y="0.42" z="0"/>
+                    <controlpoint x="0.3" y="0.45" z="0"/>
+                    <controlpoint x="0.7" y="0.4" z="0"/>
+                    <controlpoint x="1" y="0.35" z="0"/>
 
-                    <controlpoint xx="0" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.3" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="0.5" yy="0.3" zz="-0.4"/>
-                    <controlpoint xx="1.3" yy="0.3" zz="-0.2"/>
+                    <controlpoint x="0" y="0.3" z="-0.4"/>
+                    <controlpoint x="0.3" y="0.3" z="-0.4"/>
+                    <controlpoint x="0.5" y="0.3" z="-0.4"/>
+                    <controlpoint x="1.3" y="0.3" z="-0.2"/>
 
-                    <controlpoint xx="0.2" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.4" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.5" yy="0" zz="-0.2"/>
-                    <controlpoint xx="0.8" yy="0" zz="-0.16"/>
+                    <controlpoint x="0.2" y="0" z="-0.2"/>
+                    <controlpoint x="0.4" y="0" z="-0.2"/>
+                    <controlpoint x="0.5" y="0" z="-0.2"/>
+                    <controlpoint x="0.8" y="0" z="-0.16"/>
                 </leaf>
             </descendants>
         </node>
@@ -3546,94 +3563,94 @@
             <descendants>
                 <!-- Left Outer -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
 
-                    <controlpoint xx="0" yy="0" zz=".225"/>
-                    <controlpoint xx=".1" yy="0" zz=".225"/>
-                    <controlpoint xx="0.15" yy="0" zz=".225"/>
-                    <controlpoint xx="0.3" yy="0" zz=".225"/>
+                    <controlpoint x="0" y="0" z=".225"/>
+                    <controlpoint x=".1" y="0" z=".225"/>
+                    <controlpoint x="0.15" y="0" z=".225"/>
+                    <controlpoint x="0.3" y="0" z=".225"/>
 
-                    <controlpoint xx="-.2" yy="-0.2" zz=".25"/>
-                    <controlpoint xx="-.1" yy="-0.225" zz=".25"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz=".25"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz=".25"/>
+                    <controlpoint x="-.2" y="-0.2" z=".25"/>
+                    <controlpoint x="-.1" y="-0.225" z=".25"/>
+                    <controlpoint x="0.15" y="-0.25" z=".25"/>
+                    <controlpoint x="0.3" y="-0.25" z=".25"/>
 
-                    <controlpoint xx="-.175" yy="-0.25" zz="0"/>
-                    <controlpoint xx="-.05" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/>
+                    <controlpoint x="-.175" y="-0.25" z="0"/>
+                    <controlpoint x="-.05" y="-0.25" z="0"/>
+                    <controlpoint x="0.15" y="-0.25" z="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/>
                 </leaf>
 
                 <!-- Left Inner -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx="-.175" yy="-0.25" zz="0"/>
-                    <controlpoint xx="-.05" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/>
+                    <controlpoint x="-.175" y="-0.25" z="0"/>
+                    <controlpoint x="-.05" y="-0.25" z="0"/>
+                    <controlpoint x="0.15" y="-0.25" z="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/>
 
-                    <controlpoint xx="-.2" yy="-0.2" zz=".25"/>
-                    <controlpoint xx="-.1" yy="-0.225" zz=".25"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz=".25"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz=".25"/>
+                    <controlpoint x="-.2" y="-0.2" z=".25"/>
+                    <controlpoint x="-.1" y="-0.225" z=".25"/>
+                    <controlpoint x="0.15" y="-0.25" z=".25"/>
+                    <controlpoint x="0.3" y="-0.25" z=".25"/>
 
-                    <controlpoint xx="0" yy="0" zz=".225"/>
-                    <controlpoint xx=".1" yy="0" zz=".225"/>
-                    <controlpoint xx="0.15" yy="0" zz=".225"/>
-                    <controlpoint xx="0.3" yy="0" zz=".225"/>
+                    <controlpoint x="0" y="0" z=".225"/>
+                    <controlpoint x=".1" y="0" z=".225"/>
+                    <controlpoint x="0.15" y="0" z=".225"/>
+                    <controlpoint x="0.3" y="0" z=".225"/>
 
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
+                    <controlpoint x=".3" y="0.05" z=".2"/>
                 </leaf>
 
                 <!-- Right Outer -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
 
-                    <controlpoint xx="0.3" yy="0" zz=".225"/> <!-- Joint to Left -->
-                    <controlpoint xx="0.35" yy="0" zz=".225"/>
-                    <controlpoint xx=".4" yy="0" zz=".225"/>
-                    <controlpoint xx="0.45" yy="0.06" zz=".225"/>
+                    <controlpoint x="0.3" y="0" z=".225"/> <!-- Joint to Left -->
+                    <controlpoint x="0.35" y="0" z=".225"/>
+                    <controlpoint x=".4" y="0" z=".225"/>
+                    <controlpoint x="0.45" y="0.06" z=".225"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz=".25"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz=".25"/>
-                    <controlpoint xx=".5" yy="-0.22" zz=".25"/>
-                    <controlpoint xx=".6" yy="-0.2" zz=".25"/>
+                    <controlpoint x="0.3" y="-0.25" z=".25"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z=".25"/>
+                    <controlpoint x=".5" y="-0.22" z=".25"/>
+                    <controlpoint x=".6" y="-0.2" z=".25"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".5" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".6" yy="-0.25" zz="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="0"/>
+                    <controlpoint x=".5" y="-0.25" z="0"/>
+                    <controlpoint x=".6" y="-0.25" z="0"/>
                 </leaf>
 
                 <!-- Right Inner -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".5" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".6" yy="-0.25" zz="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="0"/>
+                    <controlpoint x=".5" y="-0.25" z="0"/>
+                    <controlpoint x=".6" y="-0.25" z="0"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz=".25"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz=".25"/>
-                    <controlpoint xx=".5" yy="-0.22" zz=".25"/>
-                    <controlpoint xx=".6" yy="-0.2" zz=".25"/>
+                    <controlpoint x="0.3" y="-0.25" z=".25"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z=".25"/>
+                    <controlpoint x=".5" y="-0.22" z=".25"/>
+                    <controlpoint x=".6" y="-0.2" z=".25"/>
 
-                    <controlpoint xx="0.3" yy="0" zz=".225"/> <!-- Joint to Left -->
-                    <controlpoint xx="0.35" yy="0" zz=".225"/>
-                    <controlpoint xx=".4" yy="0" zz=".225"/>
-                    <controlpoint xx="0.45" yy="0.06" zz=".225"/>
+                    <controlpoint x="0.3" y="0" z=".225"/> <!-- Joint to Left -->
+                    <controlpoint x="0.35" y="0" z=".225"/>
+                    <controlpoint x=".4" y="0" z=".225"/>
+                    <controlpoint x="0.45" y="0.06" z=".225"/>
 
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z=".2"/> <!-- Joint to Left -->
                 </leaf>
             </descendants>
         </node>
@@ -3652,94 +3669,94 @@
             <descendants>
                 <!-- Left Outer -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
 
-                    <controlpoint xx="0" yy="0" zz="-.225"/>
-                    <controlpoint xx=".1" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.15" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.3" yy="0" zz="-.225"/>
+                    <controlpoint x="0" y="0" z="-.225"/>
+                    <controlpoint x=".1" y="0" z="-.225"/>
+                    <controlpoint x="0.15" y="0" z="-.225"/>
+                    <controlpoint x="0.3" y="0" z="-.225"/>
 
-                    <controlpoint xx="-.2" yy="-0.2" zz="-.25"/>
-                    <controlpoint xx="-.1" yy="-0.225" zz="-.25"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="-.25"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="-.25"/>
+                    <controlpoint x="-.2" y="-0.2" z="-.25"/>
+                    <controlpoint x="-.1" y="-0.225" z="-.25"/>
+                    <controlpoint x="0.15" y="-0.25" z="-.25"/>
+                    <controlpoint x="0.3" y="-0.25" z="-.25"/>
 
-                    <controlpoint xx="-.175" yy="-0.25" zz="0"/>
-                    <controlpoint xx="-.05" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/>
+                    <controlpoint x="-.175" y="-0.25" z="0"/>
+                    <controlpoint x="-.05" y="-0.25" z="0"/>
+                    <controlpoint x="0.15" y="-0.25" z="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/>
                 </leaf>
 
                 <!-- Left Inner -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx="-.175" yy="-0.25" zz="0"/>
-                    <controlpoint xx="-.05" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="0"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/>
+                    <controlpoint x="-.175" y="-0.25" z="0"/>
+                    <controlpoint x="-.05" y="-0.25" z="0"/>
+                    <controlpoint x="0.15" y="-0.25" z="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/>
 
-                    <controlpoint xx="-.2" yy="-0.2" zz="-.25"/>
-                    <controlpoint xx="-.1" yy="-0.225" zz="-.25"/>
-                    <controlpoint xx="0.15" yy="-0.25" zz="-.25"/>
-                    <controlpoint xx="0.3" yy="-0.25" zz="-.25"/>
+                    <controlpoint x="-.2" y="-0.2" z="-.25"/>
+                    <controlpoint x="-.1" y="-0.225" z="-.25"/>
+                    <controlpoint x="0.15" y="-0.25" z="-.25"/>
+                    <controlpoint x="0.3" y="-0.25" z="-.25"/>
 
-                    <controlpoint xx="0" yy="0" zz="-.225"/>
-                    <controlpoint xx=".1" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.15" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.3" yy="0" zz="-.225"/>
+                    <controlpoint x="0" y="0" z="-.225"/>
+                    <controlpoint x=".1" y="0" z="-.225"/>
+                    <controlpoint x="0.15" y="0" z="-.225"/>
+                    <controlpoint x="0.3" y="0" z="-.225"/>
 
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
+                    <controlpoint x=".3" y="0.05" z="-.2"/>
                 </leaf>
 
                 <!-- Right Outer -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
 
-                    <controlpoint xx="0.3" yy="0" zz="-.225"/> <!-- Joint to Left -->
-                    <controlpoint xx="0.35" yy="0" zz="-.225"/>
-                    <controlpoint xx=".4" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.45" yy="0.06" zz="-.225"/>
+                    <controlpoint x="0.3" y="0" z="-.225"/> <!-- Joint to Left -->
+                    <controlpoint x="0.35" y="0" z="-.225"/>
+                    <controlpoint x=".4" y="0" z="-.225"/>
+                    <controlpoint x="0.45" y="0.06" z="-.225"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz="-.25"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="-.25"/>
-                    <controlpoint xx=".5" yy="-0.22" zz="-.25"/>
-                    <controlpoint xx=".6" yy="-0.2" zz="-.25"/>
+                    <controlpoint x="0.3" y="-0.25" z="-.25"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="-.25"/>
+                    <controlpoint x=".5" y="-0.22" z="-.25"/>
+                    <controlpoint x=".6" y="-0.2" z="-.25"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".5" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".6" yy="-0.25" zz="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="0"/>
+                    <controlpoint x=".5" y="-0.25" z="0"/>
+                    <controlpoint x=".6" y="-0.25" z="0"/>
                 </leaf>
 
                 <!-- Right Inner -->
                 <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="4">
-                    <controlpoint xx="0.3" yy="-0.25" zz="0"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".5" yy="-0.25" zz="0"/>
-                    <controlpoint xx=".6" yy="-0.25" zz="0"/>
+                    <controlpoint x="0.3" y="-0.25" z="0"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="0"/>
+                    <controlpoint x=".5" y="-0.25" z="0"/>
+                    <controlpoint x=".6" y="-0.25" z="0"/>
 
-                    <controlpoint xx="0.3" yy="-0.25" zz="-.25"/> <!-- Joint to Left -->
-                    <controlpoint xx=".4" yy="-0.25" zz="-.25"/>
-                    <controlpoint xx=".5" yy="-0.22" zz="-.25"/>
-                    <controlpoint xx=".6" yy="-0.2" zz="-.25"/>
+                    <controlpoint x="0.3" y="-0.25" z="-.25"/> <!-- Joint to Left -->
+                    <controlpoint x=".4" y="-0.25" z="-.25"/>
+                    <controlpoint x=".5" y="-0.22" z="-.25"/>
+                    <controlpoint x=".6" y="-0.2" z="-.25"/>
 
-                    <controlpoint xx="0.3" yy="0" zz="-.225"/> <!-- Joint to Left -->
-                    <controlpoint xx="0.35" yy="0" zz="-.225"/>
-                    <controlpoint xx=".4" yy="0" zz="-.225"/>
-                    <controlpoint xx="0.45" yy="0.06" zz="-.225"/>
+                    <controlpoint x="0.3" y="0" z="-.225"/> <!-- Joint to Left -->
+                    <controlpoint x="0.35" y="0" z="-.225"/>
+                    <controlpoint x=".4" y="0" z="-.225"/>
+                    <controlpoint x="0.45" y="0.06" z="-.225"/>
 
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
-                    <controlpoint xx=".3" yy="0.05" zz="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
+                    <controlpoint x=".3" y="0.05" z="-.2"/> <!-- Joint to Left -->
                 </leaf>
 
             </descendants>
@@ -4111,6 +4128,23 @@
 
         <!-- END PORTAL GUN -->
 
+        <node id="close_orange_portal" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.01" y="0.5" z="1.5" />
+                <rotation axis="y" angle="90" />
+                <scale sx="0.5" sy="1" sz="0.45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spriteanim" ssid="closed_orange_portal" duration="1" startCell="0" endCell="3" />
+            </descendants>
+        </node>
 
     </nodes>
 </lsf>

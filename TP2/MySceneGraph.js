@@ -1092,7 +1092,7 @@ class MySceneGraph {
 // </keyframe>
 
     parseKeyframe(keyframeNode) {
-        var instant = this.reader.getString(keyframeNode, 'instant');
+        var instant = this.parseFloat(keyframeNode, 'instant', "Keyframe");
         if (instant == null) {
             this.onXMLMinorError("Keyframe does not have an instant");
             return null;
@@ -1541,7 +1541,7 @@ class MySceneGraph {
     }
 
     // <leaf type=”patch” npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >
-    //   <controlpoint xx=“ff” yy=“ff” zz=“ff” />
+    //   <controlpoint x=“ff” y=“ff” z=“ff” />
     //   ...
     // </leaf>
     parsePatch(node) {
@@ -1567,29 +1567,19 @@ class MySceneGraph {
         }
 
         let controlPoints = [];
-        // <controlpoint xx=“ff” yy=“ff” zz=“ff” />
+        // <controlpoint x=“ff” y=“ff” z=“ff” />
         for (let child of node.children) {
             if (child.nodeName != "controlpoint") {
                 this.onXMLMinorError("Unexpected child in Patch control points, expected <controlpoint> but was <" + child.nodeName + ">: Skipping control point");
                 continue;
             }
 
+            let coords = this.parseCoordinates3D(child, "Control Point");
+            if (!Array.isArray(coords)) {
+                this.onXMLMinorError("Failed to parse control point coords ("+ coords +"): Skipping controlpoint")
+            }
             // The gravity will always be 1
-            let coords = [0, 0, 0, 1];
-            if((coords[0] = this.parseFloat(child, "xx", "Controlpoint", false)) == null) {
-                this.onXMLMinorError("Controlpoint has no xx: Skipping Controlpoint");
-                continue;
-            }
-
-            if((coords[1] = this.parseFloat(child, "yy", "Controlpoint", false)) == null) {
-                this.onXMLMinorError("Controlpoint has no yy: Skipping Controlpoint");
-                continue;
-            }
-
-            if((coords[2] = this.parseFloat(child, "zz", "Controlpoint", false)) == null) {
-                this.onXMLMinorError("Controlpoint has no zz: Skipping Controlpoint");
-                continue;
-            }
+            coords.push(1);
 
             controlPoints.push(coords);
         }

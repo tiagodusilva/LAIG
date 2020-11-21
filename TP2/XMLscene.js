@@ -329,6 +329,9 @@ class XMLscene extends CGFscene {
         this.updateGraphLights();
 
         if (this.sceneInited) {
+            this.gl.enable(this.gl.BLEND);
+            this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
             this.looped = true;
             // Draw axis
             if (this.showAxis) {
@@ -339,6 +342,8 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+
+            this.gl.disable(this.gl.BLEND);
         }
         else
         {
