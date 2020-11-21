@@ -11,7 +11,7 @@
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
-    <views default="Origin">
+    <views default="Overview">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Overview" near="0.1" far="500" angle="70">
             <from x="11" y="6" z="10" />
@@ -279,6 +279,13 @@
     <!-- Animations -->
     <animations>
         <animation id="cube_falling_animation" >
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
             <keyframe instant="1">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
@@ -286,19 +293,61 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="3">
-                <translation x="0" y="-4" z="0" />
+            <keyframe instant="3.5">
+                <translation x="0" y="-3.25" z="0" />
                 <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="360" />
+                <rotation axis="y" angle="45" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="4">
-                <translation x="0" y="-6" z="0" />
+            <keyframe instant="5.5">
+                <translation x="0" y="-4" z="0" />
+                <rotation axis="x" angle="47" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="138" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="6.5">
+                <translation x="0" y="-4" z="0" />
+                <rotation axis="x" angle="453" />
+                <rotation axis="y" angle="-152" />
+                <rotation axis="z" angle="453" />
+                <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+            <keyframe instant="7.99999">
+                <translation x="0" y="-4" z="0" />
                 <rotation axis="x" angle="0" />
-                <rotation axis="y" angle="2880" />
+                <rotation axis="y" angle="45" />
                 <rotation axis="z" angle="0" />
                 <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+            <keyframe instant="8">
+                <translation x="0" y="1" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="9">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="12">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="14.5">
+                <translation x="0" y="-3.1" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="45" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
             </keyframe>
         </animation>
 
@@ -390,12 +439,31 @@
 
                 <!-- Alpha related :D -->
                 <noderef id="close_orange_portal"/>
+                <noderef id="hardLightLongBridgePortaled"/>
                 <noderef id="hardLightBridge" />
                 <!-- <noderef id="portal_gun" /> -->
 
                 <!-- <noderef id="test_plane" /> -->
                 <!-- <noderef id="test_patch" /> -->
                 <!-- <noderef id="test_barrel" /> -->
+            </descendants>
+        </node>
+
+        <node id="hardLightLongBridgePortaled">
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.1" z="0.5"/>
+                <rotation axis="y" angle="90"/>
+                <scale sx="1" sy="1" sz="5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="hardLightBridgePlatform" />
             </descendants>
         </node>
 
@@ -4136,7 +4204,7 @@
             </texture>
 
             <transformations>
-                <translation x="0.01" y="0.5" z="1.5" />
+                <translation x="0.01" y="0.5" z="0.5" />
                 <rotation axis="y" angle="90" />
                 <scale sx="0.5" sy="1" sz="0.45" />
             </transformations>
