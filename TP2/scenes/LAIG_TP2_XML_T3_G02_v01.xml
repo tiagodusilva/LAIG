@@ -11,11 +11,16 @@
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
-    <views default="Overview">
+    <views default="Portal Gun">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Overview" near="0.1" far="500" angle="70">
             <from x="11" y="6" z="10" />
             <to x="6" y="1.5" z="5" />
+        </perspective>
+
+        <perspective id="Portal Gun" near="0.1" far="500" angle="70">
+            <from x="2" y="0.4" z="2" />
+            <to x="1.5" y="0.35" z="1.5" />
         </perspective>
 
         <perspective id="From Entrance" near="0.1" far="500" angle="70">
@@ -58,11 +63,6 @@
             <to x="4" y="2" z="4" />
             <up x="0" y="-1" z="0" />
         </ortho>
-
-        <perspective id="Origin" near="0.1" far="500" angle="70">
-            <from x="2" y="2" z="2" />
-            <to x="0" y="0" z="0" />
-        </perspective>
     </views>
 
     <illumination>
@@ -155,7 +155,9 @@
         <texture id="piston_platform" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_platform.png" />
         <texture id="piston_color_dark" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_dark.png" />
         <texture id="piston_color_light" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/piston_color_light.png" />
-        <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" />
+        <texture id="orange_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/orange_color.png" />
+        <texture id="blue_color" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/blue_color.png" />
+        <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
     </textures>
 
     <!-- spritesheets -->
@@ -4043,9 +4045,9 @@
         </node>
 
         <node id="portal_gun_button_orange">
-            <material id="redMaterial" />
+            <material id="null" />
 
-            <texture id="null">
+            <texture id="orange_color">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -4059,9 +4061,9 @@
         </node>
 
         <node id="portal_gun_button_blue">
-            <material id="redMaterial" />
+            <material id="null" />
 
-            <texture id="null">
+            <texture id="blue_color">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -4289,6 +4291,9 @@
 
             <descendants>
                 <noderef id="portal_gun_pedestal_base" /> 
+                <noderef id="portal_gun_pedestal_top" />
+                <noderef id="portal_gun_pedestal_top_cilinder" />
+                <noderef id="portal_gun_pedestal_top_torus" />
                 <noderef id="portal_gun_pedestal_support" />
                 <noderef id="portal_gun_pedestal_portal_gun" />
             </descendants>
@@ -4306,7 +4311,59 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="0.025" topRadius="0.15" bottomRadius="0.15" slices="32" stacks="2" /> 
+                <leaf type="cylinder" height="0.025" topRadius="0.1" bottomRadius="0.15" slices="32" stacks="2" /> 
+            </descendants>
+        </node>
+
+        <node id="portal_gun_pedestal_top" >
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.375" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.001" topRadius="0.015" bottomRadius="0.015" slices="32" stacks="2" /> 
+            </descendants>
+        </node>
+
+        <node id="portal_gun_pedestal_top_cilinder" >
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.376" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.03" topRadius="0.005" bottomRadius="0.005" slices="32" stacks="2" /> 
+            </descendants>
+        </node>
+
+        <node id="portal_gun_pedestal_top_torus" >
+            <material id="blackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.425" z="0" />
+                <rotation axis="y" angle="146.5" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.0025" outer="0.025" slices="20" loops="30"/>
             </descendants>
         </node>
 
@@ -4323,7 +4380,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="defbarrel" base="0.025" middle="0.04" height="0.4" slices="20" stacks="20" />
+                <leaf type="defbarrel" base="0.015" middle="0.03" height="0.35" slices="20" stacks="20" />
             </descendants>
         </node>
 
@@ -4335,8 +4392,8 @@
             </texture>
 
             <transformations>
-                <rotation axis="y" angle="135" />
-                <translation x="0" y="0.44" z="0" />
+                <translation x="0.0075" y="0.425" z="0" />
+                <rotation axis="y" angle="146.5" />
                 <scale sx="0.2" sy="0.2" sz="0.2" />
             </transformations>
 
