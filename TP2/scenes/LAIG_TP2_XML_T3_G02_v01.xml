@@ -480,7 +480,6 @@
                 <noderef id="close_blue_portal"/> 
                 <noderef id="hardLightLongBridgePortaled"/>
                 <noderef id="hardLightBridge" />
-                <!-- <noderef id="portal_gun" /> -->
 
                 <!-- <noderef id="test_plane" /> -->
                 <!-- <noderef id="test_patch" /> -->
@@ -535,6 +534,7 @@
             </texture>
 
             <transformations>
+                <translation x="0" y="0.01" z="0" />
             </transformations>
 
             <descendants>
@@ -3520,7 +3520,7 @@
         <node id="portal_gun" >
             <material id="whiteMaterial" />
 
-            <texture id="null">
+            <texture id="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
