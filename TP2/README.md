@@ -11,7 +11,7 @@
 Ignoring features present TP1:
 - Animation that shows a cube falling and then getting caught by the hard light bridge
 - A detailed portal gun using 6 precise NURBS patches
-- Added transparency to the scene (hard light bridge)
+- Added transparency to the scene in the hard light bridge and portals
 - Animated portals
 - A deadly turret comments on how it misses you
 - The spritetext detects \n characters (&#10; in XML) and adapts
