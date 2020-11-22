@@ -41,8 +41,6 @@ class MyBarrel extends CGFobject {
                 [-this.base, 0, this.height, 1]
             ],
         ];
-
-        console.log(controlPoints);
         
         this.nurbs = new CGFnurbsObject(this.scene, slices, stacks, new CGFnurbsSurface(3, 3, controlPoints));
     }

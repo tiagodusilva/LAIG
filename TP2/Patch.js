@@ -6,7 +6,7 @@ class Patch extends CGFobject {
         this.pointsU = pointsU;
         this.pointsV = pointsV;
         this.controlPoints = controlPoints;
-        this.nurbs = new CGFnurbsObject(this.scene, this.divsU, this.divsV, new CGFnurbsSurface(this.pointsV - 1, this.pointsU - 1, this.controlPoints));
+        this.nurbs = new CGFnurbsObject(this.scene, this.divsU, this.divsV, new CGFnurbsSurface(this.pointsU - 1, this.pointsV - 1, this.controlPoints));
     }
 
     display() {

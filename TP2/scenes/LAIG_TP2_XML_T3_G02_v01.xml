@@ -369,14 +369,14 @@
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="12" >
+            <keyframe instant="20" >
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
-            <keyframe instant="12.5" >
+            <keyframe instant="20.5" >
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
@@ -416,6 +416,30 @@
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="portal_gun_shot_anim">
+            <keyframe instant="7" >
+                <translation x="1.45" y="0.423" z="1.475" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="8" >
+                <translation x="0" y="0.423" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="8.00001" >
+                <translation x="0" y="0.423" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0" sy="0" sz="0" />
             </keyframe>
         </animation>
 
@@ -474,6 +498,7 @@
                 <noderef id="piston_cross_symbol" />
                 <noderef id="are_you_still_there" />
                 <noderef id="portal_gun_pedestal" />
+                <noderef id="portal_gun_shot" />
 
                 <!-- Alpha related :D -->
                 <noderef id="close_orange_portal"/>
@@ -507,7 +532,7 @@
             <animationref id="show_portal_hard_light" />
         </node>
 
-        <node id="test_barrel" >
+        <!-- <node id="test_barrel" >
             <material id="whiteMaterial" />
 
             <texture id="testmap">
@@ -515,8 +540,6 @@
             </texture>
 
             <transformations>
-                <!-- <translation x="0.5" y="0.5" z="0.5" /> -->
-                <!-- <rotation axis="x" angle="-90" /> -->
                 <scale sx="2" sy="2" sz="2" />
             </transformations>
 
@@ -571,7 +594,7 @@
                     <controlpoint x="-0.5" y="0.5" z="-1"/>
                 </leaf>
             </descendants>
-        </node>
+        </node> -->
 
             <node id="are_you_still_there" >
                 <material id="whiteMaterial" />
@@ -901,10 +924,11 @@
                 <transformations>
                     <translation x="2.5" y="2" z="0.001" />
                     <scale sx="1" sy="2" sz="1" />
+                    <rotation axis="x" angle="90" />
                 </transformations>
 
                 <descendants>
-                    <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                    <leaf type="plane" npartsU="2" npartsV="4" />
                 </descendants>
             </node>
 
@@ -3556,7 +3580,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
                     <controlpoint x="0.8" y="0" z="0.16"/>
                     <controlpoint x="0.5" y="0" z="0.2"/>
                     <controlpoint x="0.4" y="0" z="0.2"/>
@@ -3572,7 +3596,7 @@
                     <controlpoint x="0.3" y="0.45" z="0"/>
                     <controlpoint x="0.0" y="0.42" z="0"/>
                 </leaf>
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
                     <controlpoint x="1.0" y="0.35" z="0"/>
                     <controlpoint x="0.7" y="0.40" z="0.0"/>
                     <controlpoint x="0.3" y="0.45" z="0"/>
@@ -3604,7 +3628,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
                     <controlpoint x="0.2" y="0" z="-0.2"/>
                     <controlpoint x="0.4" y="0" z="-0.2"/>
                     <controlpoint x="0.5" y="0" z="-0.2"/>
@@ -3621,7 +3645,7 @@
                     <controlpoint x="1" y="0.35" z="0"/>
                 </leaf>
 
-                <leaf type="patch" npartsU="16" npartsV="16" npointsU="4" npointsV="3">
+                <leaf type="patch" npartsU="16" npartsV="16" npointsU="3" npointsV="4">
                     <controlpoint x="0" y="0.42" z="0"/>
                     <controlpoint x="0.3" y="0.45" z="0"/>
                     <controlpoint x="0.7" y="0.4" z="0"/>
@@ -4241,7 +4265,7 @@
         </node>
 
         <node id="close_blue_portal" >
-            <material id="null" />
+            <material id="brightDefault" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
@@ -4259,7 +4283,7 @@
         </node>
 
         <node id="close_orange_blue" >
-            <material id="null" />
+            <material id="brightDefault" />
 
             <texture id="null">
                 <amplification afs="1.0" aft="1.0" />
@@ -4392,8 +4416,8 @@
             </texture>
 
             <transformations>
-                <translation x="0.0075" y="0.425" z="0" />
                 <rotation axis="y" angle="146.5" />
+                <translation x="-0.0075" y="0.425" z="0" />
                 <scale sx="0.2" sy="0.2" sz="0.2" />
             </transformations>
 
@@ -4401,6 +4425,23 @@
                 <noderef id="portal_gun" />
             </descendants>
         </node>
+
+        <node id="portal_gun_shot" >
+            <material id="brightDefault" />
+
+            <texture id="orange_color">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.02" slices="8" stacks="8"/>
+            </descendants>
+
+            <animationref id="portal_gun_shot_anim" />
+        </node> 
 
     </nodes>
 </lsf>

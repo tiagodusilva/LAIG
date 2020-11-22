@@ -1576,7 +1576,8 @@ class MySceneGraph {
 
             let coords = this.parseCoordinates3D(child, "Control Point");
             if (!Array.isArray(coords)) {
-                this.onXMLMinorError("Failed to parse control point coords ("+ coords +"): Skipping controlpoint")
+                this.onXMLMinorError("Failed to parse control point coords ("+ coords +"): Skipping controlpoint");
+                continue;
             }
             // The gravity will always be 1
             coords.push(1);
@@ -1590,9 +1591,9 @@ class MySceneGraph {
         }
 
         let finalControlPoints = [];
-        for(let j = 0; j < npointsV; j++){
+        for(let j = 0; j < npointsU; j++){
             let aux = [];
-            for(let i = j * npointsU; i < (j + 1) * npointsU ; i++) {
+            for(let i = j * npointsV; i < (j + 1) * npointsV ; i++) {
                 aux.push(controlPoints[i]);
             }
             finalControlPoints.push(aux);
