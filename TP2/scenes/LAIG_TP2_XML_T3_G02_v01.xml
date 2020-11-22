@@ -525,11 +525,11 @@
                 <scale sx="1" sy="1" sz="5" />
             </transformations>
 
+            <animationref id="show_portal_hard_light" />
+
             <descendants>
                 <noderef id="hardLightBridgePlatform" />
-            </descendants>
-            
-            <animationref id="show_portal_hard_light" />
+            </descendants>            
         </node>
 
         <!-- <node id="test_barrel" >
@@ -609,11 +609,11 @@
                     <scale sx="0.075" sy="0.075" sz="1" />
                 </transformations>
 
+                <animationref id="are_you_still_there_anim" />
+
                 <descendants>
                     <leaf type="spritetext" text="I miss you...&#10;Are you still there?" />
                 </descendants>
-
-                <animationref id="are_you_still_there_anim" />
             </node>
 
             <node id="piston_cross_symbol" >
@@ -661,11 +661,11 @@
                     <rotation axis="y" angle="30" />
                 </transformations>
 
+                <animationref id="cube_falling_animation" />
+
                 <descendants>
                     <noderef id="weighted_cube" />
                 </descendants>
-
-                <animationref id="cube_falling_animation" />
             </node>
 
             <node id="placed_cube_dropper" >
@@ -4256,12 +4256,11 @@
                 <scale sx="0.5" sy="1" sz="0.45" />
             </transformations>
 
+            <animationref id="open_orange_portal"/> 
+
             <descendants>
                 <leaf type="spriteanim" ssid="closed_orange_portal" duration="0.5" startCell="0" endCell="3" />
             </descendants>
-
-            <animationref id="open_orange_portal"/> 
-
         </node>
 
         <node id="close_blue_portal" >
@@ -4436,11 +4435,11 @@
             <transformations>
             </transformations>
 
+            <animationref id="portal_gun_shot_anim" />
+
             <descendants>
                 <leaf type="sphere" radius="0.02" slices="8" stacks="8"/>
             </descendants>
-
-            <animationref id="portal_gun_shot_anim" />
         </node> 
 
     </nodes>

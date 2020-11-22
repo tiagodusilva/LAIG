@@ -2,15 +2,6 @@ const DEGREE_TO_RAD = Math.PI / 180;
 const INDEX_NOT_FOUND = -1;
 const ALLOW_CLEAR_MATERIAL = false;
 
-// Order of the groups in the XML document.
-var INITIALS_INDEX = 0;
-var VIEWS_INDEX = 1;
-var ILLUMINATION_INDEX = 2;
-var LIGHTS_INDEX = 3;
-var TEXTURES_INDEX = 4;
-var MATERIALS_INDEX = 5;
-var NODES_INDEX = 6;
-
 function instantCompare(f1, f2) {
     return f1.instant - f2.instant;
 }
@@ -214,106 +205,116 @@ class MySceneGraph {
         var error;
 
         // Processes each node, verifying errors.
+        let indexOrder = new Map();
 
         // <initials>
         var index;
         if ((index = nodeNames.indexOf("initials")) == INDEX_NOT_FOUND)
             return "tag <initials> missing";
         else {
-            if (index != INITIALS_INDEX)
-                this.onXMLMinorError("tag <initials> out of order " + index);
-
             //Parse initials block
             if ((error = this.parseInitials(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("initials", index);
 
         // <views>
         if ((index = nodeNames.indexOf("views")) == INDEX_NOT_FOUND)
             return "tag <views> missing";
         else {
-            if (index != VIEWS_INDEX)
-                this.onXMLMinorError("tag <views> out of order");
-
             //Parse views block
             if ((error = this.parseViews(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("views", index);
+
 
         // <illumination>
         if ((index = nodeNames.indexOf("illumination")) == INDEX_NOT_FOUND)
             return "tag <illumination> missing";
         else {
-            if (index != ILLUMINATION_INDEX)
-                this.onXMLMinorError("tag <illumination> out of order");
-
             //Parse illumination block
             if ((error = this.parseIllumination(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("illumination", index);
 
         // <lights>
         if ((index = nodeNames.indexOf("lights")) == INDEX_NOT_FOUND)
             return "tag <lights> missing";
         else {
-            if (index != LIGHTS_INDEX)
-                this.onXMLMinorError("tag <lights> out of order");
-
             //Parse lights block
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("lights", index);
+        
         // <textures>
         if ((index = nodeNames.indexOf("textures")) == INDEX_NOT_FOUND)
             return "tag <textures> missing";
         else {
-            if (index != TEXTURES_INDEX)
-                this.onXMLMinorError("tag <textures> out of order");
-
             //Parse textures block
             if ((error = this.parseTextures(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("textures", index);
 
         // <materials>
         if ((index = nodeNames.indexOf("materials")) == INDEX_NOT_FOUND)
             return "tag <materials> missing";
         else {
-            if (index != MATERIALS_INDEX)
-                this.onXMLMinorError("tag <materials> out of order");
-
             //Parse materials block
             if ((error = this.parseMaterials(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("materials", index);
 
         // <nodes>
         if ((index = nodeNames.indexOf("nodes")) == INDEX_NOT_FOUND)
             return "tag <nodes> missing";
         else {
-            if (index != NODES_INDEX)
-                this.onXMLMinorError("tag <nodes> out of order");
-
             //Parse nodes block
             if ((error = this.parseNodes(nodes[index])) != null)
                 return error;
         }
+        indexOrder.set("nodes", index);
         
 
         // <animations>
         if ((index = nodeNames.indexOf("animations")) == INDEX_NOT_FOUND) {
             this.animations = new Map();  // Do this to not break the rest of the code
         }
-        else if ((error = this.parseAnimations(nodes[index])) != null) {
-            return error;
+        else {
+            indexOrder.set("animations", index);
+            if ((error = this.parseAnimations(nodes[index])) != null) {
+                return error;
+            }
         }
 
         // <spritesheets>
         if ((index = nodeNames.indexOf("spritesheets")) == INDEX_NOT_FOUND) {
             this.spritesheets = new Map();  // Do this to not break the rest of the code
         }
-        else if ((error = this.parseSpritesheets(nodes[index])) != null) {
-            return error;
+        else  {
+            indexOrder.set("spritesheets", index);
+            if ((error = this.parseSpritesheets(nodes[index])) != null) {
+                return error;
+            }
+        }
+
+        // Order of the groups in the XML document.
+        // initials -> views -> illumination -> lights -> textures -> spritesheet -> materials -> animations -> nodes
+        let order = ["initials", "views", "illumination", "lights", "textures", "spritesheet", "materials", "animations", "nodes"];
+        // Verify order
+        let curIndex = indexOrder.get("initials");
+        for (let i = 1; i < order.length; i++) {
+            let nextIndex;
+            if ((nextIndex = indexOrder.get(order[i])) != undefined) {
+                if (curIndex >= nextIndex) {
+                    this.onXMLMinorError("Node <" + order[i] + "> is out of order");
+                }
+                curIndex = nextIndex;
+            }
         }
 
         this.log("all parsed");
@@ -645,14 +646,6 @@ class MySceneGraph {
                 this.onXMLMinorError("Texture with id '" + textureId + "' has invalid <path> tag: Skipping texture");
                 continue;
             }
-
-            // TODO: Check this later
-            // // Open the file
-            // var fileTest = new File(fileName);
-            // // See if the file exists
-            // if(!fileTest.exists()) {
-            //     this.onXMLMinorError("Texture with id '" + textureId + "' file does not exist: Skipping texture");
-            // }
 
             this.textures.set(textureId, new CGFtexture(this.scene, fileName));
         }
