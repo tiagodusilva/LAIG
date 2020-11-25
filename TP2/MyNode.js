@@ -104,6 +104,9 @@ class MyNode {
     }
 
     display() {
+        if (this.animation != null && this.animation.apply() == null)
+            return;
+
         this.scenePush();
 
         this.children.forEach(child => {

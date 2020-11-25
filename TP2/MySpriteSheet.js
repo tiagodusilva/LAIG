@@ -111,7 +111,7 @@ class MySpriteAnimation {
         this.animationTime = animationTime;
         this.currentCell = 0;
         this.cellAmount = Math.abs(this.endCell - this.startCell) + 1;
-        this.inverted = this.endCell < this.startCell;
+        this.inverted = this.endCell < this.startCell ? -1 : 1;
     }
 
     preProcess(graphScene){
@@ -123,17 +123,12 @@ class MySpriteAnimation {
 
     update(t) {
         this.currentCell = Math.floor(t / this.animationTime * this.cellAmount);
-        if(this.currentCell < this.cellAmount){
-            this.currentCell = this.currentCell;
-        } else {
-            this.currentCell = this.currentCell % this.cellAmount;
-        }
-        // this.currentCell = this.currentCell < this.cellAmount ? this.currentCell : this.cellAmount - 1; 
+        this.currentCell = this.currentCell % this.cellAmount;
     }
     
     display(){
         this.spriteSheet.apply();
-        this.spriteSheet.activateCellP(this.inverted ? this.startCell - this.currentCell : this.startCell + this.currentCell);
+        this.spriteSheet.activateCellP(this.startCell + this.inverted * this.currentCell);
         this.spriteSheet.display();
         this.spriteSheet.deapply();
     }

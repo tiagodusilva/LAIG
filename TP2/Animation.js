@@ -12,9 +12,6 @@ function lerpVec3(start, end, time) {
 
 class Keyframe {
 
-    static blankMatrix = new Array(16).fill(0);
-
-
     constructor(instant, translation, rotation, scale) {
         this.instant = instant;
         this.translation = translation;
@@ -24,7 +21,7 @@ class Keyframe {
 
     static interpolate(kf1, kf2, t) {
         if (t < kf1.instant)
-            return this.blankMatrix;
+            return null;
         if (t > kf2.instant) {
             // Calculate matrix of kf2
             let mat = mat4.create();
