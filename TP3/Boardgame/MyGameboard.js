@@ -65,11 +65,11 @@ class MyGameboard {
     }
 
     addPiece(row, col, piece_type){
-        this.board[row][col].addPiece(new MyPiece(this.scene, piece_type, this.board[row][col]));
+        this.getTile(row, col).addPiece(new MyPiece(this.scene, piece_type, this.board[row][col]));
     }
 
     removePiece(row, col) {
-        this.board[row][col].removePiece();
+        this.getTile(row, col).removePiece();
     }
 
     placeNewRing(row, col, player){
@@ -80,6 +80,13 @@ class MyGameboard {
             this.addPiece(row, col, PieceType.BLACK_RING);
     }
 
+    //Maybe change for two Vec2
+    movePiece(fromRow, fromCol, toRow, toCol) {
+        let pieceToMove = this.getTile(fromRow, fromCol).getTopPiece().type;
+        this.removePiece(fromRow, fromCol);
+        this.addPiece(toRow, toCol, pieceToMove);
+    }
+
     display() {
 
         // console.log("Hello");
@@ -88,7 +95,8 @@ class MyGameboard {
                 this.scene.pushMatrix();
                 this.scene.pushMaterial(this.whiteMaterial);
                 this.scene.translate(i * 1.1, 0, j * 1.1);
-                this.board[i][j].display();
+                //j and i are switched to follow our game standard
+                this.getTile(j, i).display();
                 this.scene.popMaterial();
                 this.scene.popMatrix();
             }
@@ -97,15 +105,15 @@ class MyGameboard {
         //Auxiliary board
         this.scene.pushMatrix();
         this.scene.pushMaterial(this.whiteMaterial);
-        this.scene.translate(-1.5, 0, 1);
-        this.auxBoard[0].display();
+        this.scene.translate(-1.5, 0, 3);
+        this.auxBoard[Player.WHITE].display();
         this.scene.popMaterial();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.pushMaterial(this.whiteMaterial);
-        this.scene.translate(-1.5, 0, 3);
-        this.auxBoard[1].display();
+        this.scene.translate(-1.5, 0, 1);
+        this.auxBoard[Player.BLACK].display();
         this.scene.popMaterial();
         this.scene.popMatrix();
 

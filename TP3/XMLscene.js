@@ -77,6 +77,8 @@ class XMLscene extends CGFscene {
 
         this.gameorchestrator = new MyGameOrchestrator(this);
         // this.gameorchestrator.gameBoard.placeNewRing(2, 2, Player.BLACK);
+        // this.gameorchestrator.gameBoard.movePiece(3, 0, 2, 2);
+        // this.gameorchestrator.gameBoard.movePiece(3, 0, 0, 0);
     }
 
     /**
