@@ -74,6 +74,9 @@ class XMLscene extends CGFscene {
         this.lightEnabled5;
         this.lightEnabled6;
         this.lightEnabled7;
+
+        this.gameorchestrator = new MyGameOrchestrator(this);
+        // this.gameorchestrator.gameBoard.placeNewRing(2, 2, Player.BLACK);
     }
 
     /**
@@ -341,7 +344,8 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            // this.graph.displayScene();
+            this.gameorchestrator.display();
 
             this.gl.disable(this.gl.BLEND);
         }
