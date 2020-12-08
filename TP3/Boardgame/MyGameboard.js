@@ -34,38 +34,39 @@ class MyGameboard {
         for (let i = 0; i < 5; i++) {
             //0 : White
             //1 : Black
-            this.auxBoard[Player.WHITE].addPiece(new MyPiece(this.scene, PieceType.WHITE_RING, this.auxBoard[0]));
-            this.auxBoard[Player.BLACK].addPiece(new MyPiece(this.scene, PieceType.BLACK_RING, this.auxBoard[1]));
+            //i == 5 is for the selectable pieces
+            this.auxBoard[Player.WHITE].addPiece(new MyPiece(this.scene, PieceType.WHITE_RING, this.auxBoard[0], i == 4));
+            this.auxBoard[Player.BLACK].addPiece(new MyPiece(this.scene, PieceType.BLACK_RING, this.auxBoard[1], i == 4));
         }
     }
 
     placeStartingPieces(){
-        this.addPiece(3, 0, PieceType.WHITE_RING);
-        this.addPiece(3, 0, PieceType.WHITE_BALL);
+        this.addPiece(3, 0, PieceType.WHITE_RING, false);
+        this.addPiece(3, 0, PieceType.WHITE_BALL, true);
 
-        this.addPiece(4, 0, PieceType.WHITE_RING);
-        this.addPiece(4, 0, PieceType.WHITE_BALL);
+        this.addPiece(4, 0, PieceType.WHITE_RING, false);
+        this.addPiece(4, 0, PieceType.WHITE_BALL, true);
 
-        this.addPiece(4, 1, PieceType.WHITE_RING);
-        this.addPiece(4, 1, PieceType.WHITE_BALL);
+        this.addPiece(4, 1, PieceType.WHITE_RING, false);
+        this.addPiece(4, 1, PieceType.WHITE_BALL, true);
 
-        this.addPiece(0, 3, PieceType.BLACK_RING);
-        this.addPiece(0, 3, PieceType.BLACK_BALL);
+        this.addPiece(0, 3, PieceType.BLACK_RING, false);
+        this.addPiece(0, 3, PieceType.BLACK_BALL, true);
 
         // this.addPiece(0, 4, new MyPiece(this.scene, PieceType.BLACK_RING, this.board[0][4])); //Test purposes
-        this.addPiece(0, 4, PieceType.BLACK_RING);
-        this.addPiece(0, 4, PieceType.BLACK_BALL);
+        this.addPiece(0, 4, PieceType.BLACK_RING, false);
+        this.addPiece(0, 4, PieceType.BLACK_BALL, true);
 
-        this.addPiece(1, 4, PieceType.BLACK_RING);
-        this.addPiece(1, 4, PieceType.BLACK_BALL);
+        this.addPiece(1, 4, PieceType.BLACK_RING, false);
+        this.addPiece(1, 4, PieceType.BLACK_BALL, true);
     }
 
     getTile(row, col) {
         return this.board[row][col];
     }
 
-    addPiece(row, col, piece_type){
-        this.getTile(row, col).addPiece(new MyPiece(this.scene, piece_type, this.board[row][col]));
+    addPiece(row, col, piece_type, selectable){
+        this.getTile(row, col).addPiece(new MyPiece(this.scene, piece_type, this.board[row][col], selectable));
     }
 
     removePiece(row, col) {

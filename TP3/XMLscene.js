@@ -20,22 +20,24 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
-
+        
         this.initCameras();
-
+        
         // Deltatime
         this.startT = null;
         this.currTime = 0; 
-
+        
         this.enableTextures(true);
-
+        
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-
+        
         this.axis = new CGFaxis(this);
+
         this.setUpdatePeriod(20);
+        this.setPickEnabled(true);
 
         this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
         this.loadingProgress=0;
@@ -347,6 +349,8 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             // this.graph.displayScene();
+            this.gameorchestrator.managePick(this.pickMode, this.pickResults);
+            this.clearPickRegistration();
             this.gameorchestrator.display();
 
             this.gl.disable(this.gl.BLEND);
