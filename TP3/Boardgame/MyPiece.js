@@ -11,8 +11,6 @@ const PieceType = {
     BLACK_BALL: 4
 }
 
-let uniqueIdCount = -1; 
-
 class MyPiece {
     
     constructor (scene, type, tile, selectable){
@@ -20,7 +18,7 @@ class MyPiece {
         this.tile = tile;
         this.type = type;
         this.selectable = selectable;
-        this.uniqueId = uniqueIdCount++;
+        this.uniqueId = this.scene.currentUniqueId++;
         this.selected = false;
 
         let blackMaterial = new MyCGFmaterial(this.scene);
@@ -64,13 +62,14 @@ class MyPiece {
         this.tile = newTile;
     }
 
-    display(){
+    getRow() {
+        return this.tile.getRow
+    }
 
+    display(){
         if (this.selectable)
             this.scene.registerForPick(this.uniqueId, this);
-            // Now call all the game objects/components/primitives display
-            // method that should be selectable and recognized 
-            // with this uniqueId
+
         this.scene.pushMaterial(this.material);
 
         if(this.selected){
@@ -78,9 +77,8 @@ class MyPiece {
         }
         this.piece.display();
         this.scene.popMaterial();
-            // clear the currently registered id and associated object
+
         if (this.selectable)
             this.scene.clearPickRegistration();
-
     }
 }

@@ -4,14 +4,28 @@ class MyTile {
         this.gameboard = gameboard; 
         this.stack = []; /* stack is the name used in our prolog game */
         this.tile = new Plane(scene, 2, 2);
+        this.uniqueId = this.scene.currentUniqueId++;
+        this.selectable = true;
     }
 
     addPiece(piece){
+        let topPiece = this.getTopPiece();
+        if(topPiece){
+            topPiece.selectable = false;
+        }
+        piece.selectable = true;
         this.stack.push(piece);
     }
 
     removePiece() {
-        return this.stack.pop();
+        let pieceToRemove = this.stack.pop();
+        pieceToRemove.selectable = false;
+
+        let topPiece = this.getTopPiece();
+        if(topPiece){
+            topPiece.selectable = true;
+        }
+        return pieceToRemove;
     }
 
     getTopPiece() {
@@ -19,7 +33,12 @@ class MyTile {
     }
 
     display() {
+        if (this.selectable)
+            this.scene.registerForPick(this.uniqueId, this);
         this.tile.display();
+        if (this.selectable)
+            this.scene.clearPickRegistration();
+
         for (let i = 0; i < this.stack.length; i++) {
             this.scene.pushMatrix();
             this.scene.rotate(-Math.PI/2, 1, 0, 0);
@@ -27,5 +46,6 @@ class MyTile {
             this.stack[i].display();
             this.scene.popMatrix();
         }
+
     }
 }

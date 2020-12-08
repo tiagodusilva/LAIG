@@ -39,10 +39,20 @@ class MyGameOrchestrator {
             console.log(obj);
         } else if (obj instanceof MyTile){
             // do something with id knowing it is a tile
+            if(this.selectedPiece){
+                let initialPos = this.gameBoard.getTilePos(this.selectedPiece.tile);
+                let finalPos = this.gameBoard.getTilePos(obj);
+                console.log(initialPos);
+                console.log(finalPos);
+                this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
+                this.selectedPiece.selected = false;
+                this.selectedPiece = null;
+
+            }
             console.log(obj);
         } else {
             // error ?
-            console.log(obj); 
+            console.log("I'm a teapot"); 
         }
     }
 }
