@@ -14,6 +14,7 @@ class MyTile {
             topPiece.selectable = false;
         }
         piece.selectable = true;
+        piece.tile = this;
         this.stack.push(piece);
     }
 

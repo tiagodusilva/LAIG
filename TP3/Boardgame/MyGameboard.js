@@ -3,6 +3,8 @@ const Player = {
     BLACK : 1
 }
 
+const AUX_BOARD = -2;
+
 class MyGameboard {
     constructor(scene) {
         this.scene = scene;
@@ -62,7 +64,7 @@ class MyGameboard {
     }
 
     getTile(row, col) {
-        return this.board[row][col];
+        return row == AUX_BOARD ? this.auxBoard[col] : this.board[row][col];
     }
 
     getTilePos(tile) {
@@ -70,6 +72,12 @@ class MyGameboard {
             for (let col = 0; col < 5; col++) {
                 if(tile == this.board[row][col])
                     return [row, col];
+            }
+        }
+        //Iterate over the auxiliary board
+        for(let i in [Player.WHITE, Player.BLACK]){
+            if(tile == this.auxBoard[i]){
+                return [AUX_BOARD, i];
             }
         }
     }

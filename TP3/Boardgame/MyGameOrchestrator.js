@@ -47,7 +47,7 @@ class MyGameOrchestrator {
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.selectedPiece.selected = false;
                 this.selectedPiece = null;
-
+                console.log(this.gameBoard);
             }
             console.log(obj);
         } else {
