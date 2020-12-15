@@ -37,9 +37,9 @@ class MyGameOrchestrator {
             obj.selected = !obj.selected;
             this.selectedPiece = obj;
             console.log(obj);
-        } else if (obj instanceof MyTile){
+        } else if (obj instanceof MyTile) {
             // do something with id knowing it is a tile
-            if(this.selectedPiece){
+            if (this.selectedPiece) {
                 let initialPos = this.gameBoard.getTilePos(this.selectedPiece.tile);
                 let finalPos = this.gameBoard.getTilePos(obj);
                 console.log(initialPos);
