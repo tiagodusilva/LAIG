@@ -3,12 +3,31 @@ const PROLOG_DEFAULT_PORT = 8081;
 
 //TODO: Add more later
 const prologRequestType = {
-    VALID_MOVES: 0
+    VALID_MOVES: 0,
+    IS_VALID_MOVE: 1,
 }
 
 class MyPrologInterface {
     constructor () {
 
+    }
+
+    isValidMove(gameBoard, move){
+
+        let requestString = "move(" + gameBoard.toGameStateString() + "," + "[[[-1,-1],[2,2]],[[1,4],[2,4]],[],white])";
+        let request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = request.responseText.trim('\n');
+                console.log(response);
+            }
+        };
+
+        request.open('GET', 'http://' + PROLOG_URL + ':' + PROLOG_DEFAULT_PORT + '/' + requestString, true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send();
+        
     }
 
     sendPrologRequest (requestString, onSuccess, onError, port) {
@@ -23,13 +42,7 @@ class MyPrologInterface {
         request.send();
     }
 
-    makeRequest () {
-        // Get Parameter Values
-        let requestString = document.querySelector("#query_field").value;
-        // Make Request
-        sendPrologRequest(requestString, handleReply);
-    }
-    
+
     parseStartPrologReply () {
         //TODO: Check if this works
         if(this.status !== 200) {

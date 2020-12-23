@@ -8,6 +8,14 @@ class MyTile {
         this.selectable = true;
     }
 
+    getPieceAmount() {
+        return this.stack.length;
+    }
+
+    getStackTypes() {
+        return this.stack.map(function(x){return x.type})
+    }
+
     addPiece(piece){
         let topPiece = this.getTopPiece();
         if(topPiece){

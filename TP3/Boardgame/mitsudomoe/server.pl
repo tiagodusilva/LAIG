@@ -105,7 +105,10 @@ print_header_line(_).
 :- ensure_loaded('game.pl').
 
 parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
+
+parse_input(move(GameState, Move), valid) :- move(GameState, Move, _).
+parse_input(move(_, _), invalid).
+
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

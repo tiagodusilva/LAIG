@@ -18,6 +18,28 @@ class MyGameboard {
 
     }
 
+    toGameStateString() {
+        let result = "[";
+        for (let i = 0; i < this.board.length; i++) {
+            result += "[";
+            for (let j = 0; j < this.board[i].length; j++) {
+                result += "[" + this.board[i][j].getStackTypes().toString() + "]";
+                if(j != this.board[i].length - 1){
+                    result += ",";
+                }
+            }
+            result += "]";
+            if(i != this.board.length - 1){
+                result += ",";
+            }
+        }
+        result += "," + 
+                this.auxBoard[Player.WHITE].getPieceAmount() + "," + 
+                this.auxBoard[Player.BLACK].getPieceAmount() + ",3]";
+        return result;
+
+    }
+
     initBoard(){
         // Create main board
         this.board = [];

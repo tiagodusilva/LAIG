@@ -2,6 +2,7 @@ class MyGameOrchestrator {
     constructor(scene) {
         this.scene = scene;
         this.gameBoard = new MyGameboard(this.scene);
+        this.prologInterface = new MyPrologInterface();
         this.selectedPiece = null;
     }
 
@@ -47,7 +48,7 @@ class MyGameOrchestrator {
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.selectedPiece.selected = false;
                 this.selectedPiece = null;
-                console.log(this.gameBoard);
+                this.prologInterface.isValidMove(this.gameBoard);
             }
             console.log(obj);
         } else {
