@@ -112,11 +112,13 @@ parse_input(move(GameState, Move), '{"valid":true}') :-
 parse_input(move(_, _), '{"valid":false}').
 
 parse_input(move_ring_phase(GameState, Player, Displacement), '{"valid":true}') :-
-	move_ring_phase(GameState, Player, Displacement, _).
+	move_ring_phase(GameState, Player, Displacement, NewGameState),
+	get_valid_move_after_ring(NewGameState, Player, _).
 parse_input(move_ring_phase(_, _, _), '{"valid":false}').
 
 parse_input(move_ball_phase(GameState, Player, Displacement), Output) :-
-	move_ball(GameState, Player, Displacement, _, BallsToDisplace),
+	move_ball(GameState, Player, Displacement, NewGameState, BallsToDisplace),
+	get_valid_move_after_ball(NewGameState, Player, BallsToDisplace, _),
 	with_output_to_codes((
         current_output(Stream),
         write(Stream, '{"valid":true,"ballsToDisplace":'),

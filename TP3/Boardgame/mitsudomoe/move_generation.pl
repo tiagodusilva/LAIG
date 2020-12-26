@@ -53,6 +53,19 @@ valid_moves(GameState, Player, ListOfMoves) :-
     findall(Move, get_valid_move(GameState, Player, Move), ListOfMoves).
 
 
+% Generates a valid move, consecutive calls with backtracking generates every different move only once
+get_valid_move_after_ring(GameState, Player, PossibleMove) :-
+    get_exposed_ring(GameState, Player, ExposedRing),
+    get_player_ball(GameState, Player, Ball),
+    is_pos_different(ExposedRing, Ball),
+    can_move_ball(GameState, Player, [Ball, ExposedRing], BallsToDisplace),
+    get_enemy_relocation(GameState, Player, BallsToDisplace, EnemyRelocation),
+    new_move(_, [Ball, ExposedRing], EnemyRelocation, Player, PossibleMove).
+
+get_valid_move_after_ball(GameState, Player, BallsToDisplace, PossibleMove) :-
+    get_enemy_relocation(GameState, Player, BallsToDisplace, EnemyRelocation),
+    new_move(_, _, EnemyRelocation, Player, PossibleMove).
+
 % ENEMY BALL RELOCATION
 
 % get_enemy_relocation(+GameState, +Player, +BallsToRelocate, -Relocations)

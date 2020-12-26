@@ -60,10 +60,6 @@ class XMLscene extends CGFscene {
 
         this.showAxis = false;
         this.showNormals = false;
-        this.resetCameraGUI = false;
-        this.resetAllCamerasGUI = false;
-        this.enableLightsBool = false;
-        this.disableLightsBool = false;
         this.showLights = false;
 
         //Used to control the lights from the GUI
@@ -84,13 +80,20 @@ class XMLscene extends CGFscene {
         // this.gameorchestrator.gameBoard.movePiece(3, 0, 0, 0);
     }
 
+    resetCamera() {
+        this.camera.reset();
+    };
+
+    resetAllCameras() {
+        for (let cam of this.graph.cameras.values()) {
+            cam.reset();
+        }
+    };
+
     /**
      * Enables all lights
-     * @param {bool} val 
      */
-    enableAllLights(val) {
-        this.enableLightsBool = false;
-
+    enableAllLights() {
         var i = 0;
         for (var lightId of this.graph.lights.keys()) {
             if (i >= 8)
@@ -104,11 +107,8 @@ class XMLscene extends CGFscene {
 
     /**
      * Disables all lights
-     * @param {bool} val 
      */
-    disableAllLights(val) {
-        this.disableLightsBool = false;
-
+    disableAllLights() {
         var i = 0;
         for (var lightId of this.graph.lights.keys()) {
             if (i >= 8)
@@ -211,18 +211,6 @@ class XMLscene extends CGFscene {
             }
         }
     };
-
-    resetCamera() {
-        this.camera.reset();
-        this.resetCameraGUI = false;
-    }
-
-    resetAllCameras() {
-        for (let cam of this.graph.cameras.values()) {
-            cam.reset();
-        }
-        this.resetAllCamerasGUI = false;
-    }
 
     updateGraphLights() {
         //Only updates instantiated lights
