@@ -15,7 +15,6 @@ class MyGameboard {
         this.whiteMaterial.setSpecular(1, 1, 1, 1);
         this.whiteMaterial.setEmission(0, 0, 0, 1);
         this.initBoard();
-
     }
 
     toGameStateString() {
@@ -37,7 +36,6 @@ class MyGameboard {
                 this.auxBoard[Player.WHITE].getPieceAmount() + "," + 
                 this.auxBoard[Player.BLACK].getPieceAmount() + ",3]";
         return result;
-
     }
 
     initBoard(){

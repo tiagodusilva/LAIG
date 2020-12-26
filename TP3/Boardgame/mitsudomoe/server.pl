@@ -1,6 +1,7 @@
 :-use_module(library(sockets)).
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
+:-use_module(library(json)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -59,7 +60,7 @@ close_stream(Stream) :- flush_output(Stream), close(Stream).
 % Handles parsed HTTP requests
 % Returns 200 OK on successful aplication of parse_input on request
 % Returns 400 Bad Request on syntax error (received from parser) or on failure of parse_input
-handle_request(Request, MyReply, '200 OK') :- format('~w\n',Request), catch(parse_input(Request, MyReply),error(_,_),fail), !.
+handle_request(Request, MyReply, '200 OK') :- catch(parse_input(Request, MyReply),error(_,_),fail), !.
 handle_request(syntax_error, 'Syntax Error', '400 Bad Request') :- !.
 handle_request(_, 'Bad Request', '400 Bad Request').
 
@@ -106,8 +107,40 @@ print_header_line(_).
 
 parse_input(handshake, handshake).
 
-parse_input(move(GameState, Move), valid) :- move(GameState, Move, _).
-parse_input(move(_, _), invalid).
+parse_input(move(GameState, Move), Output) :-
+	move(GameState, Move, NewGameState), 
+    with_output_to_codes((
+        current_output(Stream),
+        write(Stream, '{"valid":true,"gameState":'),
+        json_write(Stream, NewGameState, [compact(true)]),
+        write(Stream, '}')
+    ), Codes),
+    atom_codes(Output, Codes).
+parse_input(move(_, _), '{"valid":false}').
+
+parse_input(move_ring_phase(GameState, Player, Displacement), NewGameState) :-
+	move_ring_phase(GameState, Player, Displacement, NewGameState),
+	with_output_to_codes((
+        current_output(Stream),
+        write(Stream, '{"valid":true,"gameState":'),
+        json_write(Stream, NewGameState, [compact(true)]),
+        write(Stream, '}')
+    ), Codes),
+    atom_codes(Output, Codes).
+parse_input(move_ring_phase(_, _, _), '{"valid":false}').
+
+parse_input(move_ball_phase(GameState, Player, Displacement), [NewGameState, BallsToDisplace]) :-
+	move_ball(GameState, Player, Displacement, NewGameState, BallsToDisplace),
+	with_output_to_codes((
+        current_output(Stream),
+        write(Stream, '{"valid":true,"gameState":'),
+        json_write(Stream, NewGameState, [compact(true)]),
+		write(Stream, ',"ballsToDisplace":'),
+		json_write(Stream, BallsToDisplace, [compact(true)]),
+        write(Stream, '}')
+    ), Codes),
+    atom_codes(Output, Codes).
+parse_input(move_ball_phase(_, _, _), '{"valid":false}').
 
 parse_input(quit, goodbye).
 
