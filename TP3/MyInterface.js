@@ -34,8 +34,8 @@ class MyInterface extends CGFinterface {
 
         var cameraFolder = this.gui.addFolder("Cameras");
         cameraFolder.open();
-        cameraFolder.add(this.scene, 'resetAllCamerasGUI').name('Reset All Cameras').onChange(this.scene.resetAllCameras.bind(this.scene));
-        cameraFolder.add(this.scene, 'resetCameraGUI').name('Reset Camera').onChange(this.scene.resetCamera.bind(this.scene));
+        cameraFolder.add(this.scene, 'resetAllCameras').name('Reset All Cameras');
+        cameraFolder.add(this.scene, 'resetCamera').name('Reset Camera');
         cameraFolder.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
 
         var lightFolder = this.gui.addFolder("Illumination");
@@ -56,8 +56,8 @@ class MyInterface extends CGFinterface {
             i++;
         }
 
-        lightFolder.add(this.scene, 'enableLightsBool').name("Enable All").onChange(this.scene.enableAllLights.bind(this.scene));
-        lightFolder.add(this.scene, 'disableLightsBool').name("Disable all").onChange(this.scene.disableAllLights.bind(this.scene));
+        lightFolder.add(this.scene, 'enableAllLights').name("Enable All");
+        lightFolder.add(this.scene, 'disableAllLights').name("Disable all");
 
     }
 
