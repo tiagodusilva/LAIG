@@ -11,6 +11,7 @@ class MyGameOrchestrator {
         this.prologInterface = new MyPrologInterface();
         this.selectedPiece = null;
         this.curPlayer = Player.WHITE;
+        this.gameBoard.makeTopRingsSelectable(this.curPlayer);
         this.curMoveState = moveState.MOVE_RING;
         this.ballsToDisplace = [];
     }
@@ -76,6 +77,7 @@ class MyGameOrchestrator {
                 }
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.curMoveState = moveState.MOVE_BALL;
+                this.gameBoard.makeTopBallsSelectable(this.curPlayer);
                 break;
             case moveState.MOVE_BALL:
                 response = this.prologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
@@ -85,8 +87,14 @@ class MyGameOrchestrator {
                 }
                 //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
-                this.curMoveState = moveState.MOVE_RING;
-                this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
+                if(response["ballsToDisplace"].length === 0){
+                    this.curMoveState = moveState.MOVE_RING;
+                    this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
+                    this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                } else {
+                    this.displacedBalls = response["ballsToDisplace"];
+                    this.curMoveState = moveState.DISPLACE_BALLS;
+                }
                 break;
             case moveState.DISPLACE_BALLS:
                 break;

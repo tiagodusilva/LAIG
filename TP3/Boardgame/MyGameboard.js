@@ -170,6 +170,57 @@ class MyGameboard {
         this.auxBoard[Player.BLACK].display();
         this.scene.popMaterial();
         this.scene.popMatrix();
+    }
 
+    makeTopBallsSelectable(player) {
+        for (let i = 0; i < this.board.length; i++) {
+            for (let j = 0; j < this.board[i].length; j++){
+                let piece = this.board[i][j].getTopPiece(); 
+
+                if(piece !== null){
+                    if(piece.type === PieceType.BLACK_BALL && player == Player.BLACK){
+                        piece.selectable = true;
+                    } else if (piece.type === PieceType.WHITE_BALL && player === Player.WHITE) {
+                        piece.selectable = true;
+                    } else {
+                        piece.selectable = false;
+                    }
+                }
+            }
+        }
+        
+        for(let i in [Player.WHITE, Player.BLACK]){
+            let piece = this.auxBoard[i].getTopPiece();
+            if(piece) {
+                piece.selectable = false;
+            }
+        }
+        
+    }
+    
+    makeTopRingsSelectable(player) {
+        for (let i = 0; i < this.board.length; i++) {
+            for (let j = 0; j < this.board[i].length; j++) {
+                let piece = this.board[i][j].getTopPiece(); 
+                if(piece !== null){
+                    if(piece.type === PieceType.BLACK_RING && player == Player.BLACK){
+                        piece.selectable = true;
+                    } else if (piece.type === PieceType.WHITE_RING && player === Player.WHITE) {
+                        piece.selectable = true;
+                    } else {
+                        piece.selectable = false;
+                    }
+                }
+            }
+        }
+        
+        let piece = this.auxBoard[Player.WHITE].getTopPiece();
+        if(piece){
+            piece.selectable = player == Player.WHITE;
+        }
+        piece = this.auxBoard[Player.BLACK].getTopPiece();
+        if(piece){
+            piece.selectable = player == Player.BLACK;
+        }
     }
 }
