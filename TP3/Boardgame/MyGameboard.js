@@ -19,7 +19,7 @@ class MyGameboard {
     }
 
     toGameStateString() {
-        let result = "[";
+        let result = "[[";
         for (let i = 0; i < this.board.length; i++) {
             result += "[";
             for (let j = 0; j < this.board[i].length; j++) {
@@ -33,7 +33,7 @@ class MyGameboard {
                 result += ",";
             }
         }
-        result += "," + 
+        result += "]," + 
                 this.auxBoard[Player.WHITE].getPieceAmount() + "," + 
                 this.auxBoard[Player.BLACK].getPieceAmount() + ",3]";
         return result;

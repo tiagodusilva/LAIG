@@ -45,10 +45,10 @@ class MyGameOrchestrator {
                 let finalPos = this.gameBoard.getTilePos(obj);
                 console.log(initialPos);
                 console.log(finalPos);
+                this.prologInterface.isValidMove(this.gameBoard);
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.selectedPiece.selected = false;
                 this.selectedPiece = null;
-                this.prologInterface.isValidMove(this.gameBoard);
             }
             console.log(obj);
         } else {

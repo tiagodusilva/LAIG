@@ -14,7 +14,7 @@ class MyPrologInterface {
 
     isValidMove(gameBoard, move){
 
-        let requestString = "move(" + gameBoard.toGameStateString() + "," + "[[[-1,-1],[2,2]],[[1,4],[2,4]],[],white])";
+        let requestString = "move(" + gameBoard.toGameStateString() + "," + "[[[-1,-1],[4,2]],[[4,1],[4,2]],[],white])";
         let request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
