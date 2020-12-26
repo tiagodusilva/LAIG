@@ -107,35 +107,19 @@ print_header_line(_).
 
 parse_input(handshake, handshake).
 
-parse_input(move(GameState, Move), Output) :-
-	move(GameState, Move, NewGameState), 
-    with_output_to_codes((
-        current_output(Stream),
-        write(Stream, '{"valid":true,"gameState":'),
-        json_write(Stream, NewGameState, [compact(true)]),
-        write(Stream, '}')
-    ), Codes),
-    atom_codes(Output, Codes).
+parse_input(move(GameState, Move), '{"valid":true}') :-
+	move(GameState, Move, _).
 parse_input(move(_, _), '{"valid":false}').
 
-parse_input(move_ring_phase(GameState, Player, Displacement), NewGameState) :-
-	move_ring_phase(GameState, Player, Displacement, NewGameState),
-	with_output_to_codes((
-        current_output(Stream),
-        write(Stream, '{"valid":true,"gameState":'),
-        json_write(Stream, NewGameState, [compact(true)]),
-        write(Stream, '}')
-    ), Codes),
-    atom_codes(Output, Codes).
+parse_input(move_ring_phase(GameState, Player, Displacement), '{"valid":true}') :-
+	move_ring_phase(GameState, Player, Displacement, _).
 parse_input(move_ring_phase(_, _, _), '{"valid":false}').
 
-parse_input(move_ball_phase(GameState, Player, Displacement), [NewGameState, BallsToDisplace]) :-
-	move_ball(GameState, Player, Displacement, NewGameState, BallsToDisplace),
+parse_input(move_ball_phase(GameState, Player, Displacement), Output) :-
+	move_ball(GameState, Player, Displacement, _, BallsToDisplace),
 	with_output_to_codes((
         current_output(Stream),
-        write(Stream, '{"valid":true,"gameState":'),
-        json_write(Stream, NewGameState, [compact(true)]),
-		write(Stream, ',"ballsToDisplace":'),
+        write(Stream, '{"valid":true,"ballsToDisplace":'),
 		json_write(Stream, BallsToDisplace, [compact(true)]),
         write(Stream, '}')
     ), Codes),

@@ -1,9 +1,9 @@
 class MyGameMove {
-    constructor(gameboard, fromTile, toTile, pieceToMove) {
+    constructor(gameboard, ringMove, ballMove, ballDisplacements) {
         this.gameboard = gameboard;
-        this.fromTile = fromTile;
-        this.toTile = toTile;
-        this.pieceToMove = pieceToMove;
+        this.ringMove = ringMove;
+        this.ballMove = ballMove;
+        this.ballDisplacements = ballDisplacements;
     }
 
     animate() {

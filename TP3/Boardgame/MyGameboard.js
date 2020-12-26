@@ -3,7 +3,11 @@ const Player = {
     BLACK : 1
 }
 
-const AUX_BOARD = -2;
+const AUX_BOARD = -1;
+
+function translatePosToProlog(pos) {
+    return pos[0] === AUX_BOARD ? [AUX_BOARD, AUX_BOARD] : pos;
+}
 
 class MyGameboard {
     constructor(scene) {
@@ -15,6 +19,14 @@ class MyGameboard {
         this.whiteMaterial.setSpecular(1, 1, 1, 1);
         this.whiteMaterial.setEmission(0, 0, 0, 1);
         this.initBoard();
+    }
+
+    fromGameState(gameState) {
+        for (let i = 0; i < gameState[0]; i++) {
+            for (let j = 0; j < gameState[0][i]; j++) {
+                this.board[i]
+            }
+        }
     }
 
     toGameStateString() {
@@ -82,6 +94,8 @@ class MyGameboard {
         this.addNewPiece(1, 4, PieceType.BLACK_RING, false);
         this.addNewPiece(1, 4, PieceType.BLACK_BALL, true);
     }
+
+
 
     getTile(row, col) {
         return row == AUX_BOARD ? this.auxBoard[col] : this.board[row][col];
