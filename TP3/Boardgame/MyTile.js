@@ -42,11 +42,11 @@ class MyTile {
     }
 
     display() {
-        if (this.selectable)
-            this.scene.registerForPick(this.uniqueId, this);
+        // if (this.selectable)
+        this.scene.registerForPick(this.uniqueId, this);
         this.tile.display();
-        if (this.selectable)
-            this.scene.clearPickRegistration();
+        // if (this.selectable)
+        this.scene.clearPickRegistration();
 
         for (let i = 0; i < this.stack.length; i++) {
             this.scene.pushMatrix();

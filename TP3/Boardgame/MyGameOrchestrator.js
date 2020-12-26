@@ -43,11 +43,21 @@ class MyGameOrchestrator {
         if (obj instanceof MyPiece) {
             // do something with id knowing it is a piece
             if(this.selectedPiece){
-                this.selectedPiece.selected = false;
+                //I want to move it to its tile if possible
+                if(!obj.selectable){
+                    this.handleMove(this.selectedPiece, obj.tile);
+                    this.selectedPiece.selected = false;
+                    this.selectedPiece = null;
+                //I want to switch selected piece
+                } else {
+                    this.selectedPiece.selected = false;
+                }
             }
-            obj.selected = !obj.selected;
-            this.selectedPiece = obj;
-            console.log(obj);
+
+            if(obj.selectable){
+                obj.selected = !obj.selected;
+                this.selectedPiece = obj;
+            }
         } else if (obj instanceof MyTile) {
             // do something with id knowing it is a tile
             if (this.selectedPiece) {

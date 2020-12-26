@@ -67,8 +67,8 @@ class MyPiece {
     }
 
     display(){
-        if (this.selectable)
-            this.scene.registerForPick(this.uniqueId, this);
+        // if (this.selectable)
+        this.scene.registerForPick(this.uniqueId, this);
 
         this.scene.pushMaterial(this.material);
 
@@ -78,7 +78,7 @@ class MyPiece {
         this.piece.display();
         this.scene.popMaterial();
 
-        if (this.selectable)
-            this.scene.clearPickRegistration();
+        // if (this.selectable)
+        this.scene.clearPickRegistration();
     }
 }
