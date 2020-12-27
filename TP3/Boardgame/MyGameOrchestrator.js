@@ -1,7 +1,8 @@
 const gamemode = {
     HUMAN_VS_HUMAN: 0,
     HUMAN_VS_COMPUTER: 1,
-    COMPUTER_VS_COMPUTER: 2
+    COMPUTER_VS_HUMAN: 2,
+    COMPUTER_VS_COMPUTER: 3
 }
 
 const playerType = {
@@ -14,6 +15,12 @@ const computerDifficulty = {
     SMART: 1
 }
 
+const gameState = {
+    OPTIONS: 0,
+    PLAYING: 1,
+    ENDED: 2
+}
+
 
 class MyGameOrchestrator {
     constructor(scene) {
@@ -24,11 +31,13 @@ class MyGameOrchestrator {
 
         this.selectedPiece = null;
 
+        this.curGameState = gameState.OPTIONS;
+
         this.curPlayer = Player.WHITE;
-        this.curPlayerType = playerType.HUMAN;
+        this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
         this.gamemode = gamemode.HUMAN_VS_COMPUTER;
-        this.difficulty1 = null;
+        this.difficulty1 = computerDifficulty.SMART;
         this.difficulty2 = computerDifficulty.SMART;
         this.curDifficulty = 1;
 
@@ -37,8 +46,31 @@ class MyGameOrchestrator {
         this.gameBoard.makeTopRingsSelectable(this.curPlayer);
     }
 
+    startGame() {
+        console.log("White difficulty: " + this.difficulty1);
+        console.log("Black difficulty: " + this.difficulty2);
+
+
+
+        this.gameBoard.resetBoard();
+        this.curGameState = gameState.PLAYING;
+        if (this.gamemode === gamemode.HUMAN_VS_COMPUTER ||
+            this.gamemode === gamemode.HUMAN_VS_HUMAN) {
+            this.curPlayerType = playerType.HUMAN;
+        }
+        else {
+            this.curPlayerType = playerType.COMPUTER;
+        }
+
+        if (this.curPlayerType === playerType.COMPUTER) {
+            this.computerMove();
+        }
+    }
+
     display() {
-        this.gameBoard.display();
+        if (this.curGameState === gameState.PLAYING || this.curGameState === gameState.ENDED) {
+            this.gameBoard.display();
+        }
     }
 
     managePick(mode, results) {
@@ -118,6 +150,20 @@ class MyGameOrchestrator {
     }
 
     advanceTurn() {
+
+        this.prologInterface.isGameOver(this.gameBoard, this.curPlayer,
+            function (response) {
+                if (response['winner'] !== "none") {
+                    this.gameOver(response['winner']);
+                    this.curGameState = gameState.ENDED;
+                }
+            }.bind(this)
+        )
+        //TODO: ASYNCHRONOUS MAY CAUSE PROBLEMS
+        if (this.curGameState === gameState.ENDED) {
+            return;
+        }
+
         this.switchPlayer();
         this.changePlayerType();
         switch (this.curPlayerType) {
@@ -139,7 +185,7 @@ class MyGameOrchestrator {
     }
 
     changePlayerType() {
-        this.curDifficulty = 1 ? 2 : 1;
+        this.curDifficulty = this.curDifficulty === 1 ? 2 : 1;
         if (this.gamemode === gamemode.HUMAN_VS_HUMAN && this.curPlayerType === playerType.HUMAN ||
             this.gamemode === gamemode.HUMAN_VS_COMPUTER && this.curPlayerType === playerType.COMPUTER) {
             this.curPlayerType = playerType.HUMAN;
@@ -182,13 +228,7 @@ class MyGameOrchestrator {
                         //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
                         this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                         if (response["ballsToDisplace"].length === 0) {
-                            this.prologInterface.isGameOver(this.gameBoard, this.curPlayer,
-                                function (response) {
-                                    if (response['winner'] !== "none") {
-                                        this.gameOver(response['winner']);
-                                    }
-                                }.bind(this)
-                            )
+
                             this.curMoveState = moveState.MOVE_RING;
                             this.advanceTurn();
 

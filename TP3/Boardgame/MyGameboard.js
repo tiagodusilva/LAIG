@@ -21,6 +21,10 @@ class MyGameboard {
         this.initBoard();
     }
 
+    resetBoard() {
+        this.initBoard();
+    }
+
     fromGameState(gameState) {
         for (let i = 0; i < gameState[0]; i++) {
             for (let j = 0; j < gameState[0][i]; j++) {
