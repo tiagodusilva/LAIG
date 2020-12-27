@@ -1,11 +1,14 @@
 class MyTile {
-    constructor(scene, gameboard) {
+    constructor(scene, animator, gameboard, position, playerAux=null) {
         this.scene = scene;
-        this.gameboard = gameboard; 
+        this.animator = animator;
+        this.gameboard = gameboard;
         this.stack = []; /* stack is the name used in our prolog game */
-        this.tile = new Plane(scene, 2, 2);
+        this.tile = new Plane(scene, 3, 3);
         this.uniqueId = this.scene.currentUniqueId++;
         this.selectable = true;
+        this.position = position;
+        this.playerAux = playerAux;
     }
 
     getPieceAmount() {
@@ -16,44 +19,55 @@ class MyTile {
         return this.stack.map(function(x){return x.type})
     }
 
-    addPiece(piece){
+    addNewPiece(pieceType, selectable){
+        let topPiece = this.getTopPiece();
+        if(topPiece){
+            topPiece.selectable = false;
+        }
+        let piece = new MyPiece(this.scene, pieceType, this.position, this.stack.length, selectable);
+        piece.selectable = true;
+        this.stack.push(piece);
+    }
+
+    addExistingPiece(piece, animate=false) {
         let topPiece = this.getTopPiece();
         if(topPiece){
             topPiece.selectable = false;
         }
         piece.selectable = true;
-        piece.tile = this;
-        this.stack.push(piece);
-    }
-
-    removePiece() {
-        let pieceToRemove = this.stack.pop();
-        pieceToRemove.selectable = false;
-
-        let topPiece = this.getTopPiece();
-        if(topPiece){
-            topPiece.selectable = true;
+        if (animate) {
+            console.log("Heya");
+            piece.updatePositionInBoard(this.position, this.stack.length);
+            this.animator.addAnimation(new MyMovementAnimation(piece, piece.transform, MyPiece.generateTransform(this.position, this.stack.length), 2));
+        } else {
+            piece.updatePositionInBoard(this.position, this.stack.length, true);
         }
-        return pieceToRemove;
+        this.stack.push(piece);
     }
 
     getTopPiece() {
         return this.stack.length == 0 ? null : this.stack[this.stack.length - 1];
     }
 
+    movePiece(toCoords, animate=false) {
+        let destinationTile = this.gameboard.getTile(toCoords[0], toCoords[1]);
+        let topPiece = this.stack.pop();
+        destinationTile.addExistingPiece(topPiece, animate);
+    }
+
     display() {
         // if (this.selectable)
         this.scene.registerForPick(this.uniqueId, this);
+        this.scene.pushMatrix();
+        this.scene.translate(this.position[1], 0, this.position[0]);
+        this.scene.scale(0.95, 1, 0.95);
         this.tile.display();
+        this.scene.popMatrix();
         // if (this.selectable)
         this.scene.clearPickRegistration();
 
         for (let i = 0; i < this.stack.length; i++) {
-            this.scene.pushMatrix();
-            this.scene.rotate(-Math.PI/2, 1, 0, 0);
-            this.scene.translate(0, 0, 0.25 * (i + 1));
             this.stack[i].display();
-            this.scene.popMatrix();
         }
 
     }

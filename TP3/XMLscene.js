@@ -75,9 +75,6 @@ class XMLscene extends CGFscene {
 
         this.currentUniqueId = -1;
         this.gameorchestrator = new MyGameOrchestrator(this);
-        // this.gameorchestrator.gameBoard.placeNewRing(2, 2, Player.BLACK);
-        // this.gameorchestrator.gameBoard.movePiece(3, 0, 2, 2);
-        // this.gameorchestrator.gameBoard.movePiece(3, 0, 0, 0);
     }
 
     resetCamera() {
@@ -299,6 +296,9 @@ class XMLscene extends CGFscene {
             for (let spriteAnim of this.graph.spriteAnims) {
                 spriteAnim.update(this.currTime);
             }
+
+            if (this.gameorchestrator)
+                this.gameorchestrator.update(this.currTime);
         }
     }
 

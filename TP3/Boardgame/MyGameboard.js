@@ -10,8 +10,9 @@ function translatePosToProlog(pos) {
 }
 
 class MyGameboard {
-    constructor(scene) {
+    constructor(scene, animator) {
         this.scene = scene;
+        this.animator = animator;
         this.whiteMaterial = new MyCGFmaterial(this.scene);
         this.whiteMaterial.setShininess(1);
         this.whiteMaterial.setAmbient(1, 1, 1, 1);
@@ -19,14 +20,6 @@ class MyGameboard {
         this.whiteMaterial.setSpecular(1, 1, 1, 1);
         this.whiteMaterial.setEmission(0, 0, 0, 1);
         this.initBoard();
-    }
-
-    fromGameState(gameState) {
-        for (let i = 0; i < gameState[0]; i++) {
-            for (let j = 0; j < gameState[0][i]; j++) {
-                this.board[i]
-            }
-        }
     }
 
     toGameStateString() {
@@ -56,7 +49,7 @@ class MyGameboard {
         for (let i = 0; i < 5; i++) {
             let aux = [];
             for (let j = 0; j < 5; j++) {
-                aux.push(new MyTile(this.scene, this));
+                aux.push(new MyTile(this.scene, this.animator, this, [i, j]));
             }
             this.board.push(aux);
         }
@@ -64,13 +57,16 @@ class MyGameboard {
 
 
         // Create auxiliary board
-        this.auxBoard = [new MyTile(this.scene, this), new MyTile(this.scene, this)];
+        this.auxBoard = [
+            new MyTile(this.scene, this.animator, this, [-1, Player.WHITE], Player.WHITE),
+            new MyTile(this.scene, this.animator, this, [-1, Player.BLACK], Player.BLACK)
+        ];
         for (let i = 0; i < 5; i++) {
             //0 : White
             //1 : Black
             //i == 5 is for the selectable pieces
-            this.auxBoard[Player.WHITE].addPiece(new MyPiece(this.scene, PieceType.WHITE_RING, this.auxBoard[0], i == 4));
-            this.auxBoard[Player.BLACK].addPiece(new MyPiece(this.scene, PieceType.BLACK_RING, this.auxBoard[1], i == 4));
+            this.auxBoard[Player.WHITE].addNewPiece(PieceType.WHITE_RING, i == 4);
+            this.auxBoard[Player.BLACK].addNewPiece(PieceType.BLACK_RING, i == 4);
         }
     }
 
@@ -117,28 +113,12 @@ class MyGameboard {
     }
 
     addNewPiece(row, col, piece_type, selectable){
-        this.getTile(row, col).addPiece(new MyPiece(this.scene, piece_type, this.board[row][col], selectable));
-    }
-
-    addPiece(row, col, piece) {
-        this.getTile(row, col).addPiece(piece);
-    }
-
-    removePiece(row, col) {
-        return this.getTile(row, col).removePiece();
-    }
-
-    placeNewRing(row, col, player){
-        this.auxBoard[player].removePiece();
-        if(player == Player.WHITE)
-            this.addNewPiece(row, col, PieceType.WHITE_RING, true);
-        else if(player == Player.BLACK)
-            this.addNewPiece(row, col, PieceType.BLACK_RING, true);
+        this.getTile(row, col).addNewPiece(piece_type, selectable);
     }
 
     //Maybe change for two Vec2
     movePiece(fromRow, fromCol, toRow, toCol) {
-        this.addPiece(toRow, toCol, this.removePiece(fromRow, fromCol));
+        this.getTile(fromRow, fromCol).movePiece([toRow, toCol], true);
     }
 
     //Maybe change for two Vec2
@@ -177,34 +157,15 @@ class MyGameboard {
     }
 
     display() {
+        this.board.forEach(line => {
+            line.forEach(tile => {
+                tile.display();
+            });
+        });
 
-        // console.log("Hello");
-        for (let i = 0; i < this.board.length; i++) {
-            for (let j = 0; j < this.board[i].length; j++){
-                this.scene.pushMatrix();
-                this.scene.pushMaterial(this.whiteMaterial);
-                this.scene.translate(i * 1.1, 0, j * 1.1);
-                //j and i are switched to follow our game standard
-                this.getTile(j, i).display();
-                this.scene.popMaterial();
-                this.scene.popMatrix();
-            }
-        }
-
-        //Auxiliary board
-        this.scene.pushMatrix();
-        this.scene.pushMaterial(this.whiteMaterial);
-        this.scene.translate(-1.5, 0, 3);
-        this.auxBoard[Player.WHITE].display();
-        this.scene.popMaterial();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.pushMaterial(this.whiteMaterial);
-        this.scene.translate(-1.5, 0, 1);
-        this.auxBoard[Player.BLACK].display();
-        this.scene.popMaterial();
-        this.scene.popMatrix();
+        this.auxBoard.forEach(tile => {
+            tile.display();
+        });
     }
 
     makeTopBallsSelectable(player) {

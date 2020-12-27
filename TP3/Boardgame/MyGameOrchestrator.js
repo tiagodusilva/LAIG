@@ -7,7 +7,8 @@ const moveState = {
 class MyGameOrchestrator {
     constructor(scene) {
         this.scene = scene;
-        this.gameBoard = new MyGameboard(this.scene);
+        this.animator = new MyAnimator(this);
+        this.gameBoard = new MyGameboard(this.scene, this.animator);
         this.prologInterface = new MyPrologInterface();
         this.selectedPiece = null;
         this.curPlayer = Player.WHITE;
@@ -45,7 +46,7 @@ class MyGameOrchestrator {
             if(this.selectedPiece){
                 //I want to move it to its tile if possible
                 if(!obj.selectable){
-                    this.handleMove(this.selectedPiece, obj.tile);
+                    this.handleMove(this.selectedPiece, this.gameBoard.getTile(obj.position[0], obj.position[1]));
                     this.selectedPiece.selected = false;
                     this.selectedPiece = null;
                 //I want to switch selected piece
@@ -78,8 +79,8 @@ class MyGameOrchestrator {
 
     handleMove(pieceToMove, toTile) {
         let response;
-        let initialPos = this.gameBoard.getTilePos(pieceToMove.tile);
-        let finalPos = this.gameBoard.getTilePos(toTile);
+        let initialPos = pieceToMove.position;
+        let finalPos = toTile.position;
         console.log(this.ballsToDisplace);
 
         switch(this.curMoveState) {
@@ -134,5 +135,9 @@ class MyGameOrchestrator {
                 console.log("I'm also a teapot!");
                 break;
         }
+    }
+
+    update(t) {
+        this.animator.update(t);
     }
 }

@@ -11,15 +11,28 @@ const PieceType = {
     BLACK_BALL: 4
 }
 
+
 class MyPiece {
-    
-    constructor (scene, type, tile, selectable){
+
+    static generateTransform(position, height) {
+        return new Transform([position[1], 0.25 * (height + 1), position[0]], [0, 0, 0], [1, 1, 1]);
+    }
+
+    updatePositionInBoard(position, height, moveToPosition=false) {
+        this.position = position;
+        if (moveToPosition)
+            this.transform = MyPiece.generateTransform(position, height);
+    }
+
+    constructor (scene, type, position, height, selectable){
         this.scene = scene;
-        this.tile = tile;
         this.type = type;
         this.selectable = selectable;
         this.uniqueId = this.scene.currentUniqueId++;
         this.selected = false;
+
+        this.updatePositionInBoard(position, height, true);
+        
 
         let blackMaterial = new MyCGFmaterial(this.scene);
         blackMaterial.setShininess(0.25);
@@ -58,24 +71,24 @@ class MyPiece {
         }
     }
 
-    setTile(newTile){
-        this.tile = newTile;
-    }
-
-    getRow() {
-        return this.tile.getRow
-    }
-
-    display(){
+    display() {
         // if (this.selectable)
         this.scene.registerForPick(this.uniqueId, this);
 
         this.scene.pushMaterial(this.material);
 
+        this.scene.pushMatrix();
+
+        this.scene.multMatrix(this.transform.getMatrix());
+
+        // TODO: Remove this once we do XML parseroo stuffs
+        this.scene.rotate(-Math.PI/2, 1, 0, 0);
+
         if(this.selected){
             this.scene.translate(0, 0, 0.3);
         }
         this.piece.display();
+        this.scene.popMatrix();
         this.scene.popMaterial();
 
         // if (this.selectable)
