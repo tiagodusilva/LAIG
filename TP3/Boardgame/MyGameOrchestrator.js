@@ -72,6 +72,10 @@ class MyGameOrchestrator {
         this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
     }
 
+    gameOver(winner) {
+        console.log("The winner is:" + winner);
+    }
+
     handleMove(pieceToMove, toTile) {
         let response;
         let initialPos = this.gameBoard.getTilePos(pieceToMove.tile);
@@ -80,7 +84,7 @@ class MyGameOrchestrator {
 
         switch (this.curMoveState) {
             case moveState.MOVE_RING:
-                response = this.prologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
+                this.prologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
                     function (response) {
                         if (response['valid'] === false) {
                             console.log("Invalid Move");
@@ -93,7 +97,7 @@ class MyGameOrchestrator {
                 );
                 break;
             case moveState.MOVE_BALL:
-                response = this.prologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
+                this.prologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
                     function (response) {
                         if (response['valid'] === false) {
                             console.log("Invalid Move");
@@ -102,6 +106,13 @@ class MyGameOrchestrator {
                         //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
                         this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                         if (response["ballsToDisplace"].length === 0) {
+                            this.prologInterface.isGameOver(this.gameBoard, this.curPlayer,
+                                function (response) {
+                                    if (response['winner'] !== "none") {
+                                        this.gameOver(response['winner']);
+                                    }
+                                }.bind(this)
+                            )
                             this.curMoveState = moveState.MOVE_RING;
                             this.switchPlayer();
                             this.gameBoard.makeTopRingsSelectable(this.curPlayer);

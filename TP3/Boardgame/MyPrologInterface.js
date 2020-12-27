@@ -19,13 +19,18 @@ class MyPrologInterface {
     }
 
     canMoveBall(gameBoard, player, displacement, onSuccess) {
-
         let requestString = "move_ball_phase(" + gameBoard.toGameStateString() + ",";
         requestString += (player === Player.WHITE ? "white" : "black")  + ",";
         requestString += "[[" + displacement[0].toString() + "],[" + displacement[1].toString() + "]])";
 
         return this.sendPrologRequest(requestString, onSuccess);
-        
+    }
+
+    isGameOver(gameBoard, player, onSuccess) {
+        let requestString = "game_over(" + gameBoard.toGameStateString() + ",";
+        requestString += (player === Player.WHITE ? "white" : "black")  + ")";
+
+        return this.sendPrologRequest(requestString, onSuccess);
     }
 
     sendPrologRequest(requestString, onSuccess) {
