@@ -337,7 +337,7 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            // this.graph.displayScene();
+            this.graph.displayScene();
             this.gameorchestrator.managePick(this.pickMode, this.pickResults);
             this.clearPickRegistration();
             this.gameorchestrator.display();

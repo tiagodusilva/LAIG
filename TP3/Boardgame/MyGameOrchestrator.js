@@ -25,6 +25,7 @@ const gameState = {
 class MyGameOrchestrator {
     constructor(scene) {
         this.scene = scene;
+
         this.gameBoard = new MyGameboard(this.scene);
         this.prologInterface = new MyPrologInterface();
         this.curMove = new MyGameMove(this.gameBoard);
@@ -43,26 +44,25 @@ class MyGameOrchestrator {
 
         this.ballsToDisplace = [];
 
-        this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+        this.gameBoard.makeNothingSelectable();
     }
 
     startGame() {
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
+        console.log("Gamemode: " + this.gamemode);
 
 
 
         this.gameBoard.resetBoard();
         this.curGameState = gameState.PLAYING;
-        if (this.gamemode === gamemode.HUMAN_VS_COMPUTER ||
-            this.gamemode === gamemode.HUMAN_VS_HUMAN) {
+        if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
+            this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
+            this.gameBoard.makeTopRingsSelectable(this.curPlayer);
         }
         else {
             this.curPlayerType = playerType.COMPUTER;
-        }
-
-        if (this.curPlayerType === playerType.COMPUTER) {
             this.computerMove();
         }
     }
