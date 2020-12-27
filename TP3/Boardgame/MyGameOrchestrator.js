@@ -72,10 +72,15 @@ class MyGameOrchestrator {
         }
     }
 
+    switchPlayer() {
+        this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
+    }
+
     handleMove(pieceToMove, toTile) {
         let response;
         let initialPos = this.gameBoard.getTilePos(pieceToMove.tile);
         let finalPos = this.gameBoard.getTilePos(toTile);
+        console.log(this.ballsToDisplace);
 
         switch(this.curMoveState) {
             case moveState.MOVE_RING:
@@ -99,14 +104,31 @@ class MyGameOrchestrator {
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 if(response["ballsToDisplace"].length === 0){
                     this.curMoveState = moveState.MOVE_RING;
-                    this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
+                    this.switchPlayer();
                     this.gameBoard.makeTopRingsSelectable(this.curPlayer);
                 } else {
-                    this.displacedBalls = response["ballsToDisplace"];
+                    this.ballsToDisplace = response["ballsToDisplace"];
                     this.curMoveState = moveState.DISPLACE_BALLS;
+                    this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
                 }
                 break;
             case moveState.DISPLACE_BALLS:
+                //Displace the ball
+                if(!this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])){
+                    return;
+                }
+
+                //Used to remove the ball from the balls to displace
+                this.ballsToDisplace = this.ballsToDisplace.filter(item => (item[0] !== initialPos[0] && item[1] !== initialPos[1]))
+
+                if(this.ballsToDisplace.length === 0){
+                    this.curMoveState = moveState.MOVE_RING;
+                    this.switchPlayer();
+                    this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                } else {
+                    this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
+                }
+
                 break;
             default:
                 console.log("I'm also a teapot!");

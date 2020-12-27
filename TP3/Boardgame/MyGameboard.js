@@ -141,6 +141,41 @@ class MyGameboard {
         this.addPiece(toRow, toCol, this.removePiece(fromRow, fromCol));
     }
 
+    //Maybe change for two Vec2
+    displaceBall(fromRow, fromCol, toRow, toCol) {
+
+        if(toRow === AUX_BOARD || toCol === AUX_BOARD){
+            return false;
+        }
+
+        let fromPiece = this.getTile(fromRow, fromCol).getTopPiece();
+        let fromPieceType;
+        if(fromPiece){
+            fromPieceType = fromPiece.type;
+        } else {
+            return false;
+        }
+
+        let toPiece = this.getTile(toRow, toCol).getTopPiece();
+        let toPieceType;
+        if(toPiece){
+            toPieceType = toPiece.type;
+        } else {
+            return false;
+        }
+
+        if(fromPieceType === PieceType.WHITE_BALL && toPieceType === PieceType.WHITE_RING){
+            this.movePiece(fromRow, fromCol, toRow, toCol);
+            return true;
+        } else if (fromPieceType === PieceType.BLACK_BALL && toPieceType === PieceType.BLACK_RING){
+            this.movePiece(fromRow, fromCol, toRow, toCol);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     display() {
 
         // console.log("Hello");
@@ -221,6 +256,28 @@ class MyGameboard {
         piece = this.auxBoard[Player.BLACK].getTopPiece();
         if(piece){
             piece.selectable = player == Player.BLACK;
+        }
+    }
+
+    makeBallsToDisplaceSelectable(ballsToDisplace) {
+        console.log(ballsToDisplace);
+        for (let i = 0; i < this.board.length; i++) {
+            for (let j = 0; j < this.board[i].length; j++) {
+                let piece = this.board[i][j].getTopPiece();
+                if(piece !== null){
+                    let toDisplace = false;
+                    ballsToDisplace.forEach(element => {
+                        if(element[0] === i && element[1] === j) {
+                            console.log([i,j]);
+                            piece.selectable = true;
+                            toDisplace = true;
+                        }
+                    });
+                    if(!toDisplace){
+                        piece.selectable = false;
+                    }
+                }
+            }
         }
     }
 }
