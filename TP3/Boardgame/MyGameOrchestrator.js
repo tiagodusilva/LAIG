@@ -1,3 +1,20 @@
+const gamemode = {
+    HUMAN_VS_HUMAN: 0,
+    HUMAN_VS_COMPUTER: 1,
+    COMPUTER_VS_COMPUTER: 2
+}
+
+const playerType = {
+    HUMAN: 0,
+    COMPUTER: 1
+}
+
+const computerDifficulty = {
+    RANDOM: 0,
+    SMART: 1
+}
+
+
 class MyGameOrchestrator {
     constructor(scene) {
         this.scene = scene;
@@ -6,10 +23,18 @@ class MyGameOrchestrator {
         this.curMove = new MyGameMove(this.gameBoard);
 
         this.selectedPiece = null;
+
         this.curPlayer = Player.WHITE;
-        this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+        this.curPlayerType = playerType.HUMAN;
         this.curMoveState = moveState.MOVE_RING;
+        this.gamemode = gamemode.HUMAN_VS_COMPUTER;
+        this.difficulty1 = null;
+        this.difficulty2 = computerDifficulty.SMART;
+        this.curDifficulty = 1;
+
         this.ballsToDisplace = [];
+
+        this.gameBoard.makeTopRingsSelectable(this.curPlayer);
     }
 
     display() {
@@ -68,12 +93,63 @@ class MyGameOrchestrator {
         }
     }
 
+    makeMove(move) {
+        console.log(move.ringMove);
+        this.gameBoard.movePiece(move.ringMove[0][0], move.ringMove[0][1], move.ringMove[1][0], move.ringMove[1][1]);
+        this.gameBoard.movePiece(move.ballMove[0][0], move.ballMove[0][1], move.ballMove[1][0], move.ballMove[1][1]);
+
+        move.ballsDisplacements.forEach(ballDisplacement => {
+            console.log(ballDisplacement);
+            this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
+        });
+    }
+
+    computerMove() {
+        this.gameBoard.makeNothingSelectable();
+        this.prologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty],
+            function (response) {
+                console.log(response);
+                let move = new MyGameMove(this.gameBoard);
+                move.fromPrologMove(response['move']);
+                this.makeMove(move);
+                this.advanceTurn();
+            }.bind(this)
+        )
+    }
+
+    advanceTurn() {
+        this.switchPlayer();
+        this.changePlayerType();
+        switch (this.curPlayerType) {
+            case playerType.HUMAN:
+                this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                break;
+
+            case playerType.COMPUTER:
+                this.computerMove();
+                break;
+
+            default:
+                break;
+        }
+    }
+
     switchPlayer() {
         this.curPlayer = this.curPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
     }
 
+    changePlayerType() {
+        this.curDifficulty = 1 ? 2 : 1;
+        if (this.gamemode === gamemode.HUMAN_VS_HUMAN && this.curPlayerType === playerType.HUMAN ||
+            this.gamemode === gamemode.HUMAN_VS_COMPUTER && this.curPlayerType === playerType.COMPUTER) {
+            this.curPlayerType = playerType.HUMAN;
+        } else {
+            this.curPlayerType = playerType.COMPUTER;
+        }
+    }
+
     gameOver(winner) {
-        console.log("The winner is:" + winner);
+        console.log("The winner is: " + winner);
     }
 
     handleMove(pieceToMove, toTile) {
@@ -114,8 +190,8 @@ class MyGameOrchestrator {
                                 }.bind(this)
                             )
                             this.curMoveState = moveState.MOVE_RING;
-                            this.switchPlayer();
-                            this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                            this.advanceTurn();
+
                         } else {
                             this.ballsToDisplace = response["ballsToDisplace"];
                             this.curMoveState = moveState.DISPLACE_BALLS;
@@ -135,8 +211,7 @@ class MyGameOrchestrator {
 
                 if (this.ballsToDisplace.length === 0) {
                     this.curMoveState = moveState.MOVE_RING;
-                    this.switchPlayer();
-                    this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                    this.advanceTurn();
                 } else {
                     this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
                 }

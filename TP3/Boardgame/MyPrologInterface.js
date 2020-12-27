@@ -33,6 +33,14 @@ class MyPrologInterface {
         return this.sendPrologRequest(requestString, onSuccess);
     }
 
+    getComputerMove(gameBoard, player, difficulty, onSuccess) {
+        let requestString = "choose_move(" + gameBoard.toGameStateString() + ",";
+        requestString += (player === Player.WHITE ? "white" : "black")  + ",";
+        requestString += (difficulty === computerDifficulty.RANDOM ? "random" : "smart") + ")";
+
+        return this.sendPrologRequest(requestString, onSuccess);
+    }
+
     sendPrologRequest(requestString, onSuccess) {
         let request = new XMLHttpRequest();
         

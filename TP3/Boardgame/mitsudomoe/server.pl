@@ -138,6 +138,16 @@ parse_input(game_over(GameState, Player), Output) :-
     ), Codes),
     atom_codes(Output, Codes).
 
+parse_input(choose_move(GameState, Player, Level), Output) :-
+	choose_move(GameState, Player, Level, Move),
+	with_output_to_codes((
+        current_output(Stream),
+        write(Stream, '{"move":'),
+		json_write(Stream, Move, [compact(true)]),
+        write(Stream, '}')
+    ), Codes),
+    atom_codes(Output, Codes).
+
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.
