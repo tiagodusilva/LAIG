@@ -32,6 +32,13 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'showAxis').name("Show Axis");
         this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
 
+        let gameOptionsFolder = this.gui.addFolder("Game Options");
+        gameOptionsFolder.open();
+        gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).name('Gamemode');
+        gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty');
+        gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty');
+        gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Start Game');
+
         var cameraFolder = this.gui.addFolder("Cameras");
         cameraFolder.open();
         cameraFolder.add(this.scene, 'resetAllCameras').name('Reset All Cameras');

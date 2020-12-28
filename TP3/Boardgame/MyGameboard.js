@@ -1,6 +1,6 @@
 const Player = {
-    WHITE : 0,
-    BLACK : 1
+    WHITE: 0,
+    BLACK: 1
 }
 
 const AUX_BOARD = -1;
@@ -22,28 +22,32 @@ class MyGameboard {
         this.initBoard();
     }
 
+    resetBoard() {
+        this.initBoard();
+    }
+
     toGameStateString() {
         let result = "[[";
         for (let i = 0; i < this.board.length; i++) {
             result += "[";
             for (let j = 0; j < this.board[i].length; j++) {
                 result += "[" + this.board[i][j].getStackTypes().toString() + "]";
-                if(j != this.board[i].length - 1){
+                if (j != this.board[i].length - 1) {
                     result += ",";
                 }
             }
             result += "]";
-            if(i != this.board.length - 1){
+            if (i != this.board.length - 1) {
                 result += ",";
             }
         }
-        result += "]," + 
-                this.auxBoard[Player.WHITE].getPieceAmount() + "," + 
-                this.auxBoard[Player.BLACK].getPieceAmount() + ",3]";
+        result += "]," +
+            this.auxBoard[Player.WHITE].getPieceAmount() + "," +
+            this.auxBoard[Player.BLACK].getPieceAmount() + ",3]";
         return result;
     }
 
-    initBoard(){
+    initBoard() {
         // Create main board
         this.board = [];
         for (let i = 0; i < 5; i++) {
@@ -70,7 +74,7 @@ class MyGameboard {
         }
     }
 
-    placeStartingPieces(){
+    placeStartingPieces() {
         this.addNewPiece(3, 0, PieceType.WHITE_RING, false);
         this.addNewPiece(3, 0, PieceType.WHITE_BALL, true);
 
@@ -100,13 +104,13 @@ class MyGameboard {
     getTilePos(tile) {
         for (let row = 0; row < 5; row++) {
             for (let col = 0; col < 5; col++) {
-                if(tile == this.board[row][col])
+                if (tile == this.board[row][col])
                     return [row, col];
             }
         }
         //Iterate over the auxiliary board
-        for(let i in [Player.WHITE, Player.BLACK]){
-            if(tile == this.auxBoard[i]){
+        for (let i in [Player.WHITE, Player.BLACK]) {
+            if (tile == this.auxBoard[i]) {
                 return [AUX_BOARD, i];
             }
         }
@@ -124,13 +128,13 @@ class MyGameboard {
     //Maybe change for two Vec2
     displaceBall(fromRow, fromCol, toRow, toCol) {
 
-        if(toRow === AUX_BOARD || toCol === AUX_BOARD){
+        if (toRow === AUX_BOARD || toCol === AUX_BOARD) {
             return false;
         }
 
         let fromPiece = this.getTile(fromRow, fromCol).getTopPiece();
         let fromPieceType;
-        if(fromPiece){
+        if (fromPiece) {
             fromPieceType = fromPiece.type;
         } else {
             return false;
@@ -138,16 +142,16 @@ class MyGameboard {
 
         let toPiece = this.getTile(toRow, toCol).getTopPiece();
         let toPieceType;
-        if(toPiece){
+        if (toPiece) {
             toPieceType = toPiece.type;
         } else {
             return false;
         }
 
-        if(fromPieceType === PieceType.WHITE_BALL && toPieceType === PieceType.WHITE_RING){
+        if (fromPieceType === PieceType.WHITE_BALL && toPieceType === PieceType.WHITE_RING) {
             this.movePiece(fromRow, fromCol, toRow, toCol);
             return true;
-        } else if (fromPieceType === PieceType.BLACK_BALL && toPieceType === PieceType.BLACK_RING){
+        } else if (fromPieceType === PieceType.BLACK_BALL && toPieceType === PieceType.BLACK_RING) {
             this.movePiece(fromRow, fromCol, toRow, toCol);
             return true;
         } else {
@@ -170,11 +174,11 @@ class MyGameboard {
 
     makeTopBallsSelectable(player) {
         for (let i = 0; i < this.board.length; i++) {
-            for (let j = 0; j < this.board[i].length; j++){
-                let piece = this.board[i][j].getTopPiece(); 
+            for (let j = 0; j < this.board[i].length; j++) {
+                let piece = this.board[i][j].getTopPiece();
 
-                if(piece !== null){
-                    if(piece.type === PieceType.BLACK_BALL && player == Player.BLACK){
+                if (piece !== null) {
+                    if (piece.type === PieceType.BLACK_BALL && player == Player.BLACK) {
                         piece.selectable = true;
                     } else if (piece.type === PieceType.WHITE_BALL && player === Player.WHITE) {
                         piece.selectable = true;
@@ -184,22 +188,22 @@ class MyGameboard {
                 }
             }
         }
-        
-        for(let i in [Player.WHITE, Player.BLACK]){
+
+        for (let i in [Player.WHITE, Player.BLACK]) {
             let piece = this.auxBoard[i].getTopPiece();
-            if(piece) {
+            if (piece) {
                 piece.selectable = false;
             }
         }
-        
+
     }
-    
+
     makeTopRingsSelectable(player) {
         for (let i = 0; i < this.board.length; i++) {
             for (let j = 0; j < this.board[i].length; j++) {
-                let piece = this.board[i][j].getTopPiece(); 
-                if(piece !== null){
-                    if(piece.type === PieceType.BLACK_RING && player == Player.BLACK){
+                let piece = this.board[i][j].getTopPiece();
+                if (piece !== null) {
+                    if (piece.type === PieceType.BLACK_RING && player == Player.BLACK) {
                         piece.selectable = true;
                     } else if (piece.type === PieceType.WHITE_RING && player === Player.WHITE) {
                         piece.selectable = true;
@@ -209,13 +213,13 @@ class MyGameboard {
                 }
             }
         }
-        
+
         let piece = this.auxBoard[Player.WHITE].getTopPiece();
-        if(piece){
+        if (piece) {
             piece.selectable = player == Player.WHITE;
         }
         piece = this.auxBoard[Player.BLACK].getTopPiece();
-        if(piece){
+        if (piece) {
             piece.selectable = player == Player.BLACK;
         }
     }
@@ -225,18 +229,29 @@ class MyGameboard {
         for (let i = 0; i < this.board.length; i++) {
             for (let j = 0; j < this.board[i].length; j++) {
                 let piece = this.board[i][j].getTopPiece();
-                if(piece !== null){
+                if (piece !== null) {
                     let toDisplace = false;
                     ballsToDisplace.forEach(element => {
-                        if(element[0] === i && element[1] === j) {
-                            console.log([i,j]);
+                        if (element[0] === i && element[1] === j) {
+                            console.log([i, j]);
                             piece.selectable = true;
                             toDisplace = true;
                         }
                     });
-                    if(!toDisplace){
+                    if (!toDisplace) {
                         piece.selectable = false;
                     }
+                }
+            }
+        }
+    }
+
+    makeNothingSelectable() {
+        for (let i = 0; i < this.board.length; i++) {
+            for (let j = 0; j < this.board[i].length; j++) {
+                let piece = this.board[i][j].getTopPiece();
+                if (piece !== null) {
+                    piece.selectable = false;
                 }
             }
         }
