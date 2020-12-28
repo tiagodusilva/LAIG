@@ -78,7 +78,7 @@ lambda_evaluate_move(GameState, Player, Move, Value) :-
     value(NewGameState, Player, ValuePlayer),
     next_player(Player, NextPlayer),
     value(NewGameState, NextPlayer, ValueEnemy),
-    random(-0.25, 0.25, Rand),
+    random(-0.05, 0.05, Rand),
     Value is ValuePlayer + ValueEnemy * 0.5 + Rand. % Rand is used to make the AI not deterministic
     % Value is ValuePlayer + ValueEnemy * 0.5.
 
