@@ -32,17 +32,33 @@
 
     <lights>
         <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
-        <light id="Entry Side Left">
+        <light id="Top-left">
             <enable value="1" />
-            <position x="2.5" y="3.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="0.5" y="5" z="0.5" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </light>
 
-        <light id="Exit Side Left">
+        <light id="Top-right">
             <enable value="1" />
-            <position x="2.5" y="3.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="4.5" y="5" z="0.5" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </light>
+
+        <light id="Bottom-left">
+            <enable value="1" />
+            <position x="0.5" y="5" z="4.5" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </light>
+
+        <light id="Bottom-right">
+            <enable value="1" />
+            <position x="4.5" y="5" z="4.5" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />

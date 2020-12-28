@@ -31,13 +31,8 @@ main=function()
     myInterface.setActiveCamera(myScene.camera);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
-	// or use "portal.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
-	
-    var filename=getUrlVars()['file'] || "zen_garden.xml";
-
-	// create and load graph, and associate it to scene. 
-	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+	// or use "portal.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
+    myScene.loadScene(getUrlVars()['file'] || myScene.selectedScene);
 	
 	// start
     app.run();

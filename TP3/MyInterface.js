@@ -29,6 +29,8 @@ class MyInterface extends CGFinterface {
         this.gui.destroy();
         this.gui = new dat.GUI();
 
+        this.gui.add(this.scene, '_selectedScene', this.scene.scenesDropdown).onChange(this.scene.onSelectedSceneChange.bind(this.scene)).name("Scene");
+
         let gameOptionsFolder = this.gui.addFolder("Game Options");
         gameOptionsFolder.open();
         gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).name('Gamemode');

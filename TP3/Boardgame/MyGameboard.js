@@ -13,12 +13,6 @@ class MyGameboard {
     constructor(scene, animator) {
         this.scene = scene;
         this.animator = animator;
-        this.whiteMaterial = new MyCGFmaterial(this.scene);
-        this.whiteMaterial.setShininess(1);
-        this.whiteMaterial.setAmbient(1, 1, 1, 1);
-        this.whiteMaterial.setDiffuse(1, 1, 1, 1);
-        this.whiteMaterial.setSpecular(1, 1, 1, 1);
-        this.whiteMaterial.setEmission(0, 0, 0, 1);
         this.initBoard();
     }
 
@@ -99,6 +93,8 @@ class MyGameboard {
         for (let row of this.board)
             for (let tile of row)
                 tile.forEachPiece(func);
+        for (let tile of this.auxBoard)
+            tile.forEachPiece(func);
     }
 
     getTile(row, col) {

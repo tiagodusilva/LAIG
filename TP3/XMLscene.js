@@ -75,17 +75,45 @@ class XMLscene extends CGFscene {
 
         this.currentUniqueId = -1;
         this.gameorchestrator = new MyGameOrchestrator(this);
+
+        this.scenes = ["zen_garden.xml", "casino.xml"];
+        this._selectedScene = 0;
+
+        this.scenesDropdown = {
+            "Zen Garden": 0,
+            "Casino": 1
+        };
+    }
+
+    get selectedScene() {
+        return this.scenes[this._selectedScene];
+    }
+
+    onSelectedSceneChange(val) {
+        this._selectedScene = val;
+        this.loadScene(this.scenes[this._selectedScene]);
+    }
+
+    loadScene(filename) {
+        // Reset needed parameters
+        this.sceneInited = false;
+        // this.lights = [];
+        // this.lightCount = 0;
+
+        // create and load graph, and associate it to scene. 
+        // Check console for loading errors
+        this.graph = new MySceneGraph(filename, this);
     }
 
     resetCamera() {
         this.camera.reset();
-    };
+    }
 
     resetAllCameras() {
         for (let cam of this.graph.cameras.values()) {
             cam.reset();
         }
-    };
+    }
 
     /**
      * Enables all lights
@@ -131,12 +159,16 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new MyCGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
     initLights() {
-        var i = 0;
         // Lights index.
+        let i = 0;
+        let oldCount = this.lightCount;
+
+        this.lightCount = 0;
 
         // Reads the lights from the scene graph.
         for (var [lightId, light] of this.graph.lights.entries()) {
@@ -148,7 +180,6 @@ class XMLscene extends CGFscene {
             this.lights[i].setDiffuse(...light[3]);
             this.lights[i].setSpecular(...light[4]);
 
-            this.lights[i].setVisible(true);
             if (light[0]) {
                 this.lights[i].enable();
                 this["lightEnabled" + i] = true;
@@ -163,6 +194,14 @@ class XMLscene extends CGFscene {
             //Used to update the lights in the GUI
             this.lightCount++;
             i++;
+        }
+
+        if (this.lightCount < oldCount) {
+            for (i = this.lightCount; i < oldCount; i++) {
+                this.lights[i].disable();
+                this.lights[i].update();
+                this["lightEnabled" + i] = undefined;
+            }
         }
     }
 
