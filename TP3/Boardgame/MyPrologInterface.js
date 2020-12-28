@@ -10,54 +10,54 @@ const prologRequestType = {
 class MyPrologInterface {
     constructor () { }
 
-    canMoveRing(gameBoard, player, displacement, onSuccess) {
+    static async canMoveRing(gameBoard, player, displacement) {
         let requestString = "move_ring_phase(" + gameBoard.toGameStateString() + ",";
         requestString += (player === Player.WHITE ? "white" : "black")  + ",";
         requestString += "[[" + displacement[0].toString() + "],[" + displacement[1].toString() + "]])";
 
-        return this.sendPrologRequest(requestString, onSuccess);
+        return MyPrologInterface.sendPrologRequest(requestString);
     }
 
-    canMoveBall(gameBoard, player, displacement, onSuccess) {
+    static async canMoveBall(gameBoard, player, displacement) {
         let requestString = "move_ball_phase(" + gameBoard.toGameStateString() + ",";
         requestString += (player === Player.WHITE ? "white" : "black")  + ",";
         requestString += "[[" + displacement[0].toString() + "],[" + displacement[1].toString() + "]])";
 
-        return this.sendPrologRequest(requestString, onSuccess);
+        return MyPrologInterface.sendPrologRequest(requestString);
     }
 
-    isGameOver(gameBoard, player, onSuccess) {
+    static async isGameOver(gameBoard, player) {
         let requestString = "game_over(" + gameBoard.toGameStateString() + ",";
         requestString += (player === Player.WHITE ? "white" : "black")  + ")";
 
-        return this.sendPrologRequest(requestString, onSuccess);
+        return MyPrologInterface.sendPrologRequest(requestString);
     }
 
-    getComputerMove(gameBoard, player, difficulty, onSuccess) {
+    static async getComputerMove(gameBoard, player, difficulty) {
         let requestString = "choose_move(" + gameBoard.toGameStateString() + ",";
         requestString += (player === Player.WHITE ? "white" : "black")  + ",";
         requestString += (difficulty === computerDifficulty.RANDOM ? "random" : "smart") + ")";
 
-        return this.sendPrologRequest(requestString, onSuccess);
+        return MyPrologInterface.sendPrologRequest(requestString);
     }
 
-    sendPrologRequest(requestString, onSuccess) {
-        let request = new XMLHttpRequest();
-        
-        let response;
-        request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                response = JSON.parse(request.responseText);
-                // console.log(response);
-                onSuccess(response);
-            }
-        };
+    static async sendPrologRequest(requestString) {        
+        let url = 'http://' + PROLOG_URL + ':' + PROLOG_DEFAULT_PORT + '/' + requestString;
+        const response = await fetch(url, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+        });
 
-        request.open('GET', 'http://' + PROLOG_URL + ':' + PROLOG_DEFAULT_PORT + '/' + requestString, true);
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        request.send();
-        
-        return response;
+        if (response.ok) {
+            // let s = await response.json();
+            // console.log(s);
+            // return s;
+            return await response.json();
+        } else {
+            return null;
+        }
     }
 
 }

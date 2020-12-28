@@ -29,7 +29,7 @@ class MyTile {
         this.stack.push(piece);
     }
 
-    addExistingPiece(piece, animate=false) {
+    async addExistingPiece(piece, animate=false) {
         let topPiece = this.getTopPiece();
         if(topPiece){
             topPiece.selectable = false;
@@ -37,23 +37,24 @@ class MyTile {
         piece.selectable = true;
         if (animate) {
             piece.updatePositionInBoard(this.position, this.stack.length);
-            this.animator.addAnimation(
-                new MyMovementAnimation(piece, piece.transform.clone(), MyPiece.generateTransform(this.position, this.stack.length))
+            this.stack.push(piece);
+            await this.animator.addAnimation(
+                new MyMovementAnimation(piece, piece.transform.clone(), piece.generateOwnTransform())
             );
         } else {
             piece.updatePositionInBoard(this.position, this.stack.length, true);
+            this.stack.push(piece);
         }
-        this.stack.push(piece);
     }
 
     getTopPiece() {
         return this.stack.length == 0 ? null : this.stack[this.stack.length - 1];
     }
 
-    movePiece(toCoords, animate=false) {
+    async movePiece(toCoords, animate=false) {
         let destinationTile = this.gameboard.getTile(toCoords[0], toCoords[1]);
         let topPiece = this.stack.pop();
-        destinationTile.addExistingPiece(topPiece, animate);
+        await destinationTile.addExistingPiece(topPiece, animate);
     }
 
     display() {

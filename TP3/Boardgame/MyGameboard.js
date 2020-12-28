@@ -121,8 +121,8 @@ class MyGameboard {
     }
 
     //Maybe change for two Vec2
-    movePiece(fromRow, fromCol, toRow, toCol) {
-        this.getTile(fromRow, fromCol).movePiece([toRow, toCol], true);
+    async movePiece(fromRow, fromCol, toRow, toCol) {
+        await this.getTile(fromRow, fromCol).movePiece([toRow, toCol], true);
     }
 
     //Maybe change for two Vec2

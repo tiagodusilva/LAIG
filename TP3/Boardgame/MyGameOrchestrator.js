@@ -27,7 +27,6 @@ class MyGameOrchestrator {
         this.scene = scene;
         this.animator = new MyAnimator(this);
         this.gameBoard = new MyGameboard(this.scene, this.animator);
-        this.prologInterface = new MyPrologInterface();
         this.curMove = new MyGameMove(this.gameBoard);
 
         this.selectedPiece = null;
@@ -94,9 +93,6 @@ class MyGameOrchestrator {
 
         if (obj instanceof MyPiece) {
 
-            console.log("Current transform");
-            console.log(obj.transform);
-
             if (this.selectedPiece == obj) {
                 obj.selected = !obj.selected;
                 this.selectedPiece = null;
@@ -137,59 +133,49 @@ class MyGameOrchestrator {
         }
     }
 
-    makeMove(move) {
-        console.log(move.ringMove);
-        this.gameBoard.movePiece(move.ringMove[0][0], move.ringMove[0][1], move.ringMove[1][0], move.ringMove[1][1]);
-        this.gameBoard.movePiece(move.ballMove[0][0], move.ballMove[0][1], move.ballMove[1][0], move.ballMove[1][1]);
+    async makeMove(move) {
+        await this.gameBoard.movePiece(move.ringMove[0][0], move.ringMove[0][1], move.ringMove[1][0], move.ringMove[1][1]);
+        await this.gameBoard.movePiece(move.ballMove[0][0], move.ballMove[0][1], move.ballMove[1][0], move.ballMove[1][1]);
 
-        move.ballsDisplacements.forEach(ballDisplacement => {
-            console.log(ballDisplacement);
-            this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
-        });
+        for (let i = 0; i < move.ballsDisplacements.length; i++) {
+            let ballDisplacement = move.ballsDisplacements[i];
+            await this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
+        }
     }
 
-    computerMove() {
+    async computerMove() {
         this.gameBoard.makeNothingSelectable();
-        this.prologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty],
-            function (response) {
-                console.log(response);
-                let move = new MyGameMove(this.gameBoard);
-                move.fromPrologMove(response['move']);
-                this.makeMove(move);
-                this.advanceTurn();
-            }.bind(this)
-        )
+        let response = await MyPrologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty]);
+
+        let move = new MyGameMove(this.gameBoard);
+        move.fromPrologMove(response['move']);
+        await this.makeMove(move);
+        this.advanceTurn();
     }
 
-    advanceTurn() {
+    async advanceTurn() {
+        let response = await MyPrologInterface.isGameOver(this.gameBoard, this.curPlayer);
 
-        this.prologInterface.isGameOver(this.gameBoard, this.curPlayer,
-            function (response) {
-                if (response['winner'] !== "none") {
-                    this.gameOver(response['winner']);
-                    this.curGameState = gameState.ENDED;
-                }
+        if (response['winner'] !== "none") {
+            this.gameOver(response['winner']);
+            this.curGameState = gameState.ENDED;
+            return;
+        }
 
-                if (this.curGameState === gameState.ENDED) {
-                    return;
-                }
+        this.switchPlayer();
+        this.changePlayerType();
+        switch (this.curPlayerType) {
+            case playerType.HUMAN:
+                this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                break;
 
-                this.switchPlayer();
-                this.changePlayerType();
-                switch (this.curPlayerType) {
-                    case playerType.HUMAN:
-                        this.gameBoard.makeTopRingsSelectable(this.curPlayer);
-                        break;
+            case playerType.COMPUTER:
+                this.computerMove();
+                break;
 
-                    case playerType.COMPUTER:
-                        this.computerMove();
-                        break;
-
-                    default:
-                        break;
-                }
-            }.bind(this)
-        )
+            default:
+                break;
+        }
     }
 
     switchPlayer() {
@@ -210,47 +196,40 @@ class MyGameOrchestrator {
         console.log("The winner is: " + winner);
     }
 
-    handleMove(pieceToMove, toTile) {
+    async handleMove(pieceToMove, toTile) {
         let response;
         let initialPos = pieceToMove.position;
         let finalPos = toTile.position;
-        console.log(this.ballsToDisplace);
 
         switch (this.curMoveState) {
             case moveState.MOVE_RING:
-                this.prologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
-                    function (response) {
-                        if (response['valid'] === false) {
-                            console.log("Invalid Move");
-                            return;
-                        }
-                        this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
-                        this.curMoveState = moveState.MOVE_BALL;
-                        this.gameBoard.makeTopBallsSelectable(this.curPlayer);
-                    }.bind(this)
-                );
+                response = await MyPrologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
+                if (response['valid'] === false) {
+                    console.log("Invalid Move");
+                    return;
+                }
+                await this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
+                this.curMoveState = moveState.MOVE_BALL;
+                this.gameBoard.makeTopBallsSelectable(this.curPlayer);
                 break;
             case moveState.MOVE_BALL:
-                this.prologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)],
-                    function (response) {
-                        if (response['valid'] === false) {
-                            console.log("Invalid Move");
-                            return;
-                        }
-                        //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
-                        this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
-                        if (response["ballsToDisplace"].length === 0) {
+                response = await MyPrologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
+                if (response['valid'] === false) {
+                    console.log("Invalid Move");
+                    return;
+                }
+                //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
+                this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
+                if (response["ballsToDisplace"].length === 0) {
 
-                            this.curMoveState = moveState.MOVE_RING;
-                            this.advanceTurn();
+                    this.curMoveState = moveState.MOVE_RING;
+                    this.advanceTurn();
 
-                        } else {
-                            this.ballsToDisplace = response["ballsToDisplace"];
-                            this.curMoveState = moveState.DISPLACE_BALLS;
-                            this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
-                        }
-                    }.bind(this)
-                );
+                } else {
+                    this.ballsToDisplace = response["ballsToDisplace"];
+                    this.curMoveState = moveState.DISPLACE_BALLS;
+                    this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
+                }
                 break;
             case moveState.DISPLACE_BALLS:
                 //Displace the ball

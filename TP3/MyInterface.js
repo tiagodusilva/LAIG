@@ -29,9 +29,6 @@ class MyInterface extends CGFinterface {
         this.gui.destroy();
         this.gui = new dat.GUI();
 
-        this.gui.add(this.scene, 'showAxis').name("Show Axis");
-        this.gui.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
-
         let gameOptionsFolder = this.gui.addFolder("Game Options");
         gameOptionsFolder.open();
         gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).name('Gamemode');
@@ -39,23 +36,28 @@ class MyInterface extends CGFinterface {
         gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Start Game');
 
-        var cameraFolder = this.gui.addFolder("Cameras");
+        let sceneFolder = this.gui.addFolder("Scene Configuration");
+
+        sceneFolder.add(this.scene, 'showAxis').name("Show Axis");
+        sceneFolder.add(this.scene, 'showNormals').onChange(this.scene.changeNormalViz.bind(this.scene)).name('Show Normals');
+
+        let cameraFolder = sceneFolder.addFolder("Cameras");
         cameraFolder.open();
         cameraFolder.add(this.scene, 'resetAllCameras').name('Reset All Cameras');
         cameraFolder.add(this.scene, 'resetCamera').name('Reset Camera');
         cameraFolder.add(this.scene, 'selectedCamera', this.scene.cameraDropdown).onChange(this.scene.onCameraChange.bind(this.scene)).name('Camera');
 
-        var lightFolder = this.gui.addFolder("Illumination");
+        let lightFolder = sceneFolder.addFolder("Illumination");
         lightFolder.open();
 
         lightFolder.add(this.scene, 'showLights').name("Display Lights");
 
-        var lightListFolder = lightFolder.addFolder("Lights");
+        let lightListFolder = lightFolder.addFolder("Lights");
         lightListFolder.open();
 
-        var i = 0;
+        let i = 0;
         this.lightButtons = [];
-        for (var lightId of this.scene.graph.lights.keys()) {
+        for (let lightId of this.scene.graph.lights.keys()) {
             if (i >= 8)
                 break;
             

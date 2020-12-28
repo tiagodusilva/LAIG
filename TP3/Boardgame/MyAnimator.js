@@ -4,22 +4,30 @@ class MyAnimator {
         this.animations = [];
     }
 
-    addAnimation(anim) {
-        let exists = this.animations.find(a => a.target == anim.target);
+    async addAnimation(anim) {
+        let exists = this.animations.find(a => a[0].target == anim.target);
         if (exists != undefined) {
-            exists.endAnimation();
+            exists[0].endAnimation();
         }
 
+        let _res;
+        let promise = new Promise((resolve, reject) => {
+            _res = resolve;
+        });
         anim.setAnimator(this);
-        this.animations.push(anim);
+        this.animations.push([anim, _res]);
+        
+        await promise;
     }
 
     removeAnimation(anim) {
-        this.animations = this.animations.filter(a => a != anim);
+        let old = this.animations.findIndex(a => a[0] == anim);
+        this.animations[old][1]();
+        this.animations.splice(old, 1);
     }
 
     update(t) {
-        this.animations.forEach( anim => anim.update(t) );
+        this.animations.forEach( anim => anim[0].update(t) );
     }
 }
 
@@ -29,11 +37,10 @@ const AnimationInterruption = {
 }
 
 class MyAnimatorAnimation {
-    constructor(target, interruptionBehaviour, callback=null) {
+    constructor(target, interruptionBehaviour) {
         this.animator = null;
         this.target = target;
         this.interruptionBehaviour = interruptionBehaviour;
-        this.callback = callback;
     }
 
     setAnimator(animator) {
@@ -53,8 +60,6 @@ class MyAnimatorAnimation {
 
         if (this.animator != null)
             this.animator.removeAnimation(this);
-        if (this.callback != null)
-            this.callback();
     }
 }
 
@@ -140,23 +145,23 @@ class Transform {
     recalculateMatrix() {
         this.dirty = false;
         this.mat = mat4.create();
-        mat4.translate(this.mat, this.mat, this.position);
-        mat4.rotate(this.mat, this.mat, this.rotation[0], [1, 0, 0]);
-        mat4.rotate(this.mat, this.mat, this.rotation[1], [0, 1, 0]);
-        mat4.rotate(this.mat, this.mat, this.rotation[2], [0, 0, 1]);
-        mat4.scale(this.mat, this.mat, this.scale);
+        mat4.translate(this.mat, this.mat, this._position);
+        mat4.rotate(this.mat, this.mat, this._rotation[0], [1, 0, 0]);
+        mat4.rotate(this.mat, this.mat, this._rotation[1], [0, 1, 0]);
+        mat4.rotate(this.mat, this.mat, this._rotation[2], [0, 0, 1]);
+        mat4.scale(this.mat, this.mat, this._scale);
     }
 }
 
 class MyMovementAnimation extends MyAnimatorAnimation {
-    constructor(target, startTransform, endTransform, speed=1, callback=null) {
-        super(target, AnimationInterruption.CUT_TO_END, callback);
+    constructor(target, startTransform, endTransform) {
+        super(target, AnimationInterruption.CUT_TO_END);
 
         this.startTransform = startTransform;
         this.endTransform = endTransform;
         let distance = Math.sqrt((startTransform.x - endTransform.x)**2 + (startTransform.z - endTransform.z)**2);
         this.height = Math.max(startTransform.y, endTransform.y) + (distance * 0.125 + 0.25);
-        this.duration = 0.5 * speed * distance;
+        this.duration = 0.5 * Math.sqrt(distance);
         this.initial = null;
     }
 
@@ -189,8 +194,8 @@ class MyHoverAnimation extends MyAnimatorAnimation {
     static height = 0.25;
     static duration = 0.25;
 
-    constructor(target, ascend=true, callback=null) {
-        super(target, AnimationInterruption.NONE, callback);
+    constructor(target, ascend=true) {
+        super(target, AnimationInterruption.NONE);
         
         if (ascend) {
             this.startTransform = target.transform.clone();
