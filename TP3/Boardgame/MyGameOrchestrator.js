@@ -42,31 +42,44 @@ class MyGameOrchestrator {
     onObjectSelected(obj, id) {
 
         if (obj instanceof MyPiece) {
+
+            console.log("Current transform");
+            console.log(obj.transform);
+
+            if (this.selectedPiece == obj) {
+                obj.selected = !obj.selected;
+                this.selectedPiece = null;
+                obj.onDeselect();
+                return;
+            }
             // do something with id knowing it is a piece
-            if(this.selectedPiece){
+            if (this.selectedPiece) {
                 //I want to move it to its tile if possible
-                if(!obj.selectable){
+                if (!obj.selectable) {
                     this.handleMove(this.selectedPiece, this.gameBoard.getTile(obj.position[0], obj.position[1]));
                     this.selectedPiece.selected = false;
                     this.selectedPiece = null;
                 //I want to switch selected piece
                 } else {
+                    this.selectedPiece.onDeselect();
                     this.selectedPiece.selected = false;
                 }
             }
 
-            if(obj.selectable){
+            // I want to select this piece
+            if (obj.selectable){
                 obj.selected = !obj.selected;
                 this.selectedPiece = obj;
+                obj.onSelect();
             }
         } else if (obj instanceof MyTile) {
+
             // do something with id knowing it is a tile
             if (this.selectedPiece) {
                 this.handleMove(this.selectedPiece, obj);
                 this.selectedPiece.selected = false;
                 this.selectedPiece = null;
             }
-            console.log(obj);
         } else {
             // error ?
             console.log("I'm a teapot"); 

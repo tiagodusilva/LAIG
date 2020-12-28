@@ -24,7 +24,7 @@ class MyTile {
         if(topPiece){
             topPiece.selectable = false;
         }
-        let piece = new MyPiece(this.scene, pieceType, this.position, this.stack.length, selectable);
+        let piece = new MyPiece(this.scene, this.animator, pieceType, this.position, this.stack.length, selectable);
         piece.selectable = true;
         this.stack.push(piece);
     }
@@ -36,9 +36,10 @@ class MyTile {
         }
         piece.selectable = true;
         if (animate) {
-            console.log("Heya");
             piece.updatePositionInBoard(this.position, this.stack.length);
-            this.animator.addAnimation(new MyMovementAnimation(piece, piece.transform, MyPiece.generateTransform(this.position, this.stack.length), 2));
+            this.animator.addAnimation(
+                new MyMovementAnimation(piece, piece.transform.clone(), MyPiece.generateTransform(this.position, this.stack.length))
+            );
         } else {
             piece.updatePositionInBoard(this.position, this.stack.length, true);
         }

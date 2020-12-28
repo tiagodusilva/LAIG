@@ -18,14 +18,20 @@ class MyPiece {
         return new Transform([position[1], 0.25 * (height + 1), position[0]], [0, 0, 0], [1, 1, 1]);
     }
 
-    updatePositionInBoard(position, height, moveToPosition=false) {
-        this.position = position;
-        if (moveToPosition)
-            this.transform = MyPiece.generateTransform(position, height);
+    generateOwnTransform() {
+        return new Transform([this.position[1], 0.25 * (this.height + 1), this.position[0]], [0, 0, 0], [1, 1, 1]);
     }
 
-    constructor (scene, type, position, height, selectable){
+    updatePositionInBoard(position, height, moveToPosition=false) {
+        this.position = position;
+        this.height = height;
+        if (moveToPosition)
+            this.transform = this.generateOwnTransform();
+    }
+
+    constructor (scene, animator, type, position, height, selectable){
         this.scene = scene;
+        this.animator = animator;
         this.type = type;
         this.selectable = selectable;
         this.uniqueId = this.scene.currentUniqueId++;
@@ -71,6 +77,14 @@ class MyPiece {
         }
     }
 
+    onSelect() {
+        this.animator.addAnimation(new MyHoverAnimation(this, true));
+    }
+
+    onDeselect() {
+        this.animator.addAnimation(new MyHoverAnimation(this, false));
+    }
+
     display() {
         // if (this.selectable)
         this.scene.registerForPick(this.uniqueId, this);
@@ -84,9 +98,6 @@ class MyPiece {
         // TODO: Remove this once we do XML parseroo stuffs
         this.scene.rotate(-Math.PI/2, 1, 0, 0);
 
-        if(this.selected){
-            this.scene.translate(0, 0, 0.3);
-        }
         this.piece.display();
         this.scene.popMatrix();
         this.scene.popMaterial();
