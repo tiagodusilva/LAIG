@@ -51,6 +51,10 @@
 
 
     <textures>
+        <texture id="stone" path="./scenes/zen_garden/stone.png" />
+        <texture id="white_stone" path="./scenes/zen_garden/white_stone.png" />
+        <texture id="sand" path="./scenes/zen_garden/sand.png" />
+        <texture id="sand_tile" path="./scenes/zen_garden/tile.png" />
         <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
     </textures>
 
@@ -72,16 +76,16 @@
         <material id="whiteMaterial">
             <shininess value="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
-            <diffuse r="1" g="1" b="1" a="1.0" />
-            <specular r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.9" g="0.9" b="0.9" a="1.0" />
             <emissive r="0" g="0" b="0" a="1.0" />
         </material>
         <material id="slighlyBlackMaterial">
             <shininess value="0.25" />
-            <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
-            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
-            <specular r="0.05" g="0.05" b="0.05" a="1.0" />
-            <emissive r="0.01" g="0.01" b="0.01" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
         </material>
     </materials>
 
@@ -102,6 +106,21 @@
 
             <transformations>
                 <translation x="2" y="0" z="2" /> <!-- Center on board -->
+            </transformations>
+
+            <descendants>
+                <noderef id="floor" />
+            </descendants>
+        </node>
+
+        <node id="floor">
+            <material id="default" />
+
+            <texture id="sand">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
                 <translation x="0" y="-0.01" z="0" />
                 <scale sx="8" sy="1" sz="8" />
             </transformations>
@@ -138,14 +157,14 @@
             </transformations>
 
             <descendants>
-                <leaf type="sphere" radius="0.2" slices="12" stacks="10"/>
+                <leaf type="sphere" radius="0.24" slices="20" stacks="20"/>
             </descendants>
         </node>
 
         <node id="tile">
             <material id="null" />
 
-            <texture id="null">
+            <texture id="sand_tile">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -176,7 +195,7 @@
         <node id="white_ring">
             <material id="whiteMaterial" />
 
-            <texture id="null">
+            <texture id="white_stone">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -191,7 +210,7 @@
         <node id="white_ball">
             <material id="whiteMaterial" />
 
-            <texture id="null">
+            <texture id="white_stone">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -206,7 +225,7 @@
         <node id="black_ring">
             <material id="slighlyBlackMaterial" />
 
-            <texture id="null">
+            <texture id="stone">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -221,7 +240,7 @@
         <node id="black_ball">
             <material id="slighlyBlackMaterial" />
 
-            <texture id="null">
+            <texture id="stone">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 

@@ -110,7 +110,7 @@ class MySceneGraph {
     validateTextures() {
         for (let [texId, tex] of this.textures.entries()) {
             if (tex.texID == -1) {
-                this.onXMLMinorError("Texture with id '" + texId + "hasn't loaded yet, it may be incorrect");
+                this.onXMLMinorError("Texture with id '" + texId + " hasn't loaded yet, it may be incorrect");
             }
         }
     }
@@ -1178,7 +1178,7 @@ class MySceneGraph {
         let ring_height;
         if((ring_height = this.parseFloat(node, "ring_height", "Invalid or missing ring height", false)) == null)
             return "Failed to parse <game> node";
-        this.ring_height = ring_height;
+        this.gameConfig.set("ring_height", ring_height);
 
         return null;
     }

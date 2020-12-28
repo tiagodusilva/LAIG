@@ -23,12 +23,8 @@ class MyPiece {
         [PieceType.BLACK_BALL, null]
     ]);
 
-    static generateTransform(position, height) {
-        return new Transform([position[1], MyPiece.ringHeight * (height + 1), position[0]], [0, 0, 0], [1, 1, 1]);
-    }
-
     generateOwnTransform() {
-        return new Transform([this.position[1], MyPiece.ringHeight * (this.height + 1), this.position[0]], [0, 0, 0], [1, 1, 1]);
+        return new Transform([this.position[1], MyPiece.ringHeight * (this.height + 0.5), this.position[0]], [0, 0, 0], [1, 1, 1]);
     }
 
     updatePositionInBoard(position, height, moveToPosition=false) {
