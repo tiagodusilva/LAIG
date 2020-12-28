@@ -28,6 +28,7 @@ class MyGameOrchestrator {
         this.animator = new MyAnimator(this);
         this.gameBoard = new MyGameboard(this.scene, this.animator);
         this.curMove = new MyGameMove(this.gameBoard);
+        this.gameSequence = new MyGameSequence();
 
         this.selectedPiece = null;
 
@@ -51,13 +52,14 @@ class MyGameOrchestrator {
         console.log("Black difficulty: " + this.difficulty2);
         console.log("Gamemode: " + this.gamemode);
 
-
-
+        this.gameSequence.restartGame();
         this.gameBoard.resetBoard();
+        this.curPlayer = Player.WHITE;
         this.curGameState = gameState.PLAYING;
         if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
             this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
+            console.log("Jogador: " + this.curPlayer);
             this.gameBoard.makeTopRingsSelectable(this.curPlayer);
         } else {
             this.curPlayerType = playerType.COMPUTER;
@@ -72,7 +74,7 @@ class MyGameOrchestrator {
     }
 
     managePick(mode, results) {
-        if (mode == false /* && some other game conditions */ ) {
+        if (mode == false /* && some other game conditions */) {
             if (results != null && results.length > 0) {
                 // any results?
                 for (let i = 0; i < results.length; i++) {
@@ -153,14 +155,25 @@ class MyGameOrchestrator {
         this.advanceTurn();
     }
 
-    async advanceTurn() {
-        let response = await MyPrologInterface.isGameOver(this.gameBoard, this.curPlayer);
+    async advanceTurn(undo = false) {
 
-        if (response['winner'] !== "none") {
-            this.gameOver(response['winner']);
-            this.curGameState = gameState.ENDED;
-            return;
+        if (undo === false) {
+            this.storeCurrentMove();
+
+            let response = await MyPrologInterface.isGameOver(this.gameBoard, this.curPlayer);
+
+            if (response['winner'] !== "none") {
+                this.gameOver(response['winner']);
+                this.curGameState = gameState.ENDED;
+                return;
+            }
+        } else {
+            //Move before the one reverted
+            let beforeMove = this.gameSequence.getLastMove()
+            this.curMove = beforeMove == null ? new MyGameMove(this.gameBoard) : beforeMove;
         }
+
+        this.curMoveState = moveState.MOVE_RING;
 
         this.switchPlayer();
         this.changePlayerType();
@@ -184,8 +197,8 @@ class MyGameOrchestrator {
 
     changePlayerType() {
         this.curDifficulty = this.curDifficulty === 1 ? 2 : 1;
-        if (this.gamemode === gamemode.HUMAN_VS_HUMAN && this.curPlayerType === playerType.HUMAN ||
-            this.gamemode === gamemode.HUMAN_VS_COMPUTER && this.curPlayerType === playerType.COMPUTER) {
+        if (this.gamemode == gamemode.HUMAN_VS_HUMAN && this.curPlayerType == playerType.HUMAN ||
+            this.gamemode == gamemode.HUMAN_VS_COMPUTER && this.curPlayerType == playerType.COMPUTER) {
             this.curPlayerType = playerType.HUMAN;
         } else {
             this.curPlayerType = playerType.COMPUTER;
@@ -209,6 +222,7 @@ class MyGameOrchestrator {
                     return;
                 }
                 await this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
+                this.curMove.addRingMove([initialPos, finalPos]);
                 this.curMoveState = moveState.MOVE_BALL;
                 this.gameBoard.makeTopBallsSelectable(this.curPlayer);
                 break;
@@ -218,11 +232,9 @@ class MyGameOrchestrator {
                     console.log("Invalid Move");
                     return;
                 }
-                //TODO: CHECK IF THERE ARE ANY DISPLACED BALLS
                 this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
+                this.curMove.addBallMove([initialPos, finalPos]);
                 if (response["ballsToDisplace"].length === 0) {
-
-                    this.curMoveState = moveState.MOVE_RING;
                     this.advanceTurn();
 
                 } else {
@@ -236,12 +248,12 @@ class MyGameOrchestrator {
                 if (!this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])) {
                     return;
                 }
+                this.curMove.addBallDisplacement([initialPos, finalPos]);
 
                 //Used to remove the ball from the balls to displace
                 this.ballsToDisplace = this.ballsToDisplace.filter(item => (item[0] !== initialPos[0] && item[1] !== initialPos[1]))
 
                 if (this.ballsToDisplace.length === 0) {
-                    this.curMoveState = moveState.MOVE_RING;
                     this.advanceTurn();
                 } else {
                     this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
@@ -251,6 +263,46 @@ class MyGameOrchestrator {
             default:
                 console.log("I'm also a teapot!");
                 break;
+        }
+    }
+
+    storeCurrentMove() {
+        this.gameSequence.addMove(this.curMove);
+        this.curMove = new MyGameMove(this.gameBoard);
+    }
+
+    async undoMove() {
+        //Only undo ring move
+        if (this.curMoveState == moveState.MOVE_BALL) {
+            await this.gameBoard.movePiece(this.curMove.ringMove[1][0], this.curMove.ringMove[1][1], this.curMove.ringMove[0][0], this.curMove.ringMove[0][1]);
+            this.curMove.removeRingMove();
+            this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+            this.curMoveState = moveState.MOVE_RING;
+            //Undo any displacement and the ball move that caused it
+        } else if (this.curMoveState == moveState.DISPLACE_BALLS) {
+            while (this.curMove.ballsDisplacements.length > 0) {
+                let ballDisplacement = this.curMove.removeBallDisplacement();
+                await this.gameBoard.movePiece(ballDisplacement[1][0], ballDisplacement[1][1], ballDisplacement[0][0], ballDisplacement[0][1]);
+            }
+            await this.gameBoard.movePiece(this.curMove.ballMove[1][0], this.curMove.ballMove[1][1], this.curMove.ballMove[0][0], this.curMove.ballMove[0][1]);
+            this.curMove.removeBallMove();
+            this.gameBoard.makeTopBallsSelectable(this.curPlayer);
+            this.curMoveState = moveState.MOVE_BALL;
+            //Undo entire move(We are in the ring phase)
+        } else {
+            let moveToUndo = this.gameSequence.undo();
+            if (!moveToUndo) {
+                console.log("No moves to undo");
+                return;
+            }
+            for (let i = moveToUndo.ballsDisplacements.length - 1; i >= 0; i--) {
+                let ballDisplacement = moveToUndo.ballsDisplacements[i];
+                await this.gameBoard.movePiece(ballDisplacement[1][0], ballDisplacement[1][1], ballDisplacement[0][0], ballDisplacement[0][1]);
+            }
+
+            await this.gameBoard.movePiece(moveToUndo.ballMove[1][0], moveToUndo.ballMove[1][1], moveToUndo.ballMove[0][0], moveToUndo.ballMove[0][1]);
+            await this.gameBoard.movePiece(moveToUndo.ringMove[1][0], moveToUndo.ringMove[1][1], moveToUndo.ringMove[0][0], moveToUndo.ringMove[0][1]);
+            this.advanceTurn(true);
         }
     }
 

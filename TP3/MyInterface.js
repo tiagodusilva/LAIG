@@ -31,6 +31,7 @@ class MyInterface extends CGFinterface {
 
         let gameOptionsFolder = this.gui.addFolder("Game Options");
         gameOptionsFolder.open();
+        gameOptionsFolder.add(this.scene, 'undoMoveGUI').name('Undo last move');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).name('Gamemode');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty');
