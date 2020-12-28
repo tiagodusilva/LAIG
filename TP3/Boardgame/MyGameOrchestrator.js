@@ -68,7 +68,7 @@ class MyGameOrchestrator {
     }
 
     display() {
-        if (this.curGameState === gameState.PLAYING || this.curGameState === gameState.ENDED) {
+        if (this.curGameState == gameState.PLAYING || this.curGameState == gameState.ENDED) {
             this.gameBoard.display();
         }
     }
@@ -223,8 +223,7 @@ class MyGameOrchestrator {
                 }
                 await this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.curMove.addRingMove([initialPos, finalPos]);
-                this.curMoveState = moveState.MOVE_BALL;
-                this.gameBoard.makeTopBallsSelectable(this.curPlayer);
+                this.setMoveState(moveState.MOVE_BALL);
                 break;
             case moveState.MOVE_BALL:
                 response = await MyPrologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
@@ -239,8 +238,7 @@ class MyGameOrchestrator {
 
                 } else {
                     this.ballsToDisplace = response["ballsToDisplace"];
-                    this.curMoveState = moveState.DISPLACE_BALLS;
-                    this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
+                    this.setMoveState(moveState.DISPLACE_BALLS);
                 }
                 break;
             case moveState.DISPLACE_BALLS:
@@ -276,8 +274,7 @@ class MyGameOrchestrator {
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.gameBoard.movePiece(this.curMove.ringMove[1][0], this.curMove.ringMove[1][1], this.curMove.ringMove[0][0], this.curMove.ringMove[0][1]);
             this.curMove.removeRingMove();
-            this.gameBoard.makeTopRingsSelectable(this.curPlayer);
-            this.curMoveState = moveState.MOVE_RING;
+            this.setMoveState(moveState.MOVE_RING);
             //Undo any displacement and the ball move that caused it
         } else if (this.curMoveState == moveState.DISPLACE_BALLS) {
             while (this.curMove.ballsDisplacements.length > 0) {
@@ -286,8 +283,7 @@ class MyGameOrchestrator {
             }
             await this.gameBoard.movePiece(this.curMove.ballMove[1][0], this.curMove.ballMove[1][1], this.curMove.ballMove[0][0], this.curMove.ballMove[0][1]);
             this.curMove.removeBallMove();
-            this.gameBoard.makeTopBallsSelectable(this.curPlayer);
-            this.curMoveState = moveState.MOVE_BALL;
+            this.setMoveState(moveState.MOVE_BALL);
             //Undo entire move(We are in the ring phase)
         } else {
             let moveToUndo = this.gameSequence.undo();
@@ -303,6 +299,50 @@ class MyGameOrchestrator {
             await this.gameBoard.movePiece(moveToUndo.ballMove[1][0], moveToUndo.ballMove[1][1], moveToUndo.ballMove[0][0], moveToUndo.ballMove[0][1]);
             await this.gameBoard.movePiece(moveToUndo.ringMove[1][0], moveToUndo.ringMove[1][1], moveToUndo.ringMove[0][0], moveToUndo.ringMove[0][1]);
             this.advanceTurn(true);
+        }
+    }
+
+    async playMovie() {
+
+        this.gameBoard.resetBoard();
+        
+        //All moves until before the current
+        for (let move of this.gameSequence.getAllMoves()) {
+            await this.makeMove(move);
+        }
+
+        //Current move
+        if (this.curMove.ringMove != null) {
+            await this.gameBoard.movePiece(this.curMove.ringMove[0][0], this.curMove.ringMove[0][1], this.curMove.ringMove[1][0], this.curMove.ringMove[1][1]);
+        }
+        if (this.curMove.ballMove != null) {
+            await this.gameBoard.movePiece(this.curMove.ballMove[0][0], this.curMove.ballMove[0][1], this.curMove.ballMove[1][0], this.curMove.ballMove[1][1]);
+        }
+        if (this.curMove.ballsDisplacements.length > 0) {
+            for (let i = 0; i < this.curMove.ballsDisplacements.length; i++) {
+                let ballDisplacement = this.curMove.ballsDisplacements[i];
+                await this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
+            }
+        }
+
+        //Makes the correct pieces be selectable
+        this.setMoveState(this.curMoveState);
+    }
+
+    setMoveState(state) {
+        this.curMoveState = state;
+        switch (state) {
+            case moveState.MOVE_RING:
+                this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                break;
+            case moveState.MOVE_BALL:
+                this.gameBoard.makeTopBallsSelectable(this.curPlayer);
+                break;
+            case moveState.DISPLACE_BALLS:
+                this.gameBoard.makeBallsToDisplaceSelectable(this.ballsToDisplace);
+                break;
+            default:
+                break;
         }
     }
 

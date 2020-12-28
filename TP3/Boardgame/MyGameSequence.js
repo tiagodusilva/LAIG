@@ -18,4 +18,8 @@ class MyGameSequence {
     restartGame() {
         this.moveList = [];
     }
+
+    getAllMoves() {
+        return this.moveList;
+    }
 }

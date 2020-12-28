@@ -77,6 +77,7 @@ class XMLscene extends CGFscene {
 
         this.gameorchestrator = new MyGameOrchestrator(this);
         this.undoMoveGUI = () => this.gameorchestrator.undoMove();
+        this.playMovieGUI = () => this.gameorchestrator.playMovie();
     }
 
     resetCamera() {
