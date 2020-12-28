@@ -34,7 +34,7 @@ class MyInterface extends CGFinterface {
         gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).name('Gamemode');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty');
         gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty');
-        gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Start Game');
+        gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Restart Game');
 
         let sceneFolder = this.gui.addFolder("Scene Configuration");
 

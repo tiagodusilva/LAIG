@@ -302,9 +302,20 @@ class MySceneGraph {
             }
         }
 
+        // <game>
+        if ((index = nodeNames.indexOf("game")) == INDEX_NOT_FOUND)
+            return "tag <game> missing";
+        else {
+            //Parse game block
+            if ((error = this.parseGame(nodes[index])) != null)
+                return error;
+        }
+        indexOrder.set("game", index);
+        
+
         // Order of the groups in the XML document.
         // initials -> views -> illumination -> lights -> textures -> spritesheet -> materials -> animations -> nodes
-        let order = ["initials", "views", "illumination", "lights", "textures", "spritesheet", "materials", "animations", "nodes"];
+        let order = ["initials", "views", "illumination", "lights", "textures", "spritesheet", "materials", "animations", "nodes", "game"];
         // Verify order
         let curIndex = indexOrder.get("initials");
         for (let i = 1; i < order.length; i++) {
@@ -1146,6 +1157,50 @@ class MySceneGraph {
         }
 
         return new Keyframe(instant, translation, rotation, scale);
+    }
+
+    parseGame(node) {
+        this.gameConfig = new Map();
+
+        let children = node.children;
+        // Reads the names of the nodes to an auxiliary buffer.
+        let nodeNames = [];
+        for (var i = 0; i < children.length; i++) {
+            nodeNames.push(children[i].nodeName);
+        }
+
+        let ret;
+        if ((ret = this.parseGameObjectNodes(children, nodeNames,
+                ["tile", "aux_tile", "white_ring", "white_ball", "black_ring", "black_ball"])) != null) {
+            return ret;
+        }
+
+        let ring_height;
+        if((ring_height = this.parseFloat(node, "ring_height", "Invalid or missing ring height", false)) == null)
+            return "Failed to parse <game> node";
+        this.ring_height = ring_height;
+
+        return null;
+    }
+
+    parseGameObjectNodes(children, nodeNames, names) {
+        let index;
+        let noderef;
+        let curNode;
+        
+        for (let name of names) {
+            if ((index = nodeNames.indexOf(name)) == INDEX_NOT_FOUND)
+                return "No tag <" + name + "> found";
+            curNode = children[index];
+            noderef = this.reader.getString(curNode, "noderef", true);
+            if(noderef == null){
+                this.onXMLMinorError("Couldn't parse tag <" + name + ">: Invalid noderef");
+                return "Tag <" + name + "> without ";
+            }
+            this.gameConfig.set(name, this.nodes.get(noderef));
+        }
+
+        return null;
     }
 
 

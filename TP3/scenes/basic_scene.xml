@@ -1,0 +1,246 @@
+<lsf>
+
+    <!-- If you want to actually play this chamber in portal 2 (don't know why the hell you would, this chamber sucks) -->
+    <!-- Here's the workshop link :D -->
+    <!-- https://steamcommunity.com/sharedfiles/filedetails/?id=2247466358 -->
+
+    <initials>
+        <reference length="2" />
+        <!-- axis length; "0" means no axis displayed -->
+        <root id="scene" />
+        <!-- identifier of root node of the scene graph; this node -->
+        <!-- must be defined in one of the following NODE declarations -->
+    </initials>
+    <views default="Default">
+        <!-- at least one of the following type of cameras must be declared -->
+        <perspective id="Default" near="0.1" far="500" angle="70">
+            <from x="2.5" y="8" z="8" />
+            <to x="2.5" y="1" z="2.5" />
+        </perspective>
+
+        <perspective id="Top-down" near="0.1" far="500" angle="70">
+            <from x="1.75" y="0.5" z="2.25" />
+            <to x="1.5" y="0.35" z="1.5" />
+        </perspective>
+    </views>
+
+    <illumination>
+        <ambient r="0.125" g="0.125" b="0.125" a="1.0" /> <!-- global ambient -->
+        <background r="0.8039" g="0.8157" b="0.8078" a="1.0" /> <!-- background color -->
+    </illumination>
+
+
+    <lights>
+        <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
+        <light id="Entry Side Left">
+            <enable value="1" />
+            <position x="2.5" y="3.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </light>
+
+        <light id="Exit Side Left">
+            <enable value="1" />
+            <position x="2.5" y="3.85" z="0.15" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </light>
+    </lights>
+
+
+    <textures>
+        <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
+    </textures>
+
+    <!-- spritesheets -->
+    <!-- o bloco "spritesheets" deve ser declarado -->
+    <!-- imediatamente após o bloco "textures" -->
+    <spritesheets>
+        <!-- <spritesheet id="closed_orange_portal" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/portal_spritesheet_orange.png" sizeM="4" sizeN="1" /> -->
+    </spritesheets>
+
+    <materials>
+        <material id="default">
+            <shininess value="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="whiteMaterial">
+            <shininess value="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <emissive r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="slighlyBlackMaterial">
+            <shininess value="0.25" />
+            <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
+            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
+            <specular r="0.05" g="0.05" b="0.05" a="1.0" />
+            <emissive r="0.01" g="0.01" b="0.01" a="1.0" />
+        </material>
+    </materials>
+
+
+    <!-- Animations -->
+    <animations>
+    </animations>
+
+    <!-- NODES -->
+
+    <nodes>
+        <node id="scene">
+            <material id="default" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="2" y="0" z="2" /> <!-- Center on board -->
+                <translation x="0" y="-0.01" z="0" />
+                <scale sx="8" sy="1" sz="8" />
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10" />
+            </descendants>
+        </node>
+
+        <node id="ring">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.125" outer="0.25" slices="20" loops="30"/>
+            </descendants>
+        </node>
+
+        <node id="ball">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.2" slices="12" stacks="10"/>
+            </descendants>
+        </node>
+
+        <node id="tile">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.95" sy="1" sz="0.95" />
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="4" npartsV="4" />
+            </descendants>
+        </node>
+
+        <node id="aux_tile">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="tile" />
+            </descendants>
+        </node>
+
+        <node id="white_ring">
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="ring" />
+            </descendants>
+        </node>
+
+        <node id="white_ball">
+            <material id="whiteMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="ball" />
+            </descendants>
+        </node>
+
+        <node id="black_ring">
+            <material id="slighlyBlackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="ring" />
+            </descendants>
+        </node>
+
+        <node id="black_ball">
+            <material id="slighlyBlackMaterial" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="ball" />
+            </descendants>
+        </node>   
+    </nodes>
+
+    <game ring_height="0.25">
+        <tile noderef="tile" />
+        <aux_tile noderef="aux_tile" />
+
+        <white_ring noderef="white_ring"/>
+        <white_ball noderef="white_ball" />
+        <black_ring noderef="black_ring" />
+        <black_ball noderef="black_ball" />
+    </game>
+</lsf>

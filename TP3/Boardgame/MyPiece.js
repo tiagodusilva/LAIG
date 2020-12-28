@@ -14,12 +14,21 @@ const PieceType = {
 
 class MyPiece {
 
+    static ringHeight = 0.25;
+
+    static pieces = new Map([
+        [PieceType.WHITE_RING, null],
+        [PieceType.WHITE_BALL, null],
+        [PieceType.BLACK_RING, null],
+        [PieceType.BLACK_BALL, null]
+    ]);
+
     static generateTransform(position, height) {
-        return new Transform([position[1], 0.25 * (height + 1), position[0]], [0, 0, 0], [1, 1, 1]);
+        return new Transform([position[1], MyPiece.ringHeight * (height + 1), position[0]], [0, 0, 0], [1, 1, 1]);
     }
 
     generateOwnTransform() {
-        return new Transform([this.position[1], 0.25 * (this.height + 1), this.position[0]], [0, 0, 0], [1, 1, 1]);
+        return new Transform([this.position[1], MyPiece.ringHeight * (this.height + 1), this.position[0]], [0, 0, 0], [1, 1, 1]);
     }
 
     updatePositionInBoard(position, height, moveToPosition=false) {
@@ -27,6 +36,10 @@ class MyPiece {
         this.height = height;
         if (moveToPosition)
             this.transform = this.generateOwnTransform();
+    }
+
+    updatePieceModel() {
+        this.piece = MyPiece.pieces.get(this.type);
     }
 
     constructor (scene, animator, type, position, height, selectable){
@@ -38,43 +51,7 @@ class MyPiece {
         this.selected = false;
 
         this.updatePositionInBoard(position, height, true);
-        
-
-        let blackMaterial = new MyCGFmaterial(this.scene);
-        blackMaterial.setShininess(0.25);
-        blackMaterial.setAmbient(0.05, 0.05, 0.05, 1);
-        blackMaterial.setDiffuse(0.05, 0.05, 0.05, 1);
-        blackMaterial.setSpecular(0.05, 0.05, 0.05, 1);
-        blackMaterial.setEmission(0, 0, 0, 1);
-
-        let whiteMaterial = new MyCGFmaterial(this.scene);
-        whiteMaterial.setShininess(1);
-        whiteMaterial.setAmbient(1, 1, 1, 1);
-        whiteMaterial.setDiffuse(1, 1, 1, 1);
-        whiteMaterial.setSpecular(1, 1, 1, 1);
-        whiteMaterial.setEmission(0, 0, 0, 1);
-
-
-        //TODO: Change materials
-        switch (this.type) {
-            case PieceType.WHITE_BALL:
-                this.piece = new MySphere(scene, 20, 20, 0.25);
-                this.material = whiteMaterial;
-                break;
-            case PieceType.BLACK_BALL:
-                this.piece = new MySphere(scene, 20, 20, 0.25);
-                this.material = blackMaterial;
-                // Change later
-                break;
-            case PieceType.WHITE_RING:
-                this.piece = new MyTorus(scene, 0.125, 0.25, 20, 20);
-                this.material = whiteMaterial;
-                break;
-            case PieceType.BLACK_RING:
-                this.piece = new MyTorus(scene, 0.125, 0.25, 20, 20);
-                this.material = blackMaterial;
-                break;
-        }
+        this.updatePieceModel();
     }
 
     onSelect() {
@@ -89,18 +66,10 @@ class MyPiece {
         // if (this.selectable)
         this.scene.registerForPick(this.uniqueId, this);
 
-        this.scene.pushMaterial(this.material);
-
         this.scene.pushMatrix();
-
         this.scene.multMatrix(this.transform.getMatrix());
-
-        // TODO: Remove this once we do XML parseroo stuffs
-        this.scene.rotate(-Math.PI/2, 1, 0, 0);
-
         this.piece.display();
         this.scene.popMatrix();
-        this.scene.popMaterial();
 
         // if (this.selectable)
         this.scene.clearPickRegistration();

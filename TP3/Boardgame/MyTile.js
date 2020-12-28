@@ -1,14 +1,20 @@
 class MyTile {
+    static tile;
+    static aux_tile;
+
     constructor(scene, animator, gameboard, position, playerAux=null) {
         this.scene = scene;
         this.animator = animator;
         this.gameboard = gameboard;
         this.stack = []; /* stack is the name used in our prolog game */
-        this.tile = new Plane(scene, 3, 3);
         this.uniqueId = this.scene.currentUniqueId++;
         this.selectable = true;
         this.position = position;
         this.playerAux = playerAux;
+    }
+
+    forEachPiece(func) {
+        this.stack.forEach(func);
     }
 
     getPieceAmount() {
@@ -60,17 +66,17 @@ class MyTile {
     display() {
         // if (this.selectable)
         this.scene.registerForPick(this.uniqueId, this);
+
         this.scene.pushMatrix();
         this.scene.translate(this.position[1], 0, this.position[0]);
-        this.scene.scale(0.95, 1, 0.95);
-        this.tile.display();
+        MyTile.tile.display();
         this.scene.popMatrix();
+
         // if (this.selectable)
         this.scene.clearPickRegistration();
 
         for (let i = 0; i < this.stack.length; i++) {
             this.stack[i].display();
         }
-
     }
 }

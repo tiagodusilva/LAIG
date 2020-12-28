@@ -30,9 +30,9 @@ class MyGameOrchestrator {
         this.curMove = new MyGameMove(this.gameBoard);
 
         this.selectedPiece = null;
-
+        
         this.curGameState = gameState.OPTIONS;
-
+        
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
@@ -40,18 +40,36 @@ class MyGameOrchestrator {
         this.difficulty1 = computerDifficulty.SMART;
         this.difficulty2 = computerDifficulty.SMART;
         this.curDifficulty = 1;
+        this.gameStarted = false;
 
         this.ballsToDisplace = [];
 
         this.gameBoard.makeNothingSelectable();
     }
 
+    updateConfig(graph) {
+        MyTile.tile = graph.gameConfig.get("tile");
+        MyTile.aux_tile = graph.gameConfig.get("aux_tile");
+        
+        MyPiece.pieces.set(PieceType.WHITE_RING, graph.gameConfig.get("white_ring"));
+        MyPiece.pieces.set(PieceType.WHITE_BALL, graph.gameConfig.get("white_ball"));
+        MyPiece.pieces.set(PieceType.BLACK_RING, graph.gameConfig.get("black_ring"));
+        MyPiece.pieces.set(PieceType.BLACK_BALL, graph.gameConfig.get("black_ball"));
+        this.gameBoard.forEachPiece((piece) => piece.updatePieceModel());
+
+        let newRingHeight = graph.gameConfig.get("ring_height");
+        if (newRingHeight != undefined && newRingHeight != MyPiece.ringHeight) {
+            MyPiece.ringHeight = newRingHeight;
+            this.gameBoard.forEachPiece((piece) => piece.transform.markDirty());
+        }
+    }
+
     startGame() {
+        this.gameStarted = true;
+
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
         console.log("Gamemode: " + this.gamemode);
-
-
 
         this.gameBoard.resetBoard();
         this.curGameState = gameState.PLAYING;

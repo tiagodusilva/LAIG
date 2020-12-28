@@ -194,6 +194,10 @@ class XMLscene extends CGFscene {
         this.interface.rebuildGui();
 
         this.sceneInited = true;
+        this.gameorchestrator.updateConfig(this.graph);
+
+        if (!this.gameorchestrator.gameStarted)
+            this.gameorchestrator.startGame();
     }
 
     onCameraChange(val) {
@@ -337,7 +341,7 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            // this.graph.displayScene();
+            this.graph.displayScene();
             this.gameorchestrator.managePick(this.pickMode, this.pickResults);
             this.clearPickRegistration();
             this.gameorchestrator.display();

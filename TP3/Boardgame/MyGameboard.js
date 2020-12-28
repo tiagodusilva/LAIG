@@ -95,7 +95,11 @@ class MyGameboard {
         this.addNewPiece(1, 4, PieceType.BLACK_BALL, true);
     }
 
-
+    forEachPiece(func) {
+        for (let row of this.board)
+            for (let tile of row)
+                tile.forEachPiece(func);
+    }
 
     getTile(row, col) {
         return row == AUX_BOARD ? this.auxBoard[col] : this.board[row][col];
