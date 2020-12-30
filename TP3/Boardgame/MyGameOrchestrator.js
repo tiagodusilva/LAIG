@@ -60,7 +60,7 @@ class MyGameOrchestrator {
         let newRingHeight = graph.gameConfig.get("ring_height");
         if (newRingHeight != undefined && newRingHeight != MyPiece.ringHeight) {
             MyPiece.ringHeight = newRingHeight;
-            this.gameBoard.forEachPiece((piece) => piece.transform.markDirty());
+            this.gameBoard.forEachPiece((piece) => piece.recalculateTransform());
         }
     }
 

@@ -34,6 +34,10 @@ class MyPiece {
             this.transform = this.generateOwnTransform();
     }
 
+    recalculateTransform() {
+        this.transform = this.generateOwnTransform();
+    }
+
     updatePieceModel() {
         this.piece = MyPiece.pieces.get(this.type);
     }
