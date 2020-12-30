@@ -19,8 +19,8 @@
         </perspective>
 
         <perspective id="Top-down" near="0.1" far="500" angle="70">
-            <from x="1.75" y="0.5" z="2.25" />
-            <to x="1.5" y="0.35" z="1.5" />
+            <from x="2.5" y="8" z="2.5" />
+            <to x="2.5" y="0" z="2.5" />
         </perspective>
     </views>
 

@@ -169,9 +169,8 @@ class MyGameOrchestrator {
         this.gameBoard.makeNothingSelectable();
         let response = await MyPrologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty]);
 
-        let move = new MyGameMove(this.gameBoard);
-        move.fromPrologMove(response['move']);
-        await this.makeMove(move);
+        this.curMove.fromPrologMove(response['move']);
+        await this.makeMove(this.curMove);
         this.advanceTurn();
     }
 
@@ -203,7 +202,9 @@ class MyGameOrchestrator {
                 break;
 
             case playerType.COMPUTER:
-                this.computerMove();
+                if(undo == false){
+                    this.computerMove();
+                }
                 break;
 
             default:
@@ -318,8 +319,15 @@ class MyGameOrchestrator {
 
             await this.gameBoard.movePiece(moveToUndo.ballMove[1][0], moveToUndo.ballMove[1][1], moveToUndo.ballMove[0][0], moveToUndo.ballMove[0][1]);
             await this.gameBoard.movePiece(moveToUndo.ringMove[1][0], moveToUndo.ringMove[1][1], moveToUndo.ringMove[0][0], moveToUndo.ringMove[0][1]);
-            this.advanceTurn(true);
+
+            if((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayer == playerType.HUMAN) {
+                this.advanceTurn(true);
+                this.undoMove();
+            } else {
+                this.advanceTurn(true);
+            }
         }
+
     }
 
     async playMovie() {

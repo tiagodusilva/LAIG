@@ -53,6 +53,10 @@ class MyGameMove {
         return this.ballsDisplacements.pop();
     }
 
+    async moveRing() {
+        await this.gameBoard.movePiece(this.curMove.ringMove[0][0], this.curMove.ringMove[0][1], this.curMove.ringMove[1][0], this.curMove.ringMove[1][1]);
+    }
+
     animate() {
 
     }
