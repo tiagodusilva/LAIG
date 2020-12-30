@@ -126,7 +126,7 @@ class MyGameboard {
     }
 
     //Maybe change for two Vec2
-    displaceBall(fromRow, fromCol, toRow, toCol) {
+    async displaceBall(fromRow, fromCol, toRow, toCol) {
 
         if (toRow === AUX_BOARD || toCol === AUX_BOARD) {
             return false;
@@ -149,10 +149,10 @@ class MyGameboard {
         }
 
         if (fromPieceType === PieceType.WHITE_BALL && toPieceType === PieceType.WHITE_RING) {
-            this.movePiece(fromRow, fromCol, toRow, toCol);
+            await this.movePiece(fromRow, fromCol, toRow, toCol);
             return true;
         } else if (fromPieceType === PieceType.BLACK_BALL && toPieceType === PieceType.BLACK_RING) {
-            this.movePiece(fromRow, fromCol, toRow, toCol);
+            await this.movePiece(fromRow, fromCol, toRow, toCol);
             return true;
         } else {
             return false;

@@ -31,9 +31,9 @@ class MyGameOrchestrator {
         this.gameSequence = new MyGameSequence();
 
         this.selectedPiece = null;
-        
+
         this.curGameState = gameState.OPTIONS;
-        
+
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
@@ -51,7 +51,7 @@ class MyGameOrchestrator {
     updateConfig(graph) {
         MyTile.tile = graph.gameConfig.get("tile");
         MyTile.aux_tile = graph.gameConfig.get("aux_tile");
-        
+
         MyPiece.pieces.set(PieceType.WHITE_RING, graph.gameConfig.get("white_ring"));
         MyPiece.pieces.set(PieceType.WHITE_BALL, graph.gameConfig.get("white_ball"));
         MyPiece.pieces.set(PieceType.BLACK_RING, graph.gameConfig.get("black_ring"));
@@ -155,22 +155,14 @@ class MyGameOrchestrator {
         }
     }
 
-    async makeMove(move) {
-        await this.gameBoard.movePiece(move.ringMove[0][0], move.ringMove[0][1], move.ringMove[1][0], move.ringMove[1][1]);
-        await this.gameBoard.movePiece(move.ballMove[0][0], move.ballMove[0][1], move.ballMove[1][0], move.ballMove[1][1]);
 
-        for (let i = 0; i < move.ballsDisplacements.length; i++) {
-            let ballDisplacement = move.ballsDisplacements[i];
-            await this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
-        }
-    }
 
     async computerMove() {
         this.gameBoard.makeNothingSelectable();
         let response = await MyPrologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty]);
 
         this.curMove.fromPrologMove(response['move']);
-        await this.makeMove(this.curMove);
+        await this.curMove.makeMove();
         this.advanceTurn();
     }
 
@@ -202,7 +194,7 @@ class MyGameOrchestrator {
                 break;
 
             case playerType.COMPUTER:
-                if(undo == false){
+                if (undo == false) {
                     this.computerMove();
                 }
                 break;
@@ -219,7 +211,8 @@ class MyGameOrchestrator {
     changePlayerType() {
         this.curDifficulty = this.curDifficulty === 1 ? 2 : 1;
         if (this.gamemode == gamemode.HUMAN_VS_HUMAN && this.curPlayerType == playerType.HUMAN ||
-            this.gamemode == gamemode.HUMAN_VS_COMPUTER && this.curPlayerType == playerType.COMPUTER) {
+            this.gamemode == gamemode.HUMAN_VS_COMPUTER && this.curPlayerType == playerType.COMPUTER ||
+            this.gamemode == gamemode.COMPUTER_VS_HUMAN && this.curPlayer == playerType.COMPUTER) {
             this.curPlayerType = playerType.HUMAN;
         } else {
             this.curPlayerType = playerType.COMPUTER;
@@ -242,8 +235,8 @@ class MyGameOrchestrator {
                     console.log("Invalid Move");
                     return;
                 }
-                await this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.curMove.addRingMove([initialPos, finalPos]);
+                await this.curMove.moveRing();
                 this.setMoveState(moveState.MOVE_BALL);
                 break;
             case moveState.MOVE_BALL:
@@ -252,19 +245,21 @@ class MyGameOrchestrator {
                     console.log("Invalid Move");
                     return;
                 }
-                this.gameBoard.movePiece(initialPos[0], initialPos[1], finalPos[0], finalPos[1]);
                 this.curMove.addBallMove([initialPos, finalPos]);
+                await this.curMove.moveBall();
+
                 if (response["ballsToDisplace"].length === 0) {
                     this.advanceTurn();
-
                 } else {
                     this.ballsToDisplace = response["ballsToDisplace"];
                     this.setMoveState(moveState.DISPLACE_BALLS);
                 }
                 break;
             case moveState.DISPLACE_BALLS:
+                //TODO: Maybe change?
                 //Displace the ball
-                if (!this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])) {
+                let canDisplaceBall = await this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])
+                if (!canDisplaceBall) {
                     return;
                 }
                 this.curMove.addBallDisplacement([initialPos, finalPos]);
@@ -293,17 +288,12 @@ class MyGameOrchestrator {
     async undoMove() {
         //Only undo ring move
         if (this.curMoveState == moveState.MOVE_BALL) {
-            await this.gameBoard.movePiece(this.curMove.ringMove[1][0], this.curMove.ringMove[1][1], this.curMove.ringMove[0][0], this.curMove.ringMove[0][1]);
-            this.curMove.removeRingMove();
+            await this.curMove.undoRing();
             this.setMoveState(moveState.MOVE_RING);
             //Undo any displacement and the ball move that caused it
         } else if (this.curMoveState == moveState.DISPLACE_BALLS) {
-            while (this.curMove.ballsDisplacements.length > 0) {
-                let ballDisplacement = this.curMove.removeBallDisplacement();
-                await this.gameBoard.movePiece(ballDisplacement[1][0], ballDisplacement[1][1], ballDisplacement[0][0], ballDisplacement[0][1]);
-            }
-            await this.gameBoard.movePiece(this.curMove.ballMove[1][0], this.curMove.ballMove[1][1], this.curMove.ballMove[0][0], this.curMove.ballMove[0][1]);
-            this.curMove.removeBallMove();
+            await this.curMove.undoDisplacements();
+            await this.curMove.undoBall();
             this.setMoveState(moveState.MOVE_BALL);
             //Undo entire move(We are in the ring phase)
         } else {
@@ -312,15 +302,10 @@ class MyGameOrchestrator {
                 console.log("No moves to undo");
                 return;
             }
-            for (let i = moveToUndo.ballsDisplacements.length - 1; i >= 0; i--) {
-                let ballDisplacement = moveToUndo.ballsDisplacements[i];
-                await this.gameBoard.movePiece(ballDisplacement[1][0], ballDisplacement[1][1], ballDisplacement[0][0], ballDisplacement[0][1]);
-            }
+            await moveToUndo.undoMove();
 
-            await this.gameBoard.movePiece(moveToUndo.ballMove[1][0], moveToUndo.ballMove[1][1], moveToUndo.ballMove[0][0], moveToUndo.ballMove[0][1]);
-            await this.gameBoard.movePiece(moveToUndo.ringMove[1][0], moveToUndo.ringMove[1][1], moveToUndo.ringMove[0][0], moveToUndo.ringMove[0][1]);
-
-            if((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayer == playerType.HUMAN) {
+            //If the human player is playing undo AI and human move
+            if ((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayer == playerType.HUMAN) {
                 this.advanceTurn(true);
                 this.undoMove();
             } else {
@@ -333,7 +318,7 @@ class MyGameOrchestrator {
     async playMovie() {
 
         this.gameBoard.resetBoard();
-        
+
         //All moves until before the current
         for (let move of this.gameSequence.getAllMoves()) {
             await this.makeMove(move);
@@ -341,16 +326,13 @@ class MyGameOrchestrator {
 
         //Current move
         if (this.curMove.ringMove != null) {
-            await this.gameBoard.movePiece(this.curMove.ringMove[0][0], this.curMove.ringMove[0][1], this.curMove.ringMove[1][0], this.curMove.ringMove[1][1]);
+            await this.curMove.moveRing();
         }
         if (this.curMove.ballMove != null) {
-            await this.gameBoard.movePiece(this.curMove.ballMove[0][0], this.curMove.ballMove[0][1], this.curMove.ballMove[1][0], this.curMove.ballMove[1][1]);
+            await this.curMove.moveBall();
         }
         if (this.curMove.ballsDisplacements.length > 0) {
-            for (let i = 0; i < this.curMove.ballsDisplacements.length; i++) {
-                let ballDisplacement = this.curMove.ballsDisplacements[i];
-                await this.gameBoard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
-            }
+            await this.curMove.displaceBalls();
         }
 
         //Makes the correct pieces be selectable

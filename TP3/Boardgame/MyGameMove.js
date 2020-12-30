@@ -54,7 +54,47 @@ class MyGameMove {
     }
 
     async moveRing() {
-        await this.gameBoard.movePiece(this.curMove.ringMove[0][0], this.curMove.ringMove[0][1], this.curMove.ringMove[1][0], this.curMove.ringMove[1][1]);
+        await this.gameboard.movePiece(this.ringMove[0][0], this.ringMove[0][1], this.ringMove[1][0], this.ringMove[1][1]);
+    }
+
+    async moveBall() {
+        await this.gameboard.movePiece(this.ballMove[0][0], this.ballMove[0][1], this.ballMove[1][0], this.ballMove[1][1])
+    }
+
+    async displaceBalls() {
+        for (let i = 0; i < this.ballsDisplacements.length; i++) {
+            let ballDisplacement = this.ballsDisplacements[i];
+            await this.gameboard.movePiece(ballDisplacement[0][0], ballDisplacement[0][1], ballDisplacement[1][0], ballDisplacement[1][1]);
+        }
+    }
+    
+    async makeMove() {
+        await this.moveRing();
+        await this.moveBall();
+        await this.displaceBalls();
+    }
+
+    async undoRing() {
+        await this.gameboard.movePiece(this.ringMove[1][0], this.ringMove[1][1], this.ringMove[0][0], this.ringMove[0][1]);
+        this.removeRingMove();
+    }
+
+    async undoBall() {
+        await this.gameboard.movePiece(this.ballMove[1][0], this.ballMove[1][1], this.ballMove[0][0], this.ballMove[0][1]);
+        this.removeBallMove();
+    }
+
+    async undoDisplacements() {
+        while (this.ballsDisplacements.length > 0) {
+            let ballDisplacement = this.removeBallDisplacement();
+            await this.gameboard.movePiece(ballDisplacement[1][0], ballDisplacement[1][1], ballDisplacement[0][0], ballDisplacement[0][1]);
+        }
+    }
+
+    async undoMove(){
+        await this.undoDisplacements();
+        await this.undoBall();
+        await this.undoRing();
     }
 
     animate() {
