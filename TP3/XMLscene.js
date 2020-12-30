@@ -20,41 +20,41 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
-        
+
         this.initCameras();
-        
+
         // Deltatime
         this.startT = null;
-        this.currTime = 0; 
-        
+        this.currTime = 0;
+
         this.enableTextures(true);
-        
+
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-        
+
         this.axis = new CGFaxis(this);
 
         this.setUpdatePeriod(20);
         this.setPickEnabled(true);
 
-        this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
-        this.loadingProgress=0;
+        this.loadingProgressObject = new MyRectangle(this, -1, -.1, 1, .1);
+        this.loadingProgress = 0;
 
-        this.defaultAppearance=new MyCGFmaterial(this);
+        this.defaultAppearance = new MyCGFmaterial(this);
 
         this.material = this.defaultAppearance;
         this.material.apply();
 
         //Material Stack
-        this.materialStack = [ this.material ];
+        this.materialStack = [this.material];
 
         // Texture stack
-        this.textureStack = [ null ];
+        this.textureStack = [null];
 
         // Texture stack
-        this.shaderStack = [ this.defaultShader ];
+        this.shaderStack = [this.defaultShader];
 
         this.activeTexture = null;
 
@@ -74,6 +74,7 @@ class XMLscene extends CGFscene {
         this.lightEnabled7;
 
         this.currentUniqueId = -1;
+
         this.gameorchestrator = new MyGameOrchestrator(this);
 
         this.scenes = ["zen_garden.xml", "casino.xml"];
@@ -83,6 +84,9 @@ class XMLscene extends CGFscene {
             "Zen Garden": 0,
             "Casino": 1
         };
+
+        this.undoMoveGUI = () => this.gameorchestrator.undoMove();
+        this.playMovieGUI = () => this.gameorchestrator.playMovie();
     }
 
     get selectedScene() {
@@ -190,7 +194,7 @@ class XMLscene extends CGFscene {
             }
 
             this.lights[i].update();
-            
+
             //Used to update the lights in the GUI
             this.lightCount++;
             i++;
@@ -254,8 +258,8 @@ class XMLscene extends CGFscene {
 
     updateGraphLights() {
         //Only updates instantiated lights
-        for (let i = 0; i < this.lightCount; i++){
-            if(this["lightEnabled" + i])
+        for (let i = 0; i < this.lightCount; i++) {
+            if (this["lightEnabled" + i])
                 this.lights[i].enable();
             else
                 this.lights[i].disable();
@@ -321,10 +325,10 @@ class XMLscene extends CGFscene {
         }
     }
 
-    update(t){
+    update(t) {
         if (this.sceneInited) {
             // Deltatime is normalized to seconds
-            if (this.startT == null){
+            if (this.startT == null) {
                 this.startT = t;
                 this.currTime = 0;
             }
@@ -376,7 +380,7 @@ class XMLscene extends CGFscene {
             if (this.showAxis) {
                 this.defaultAppearance.apply();
                 this.axis.display();
-            } 
+            }
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
@@ -387,13 +391,12 @@ class XMLscene extends CGFscene {
 
             this.gl.disable(this.gl.BLEND);
         }
-        else
-        {
+        else {
             // Show some "loading" visuals
             this.defaultAppearance.apply();
 
-            this.rotate(-this.loadingProgress/10.0,0,0,1);
-            
+            this.rotate(-this.loadingProgress / 10.0, 0, 0, 1);
+
             this.loadingProgressObject.display();
             this.loadingProgress++;
         }
