@@ -24,7 +24,7 @@ class MyPiece {
     ]);
 
     generateOwnTransform() {
-        return new Transform([this.position[1], MyPiece.ringHeight * (this.height + 0.5), this.position[0]], [0, 0, 0], [1, 1, 1]);
+        return new Transform([this.position[1] + 0.5, MyPiece.ringHeight * (this.height + 0.5), this.position[0] + 0.5], [0, 0, 0], [1, 1, 1]);
     }
 
     updatePositionInBoard(position, height, moveToPosition=false) {

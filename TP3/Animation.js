@@ -10,6 +10,15 @@ function lerpVec3(start, end, time) {
     ]
 }
 
+function lerpVec4(start, end, time) {
+    return [
+        lerp(start[0], end[0], time),
+        lerp(start[1], end[1], time),
+        lerp(start[2], end[2], time),
+        lerp(start[3], end[3], time)
+    ]
+}
+
 class Keyframe {
 
     constructor(instant, translation, rotation, scale) {

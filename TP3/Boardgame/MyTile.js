@@ -68,7 +68,7 @@ class MyTile {
         this.scene.registerForPick(this.uniqueId, this);
 
         this.scene.pushMatrix();
-        this.scene.translate(this.position[1], 0, this.position[0]);
+        this.scene.translate(this.position[1] + 0.5, 0, this.position[0] + 0.5);
         MyTile.tile.display();
         this.scene.popMatrix();
 

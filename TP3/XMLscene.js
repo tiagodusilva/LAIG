@@ -226,14 +226,14 @@ class XMLscene extends CGFscene {
         console.log("On loaded");
         this.selectedCamera = this.graph.defaultCamera;
         this.cameraDropdown = {};
-        var i = 0;
+        let i = 0;
         for (let key of this.graph.cameras.keys()) {
             this.cameraDropdown[key] = i;
             if (key == this.graph.defaultCamera)
                 this.selectedCamera = i;
             i++;
         }
-        this.onCameraChange(this.selectedCamera);
+        this.onCameraChange(this.selectedCamera, false);
         this.interface.rebuildGui();
 
         this.sceneInited = true;
@@ -243,14 +243,17 @@ class XMLscene extends CGFscene {
             this.gameorchestrator.startGame();
     }
 
-    onCameraChange(val) {
+    onCameraChange(val, animate=true) {
         this.selectedCamera = val;
-
         for (const property in this.cameraDropdown) {
             if (this.cameraDropdown[property] == this.selectedCamera) {
-                var selectedCamera = this.graph.cameras.get(property);
-                this.camera = selectedCamera;
-                this.interface.setActiveCamera(this.camera);
+                let selectedCamera = this.graph.cameras.get(property);
+                if (animate) {
+                    this.camera.animateToCamera(this, selectedCamera);
+                } else {
+                    this.camera = selectedCamera;
+                    this.interface.setActiveCamera(this.camera);
+                }
                 break;
             }
         }
@@ -275,7 +278,7 @@ class XMLscene extends CGFscene {
      * @param {int} index
      */
     unbindTexture(index = 0) {
-        var e = index || 0;
+        let e = index || 0;
         this.gl.activeTexture(this.gl.TEXTURE0 + e);
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
         this.activeTexture = null;
@@ -346,6 +349,8 @@ class XMLscene extends CGFscene {
 
             if (this.gameorchestrator)
                 this.gameorchestrator.update(this.currTime);
+            if (this.sceneInited)
+                this.camera.update(this.currTime);
         }
     }
 
