@@ -18,8 +18,13 @@
             <to x="2.5" y="1" z="2.5" />
         </perspective>
 
+        <perspective id="Problematic" near="0.1" far="500" angle="70">
+            <from x="2.5" y="8" z="-5.5" />
+            <to x="2.5" y="1" z="2.5" />
+        </perspective>
+
         <perspective id="Top-down" near="0.1" far="500" angle="70">
-            <from x="2.5" y="8" z="2.5" />
+            <from x="2.5" y="12" z="2.51" />
             <to x="2.5" y="0" z="2.5" />
         </perspective>
     </views>
@@ -105,7 +110,7 @@
             </texture>
 
             <transformations>
-                <translation x="2" y="0" z="2" /> <!-- Center on board -->
+                <translation x="2.5" y="0" z="2.5" /> <!-- Center on board -->
             </transformations>
 
             <descendants>

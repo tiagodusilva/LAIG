@@ -41,7 +41,7 @@ class MyInterface extends CGFinterface {
             this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty'));
         }
 
-        this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Start Game'));
+        this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Restart Game'));
     }
 
     rebuildGui() {
