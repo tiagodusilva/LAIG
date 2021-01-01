@@ -471,7 +471,7 @@
         </node>
     </nodes>
 
-    <game ring_height="0.25">
+    <game ring_height="0.25" white_player="White" black_player="Black">
         <!-- Tiles -->
         <tile noderef="tile" />
         <aux_tile noderef="aux_tile" />
@@ -483,8 +483,8 @@
         <black_ball noderef="black_ball" />
 
         <!-- Spritetexts -->
-        <timer noderef="" />
-        <turn noderef="" />
-        <winner noderef="" />
+        <timer noderef="timer_text" />
+        <turn noderef="turn_indicator" />
+        <winner noderef="player_turn_indicator" />
     </game>
 </lsf>

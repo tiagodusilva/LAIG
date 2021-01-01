@@ -27,21 +27,21 @@ class MyInterface extends CGFinterface {
 
     changeGameMode(gamemodeChosen) {
         this.gameOptionsFolderElements.forEach(elem => {
-            this.gameOptionsFolder.remove(elem);
+            this.newGameOptionsFolder.remove(elem);
         });
         this.gameOptionsFolderElements = [];
 
         //First call doesnt count because it is the initial on change
         if(gamemodeChosen == gamemode.HUMAN_VS_COMPUTER) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('AI Difficulty'));
+            this.gameOptionsFolderElements.push(this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('AI Difficulty'));
         } else if (gamemodeChosen == gamemode.COMPUTER_VS_HUMAN) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('AI Difficulty'));
+            this.gameOptionsFolderElements.push(this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('AI Difficulty'));
         } else if (gamemodeChosen == gamemode.COMPUTER_VS_COMPUTER) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty'));
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty'));
+            this.gameOptionsFolderElements.push(this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty'));
+            this.gameOptionsFolderElements.push(this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty'));
         }
 
-        this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Restart Game'));
+        this.gameOptionsFolderElements.push(this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Restart Game'));
     }
 
     rebuildGui() {
@@ -50,13 +50,17 @@ class MyInterface extends CGFinterface {
         //Used to store the folder elements that need to be changed
         this.gameOptionsFolderElements = [];
 
-        this.gui.add(this.scene, '_selectedScene', this.scene.scenesDropdown).onChange(this.scene.onSelectedSceneChange.bind(this.scene)).name("Scene");
-
+        
         this.gameOptionsFolder = this.gui.addFolder("Game Options");
         this.gameOptionsFolder.open();
+        this.gameOptionsFolder.add(this.scene, '_selectedScene', this.scene.scenesDropdown).onChange(this.scene.onSelectedSceneChange.bind(this.scene)).name("Scene");
         this.gameOptionsFolder.add(this.scene, 'undoMoveGUI').name('Undo last move');
         this.gameOptionsFolder.add(this.scene, 'playMovieGUI').name('Play game movie');
-        this.gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).onChange((val) => this.changeGameMode(val)).name('Gamemode');
+
+        this.newGameOptionsFolder = this.gui.addFolder("New Game");
+        this.newGameOptionsFolder.open();
+        this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'nextGameMaxTurnTime', 0, 180).name('Turn Timer');
+        this.newGameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).onChange((val) => this.changeGameMode(val)).name('Gamemode');
         //First call that needs to be done
         this.changeGameMode(this.scene.gameorchestrator.gamemode);
 
@@ -91,7 +95,6 @@ class MyInterface extends CGFinterface {
 
         lightFolder.add(this.scene, 'enableAllLights').name("Enable All");
         lightFolder.add(this.scene, 'disableAllLights').name("Disable all");
-
     }
 
     updateLightDisplay() {

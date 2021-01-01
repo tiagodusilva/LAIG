@@ -32,6 +32,10 @@ class MyGameOrchestrator {
 
         this.selectedPiece = null;
 
+        this.timerSpriteText = null;
+        this.turnCountSpriteText = null;
+        this.turnIndicatorSpriteText = null;
+
         this.curGameState = gameState.OPTIONS;
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
@@ -44,11 +48,27 @@ class MyGameOrchestrator {
 
         this.ballsToDisplace = [];
 
-        this.turnCount = 0;
+        this._turnCount = 0;
+        this.turnCountDigits = 2;
         this.tSinceLastMove = null;
-        this.maxTurnTime = 10;
+        this.maxTurnTime = 0;
+        this.nextGameMaxTurnTime = this.maxTurnTime;
+        this.winner = null;
+
+        this.playerName = [];
 
         this.gameBoard.makeNothingSelectable();
+    }
+
+    get turnCount() {
+        return this._turnCount;
+    }
+
+    set turnCount(val) {
+        this._turnCount = val;
+        if (this.turnCountSpriteText != null) {
+            this.turnCountSpriteText.setText("Turn " + this._turnCount.toString());
+        }
     }
 
     updateConfig(graph) {
@@ -65,6 +85,42 @@ class MyGameOrchestrator {
         if (newRingHeight != undefined && newRingHeight != MyPiece.ringHeight) {
             MyPiece.ringHeight = newRingHeight;
             this.gameBoard.forEachPiece((piece) => piece.recalculateTransform());
+        }
+
+        this.playerName[Player.WHITE] = graph.gameConfig.get("white_player");
+        this.playerName[Player.BLACK] = graph.gameConfig.get("black_player");
+
+        this.timerSpriteText = graph.gameConfig.get("timer").children[0];
+        this.turnCountSpriteText = graph.gameConfig.get("turn").children[0];
+        this.turnIndicatorSpriteText = graph.gameConfig.get("winner").children[0];
+
+
+        this.updateTimerText(0);
+        // Setter that updates the text
+        this.turnCount = this.turnCount;
+        this.updatePlayerText();
+
+    }
+
+    updateTimerText(time) {
+        if (this.timerSpriteText == null)
+            return;
+        this.timerSpriteText.setText(
+            time >= 0 ?
+            time.toFixed(0).toString().padStart(this.turnCountDigits, '0') :
+            "".padStart(this.turnCountDigits, "-")
+        );
+    }
+
+    // Handles whose turn it is or who won the game
+    updatePlayerText() {
+        if (this.turnCountSpriteText != null) {
+            let text = "";
+            if (this.winner == null)
+                text = this.playerName[this.curPlayer] + "'s Turn";
+            else
+                text = this.playerName[this.winner] + " Won!";
+            this.turnIndicatorSpriteText.setText(text);
         }
     }
 
@@ -90,6 +146,10 @@ class MyGameOrchestrator {
             this.curPlayerType = playerType.COMPUTER;
             this.computerMove();
         }
+
+        this.maxTurnTime = Math.floor(this.nextGameMaxTurnTime);
+        this.turnCountDigits = this.maxTurnTime == 0 ? 2 : this.maxTurnTime.toString().length;
+        this.turnCount = 1;
     }
 
     display() {
@@ -228,6 +288,7 @@ class MyGameOrchestrator {
 
     gameOver(winner) {
         this.curGameState = gameState.ENDED;
+        this.winner = winner == "white" ? player.WHITE : player.BLACK;
         console.log("The winner is: " + winner);
     }
 
@@ -352,6 +413,7 @@ class MyGameOrchestrator {
         //Makes the correct pieces be selectable
         this.setMoveState(this.curMoveState);
 
+        this.tSinceLastMove = null;
         this.moviePlaying = false;
     }
 
@@ -373,18 +435,22 @@ class MyGameOrchestrator {
     }
 
     update(t) {
-        if(this.curGameState != gameState.ENDED){
+        this.animator.update(t);
+
+        if (this.moviePlaying || this.maxTurnTime == 0) {
+            this.updateTimerText(-1);
+        } else if(this.curGameState != gameState.ENDED) {
             if (this.tSinceLastMove === null) {
                 this.tSinceLastMove = t;
+                this.updateTimerText(this.maxTurnTime);
             } else {
                 let timeLeft = this.maxTurnTime - (t - this.tSinceLastMove);
-                console.log(timeLeft);
                 if (timeLeft <= 0) {
+                    timeLeft = 0;
                     this.gameOver(this.curPlayer == Player.WHITE ? "black" : "white");
                 }
+                this.updateTimerText(timeLeft);
             }
         }
-
-        this.animator.update(t);
     }
 }
