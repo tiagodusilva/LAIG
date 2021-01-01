@@ -67,15 +67,16 @@ class MyGameOrchestrator {
 
     startGame() {
         this.gameStarted = true;
-
+        
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
         console.log("Gamemode: " + this.gamemode);
-
+        
         this.gameSequence.restartGame();
         this.gameBoard.resetBoard();
         this.curPlayer = Player.WHITE;
         this.curGameState = gameState.PLAYING;
+        this.moviePlaying = false;
         if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
             this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
@@ -94,7 +95,7 @@ class MyGameOrchestrator {
     }
 
     managePick(mode, results) {
-        if (mode == false /* && some other game conditions */) {
+        if (mode == false && this.curGameState != gameState.ENDED && !this.moviePlaying) {
             if (results != null && results.length > 0) {
                 // any results?
                 for (let i = 0; i < results.length; i++) {
@@ -233,6 +234,7 @@ class MyGameOrchestrator {
                 response = await MyPrologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addRingMove([initialPos, finalPos]);
@@ -243,6 +245,7 @@ class MyGameOrchestrator {
                 response = await MyPrologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addBallMove([initialPos, finalPos]);
@@ -256,10 +259,10 @@ class MyGameOrchestrator {
                 }
                 break;
             case moveState.DISPLACE_BALLS:
-                //TODO: Maybe change?
                 //Displace the ball
                 let canDisplaceBall = await this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])
                 if (!canDisplaceBall) {
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addBallDisplacement([initialPos, finalPos]);
@@ -287,6 +290,8 @@ class MyGameOrchestrator {
 
     async undoMove() {
         //Only undo ring move
+        if (this.gameState == gameState.ENDED || this.moviePlaying)
+            return;
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.curMove.undoRing();
             this.setMoveState(moveState.MOVE_RING);
@@ -317,11 +322,13 @@ class MyGameOrchestrator {
 
     async playMovie() {
 
+        this.moviePlaying = true;
+
         this.gameBoard.resetBoard();
 
         //All moves until before the current
         for (let move of this.gameSequence.getAllMoves()) {
-            await this.makeMove(move);
+            await move.makeMove();
         }
 
         //Current move
@@ -337,6 +344,8 @@ class MyGameOrchestrator {
 
         //Makes the correct pieces be selectable
         this.setMoveState(this.curMoveState);
+
+        this.moviePlaying = false;
     }
 
     setMoveState(state) {

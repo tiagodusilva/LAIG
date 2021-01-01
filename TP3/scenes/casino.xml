@@ -1,9 +1,5 @@
 <lsf>
 
-    <!-- If you want to actually play this chamber in portal 2 (don't know why the hell you would, this chamber sucks) -->
-    <!-- Here's the workshop link :D -->
-    <!-- https://steamcommunity.com/sharedfiles/filedetails/?id=2247466358 -->
-
     <initials>
         <reference length="2" />
         <!-- axis length; "0" means no axis displayed -->
@@ -69,8 +65,10 @@
     <textures>
         <texture id="red_chip" path="./scenes/casino/chip_face_red.png" />
         <texture id="red_chip_side" path="./scenes/casino/chip_side_red.png" />
+        <texture id="red" path="./scenes/casino/red.png" /> 
         <texture id="purple_chip" path="./scenes/casino/chip_face_purple.png" />
         <texture id="purple_chip_side" path="./scenes/casino/chip_side_purple.png" />
+        <texture id="purple" path="./scenes/casino/purple.png" /> 
         <texture id="felt" path="./scenes/casino/felt.png" />
         <texture id="tile" path="./scenes/casino/tile.jpg" />
         <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
@@ -298,9 +296,9 @@
         </node>
 
         <node id="white_ball">
-            <material id="whiteMaterial" />
+            <material id="null" />
 
-            <texture id="white_stone">
+            <texture id="red">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -313,9 +311,9 @@
         </node>
 
         <node id="black_ball">
-            <material id="slighlyBlackMaterial" />
+            <material id="null" />
 
-            <texture id="stone">
+            <texture id="purple">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 

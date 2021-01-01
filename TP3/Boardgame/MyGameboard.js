@@ -225,7 +225,6 @@ class MyGameboard {
     }
 
     makeBallsToDisplaceSelectable(ballsToDisplace) {
-        console.log(ballsToDisplace);
         for (let i = 0; i < this.board.length; i++) {
             for (let j = 0; j < this.board[i].length; j++) {
                 let piece = this.board[i][j].getTopPiece();
@@ -233,7 +232,6 @@ class MyGameboard {
                     let toDisplace = false;
                     ballsToDisplace.forEach(element => {
                         if (element[0] === i && element[1] === j) {
-                            console.log([i, j]);
                             piece.selectable = true;
                             toDisplace = true;
                         }
