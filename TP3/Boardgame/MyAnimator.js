@@ -26,6 +26,11 @@ class MyAnimator {
         this.animations.splice(old, 1);
     }
 
+    removeAll() {
+        this.animations.forEach( a => { a[0].endAnimation(); a[1](); } );
+        this.animations = [];
+    }
+
     update(t) {
         this.animations.forEach( anim => anim[0].update(t) );
     }

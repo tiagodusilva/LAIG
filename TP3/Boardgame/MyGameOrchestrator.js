@@ -146,7 +146,9 @@ class MyGameOrchestrator {
         this.gameBoard.resetBoard();
         this.curPlayer = Player.WHITE;
         this.curGameState = gameState.PLAYING;
+        this.curMoveState = moveState.MOVE_RING;
         this.moviePlaying = false;
+        this.winner = null;
         if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
             this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
@@ -160,6 +162,7 @@ class MyGameOrchestrator {
         this.maxTurnTime = Math.floor(this.nextGameMaxTurnTime);
         this.turnCountDigits = this.maxTurnTime == 0 ? 2 : this.maxTurnTime.toString().length;
         this.turnCount = 1;
+        this.updatePlayerText();
     }
 
     display() {
