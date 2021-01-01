@@ -60,6 +60,17 @@ class MyGameOrchestrator {
 
         this.playerName = [];
 
+        this.awaitingInput = false;
+
+        this.reset = false;
+        this.markRestartGame = () => {
+            if ((this.curGameState == gameState.ENDED || this.awaitingInput) && !this.moviePlaying) {
+                this.startGame();
+                return;
+            }
+            this.reset = true;
+        };
+
         this.gameBoard.makeNothingSelectable();
     }
 
@@ -134,6 +145,8 @@ class MyGameOrchestrator {
     }
 
     startGame() {
+        this.animator.removeAll();
+
         this.gameStarted = true;
         this.tSinceLastMove = null;
         this.updateGameSettings();
@@ -149,20 +162,25 @@ class MyGameOrchestrator {
         this.curMoveState = moveState.MOVE_RING;
         this.moviePlaying = false;
         this.winner = null;
+        
+        this.maxTurnTime = Math.floor(this.nextGameMaxTurnTime);
+        this.turnCountDigits = this.maxTurnTime == 0 ? 2 : this.maxTurnTime.toString().length;
+        this.turnCount = 1;
+        this.updatePlayerText();
+
+        this.awaitingInput = false;
+        this.reset = false;
+        
         if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
             this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
             console.log("Jogador: " + this.curPlayer);
             this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+            this.awaitingInput = true;
         } else {
             this.curPlayerType = playerType.COMPUTER;
             this.computerMove();
         }
-
-        this.maxTurnTime = Math.floor(this.nextGameMaxTurnTime);
-        this.turnCountDigits = this.maxTurnTime == 0 ? 2 : this.maxTurnTime.toString().length;
-        this.turnCount = 1;
-        this.updatePlayerText();
     }
 
     display() {
@@ -241,6 +259,10 @@ class MyGameOrchestrator {
 
         this.curMove.fromPrologMove(response['move']);
         await this.curMove.makeMove();
+        
+        if (this.checkReset())
+            return;
+
         this.advanceTurn();
     }
 
@@ -272,6 +294,7 @@ class MyGameOrchestrator {
         switch (this.curPlayerType) {
             case playerType.HUMAN:
                 this.gameBoard.makeTopRingsSelectable(this.curPlayer);
+                this.awaitingInput = true;
                 break;
 
             case playerType.COMPUTER:
@@ -313,43 +336,57 @@ class MyGameOrchestrator {
         let initialPos = pieceToMove.position;
         let finalPos = toTile.position;
 
+        this.awaitingInput = false;
+
         switch (this.curMoveState) {
             case moveState.MOVE_RING:
                 response = await MyPrologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
                     pieceToMove.onDeselect();
+                    this.awaitingInput = true;
                     return;
                 }
                 this.curMove.addRingMove([initialPos, finalPos]);
                 await this.curMove.moveRing();
+                if (this.checkReset())
+                    return;
                 this.setMoveState(moveState.MOVE_BALL);
+                this.awaitingInput = true;
                 break;
             case moveState.MOVE_BALL:
                 response = await MyPrologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
                     pieceToMove.onDeselect();
+                    this.awaitingInput = true;
                     return;
                 }
                 this.curMove.addBallMove([initialPos, finalPos]);
                 await this.curMove.moveBall();
+
+                if (this.checkReset())
+                    return;
 
                 if (response["ballsToDisplace"].length === 0) {
                     this.advanceTurn();
                 } else {
                     this.ballsToDisplace = response["ballsToDisplace"];
                     this.setMoveState(moveState.DISPLACE_BALLS);
+                    this.awaitingInput = true;
                 }
                 break;
             case moveState.DISPLACE_BALLS:
                 //Displace the ball
-                let canDisplaceBall = await this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])
-                if (!canDisplaceBall) {
+                if (!await this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])) {
                     pieceToMove.onDeselect();
+                    this.awaitingInput = true;
                     return;
                 }
                 this.curMove.addBallDisplacement([initialPos, finalPos]);
+
+                if (this.checkReset())
+                    return;
 
                 //Used to remove the ball from the balls to displace
                 this.ballsToDisplace = this.ballsToDisplace.filter(item => (item[0] !== initialPos[0] && item[1] !== initialPos[1]))
@@ -374,7 +411,7 @@ class MyGameOrchestrator {
 
     async undoMove() {
         //Only undo ring move
-        if (this.gameState == gameState.ENDED || this.moviePlaying)
+        if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER)
             return;
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.curMove.undoRing();
@@ -404,7 +441,18 @@ class MyGameOrchestrator {
 
     }
 
+    checkReset() {
+        if (this.reset) {
+            this.startGame();
+            return true;
+        }
+        return false;
+    }
+
     async playMovie() {
+
+        if (this.moviePlaying || (this.gamemode == gamemode.COMPUTER_VS_COMPUTER && this.curGameState != gameState.ENDED))
+            return;
 
         this.moviePlaying = true;
 
@@ -415,6 +463,8 @@ class MyGameOrchestrator {
         for (let move of this.gameSequence.getAllMoves()) {
             await move.makeMove();
             this.turnCount++;
+            if (this.checkReset())
+                return;
         }
 
         //Current move
