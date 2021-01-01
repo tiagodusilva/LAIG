@@ -33,7 +33,6 @@ class MyGameOrchestrator {
         this.selectedPiece = null;
 
         this.curGameState = gameState.OPTIONS;
-
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
@@ -44,6 +43,10 @@ class MyGameOrchestrator {
         this.gameStarted = false;
 
         this.ballsToDisplace = [];
+
+        this.turnCount = 0;
+        this.tSinceLastMove = null;
+        this.maxTurnTime = 10;
 
         this.gameBoard.makeNothingSelectable();
     }
@@ -67,7 +70,8 @@ class MyGameOrchestrator {
 
     startGame() {
         this.gameStarted = true;
-        
+        this.tSinceLastMove = null;
+
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
         console.log("Gamemode: " + this.gamemode);
@@ -176,12 +180,14 @@ class MyGameOrchestrator {
 
             if (response['winner'] !== "none") {
                 this.gameOver(response['winner']);
-                this.curGameState = gameState.ENDED;
                 return;
             }
+            this.tSinceLastMove = null;
+            this.turnCount++;
         } else {
+            this.turnCount--;
             //Move before the one reverted
-            let beforeMove = this.gameSequence.getLastMove()
+            let beforeMove = this.gameSequence.getLastMove();
             this.curMove = beforeMove == null ? new MyGameMove(this.gameBoard) : beforeMove;
         }
 
@@ -221,6 +227,7 @@ class MyGameOrchestrator {
     }
 
     gameOver(winner) {
+        this.curGameState = gameState.ENDED;
         console.log("The winner is: " + winner);
     }
 
@@ -366,6 +373,18 @@ class MyGameOrchestrator {
     }
 
     update(t) {
+        if(this.curGameState != gameState.ENDED){
+            if (this.tSinceLastMove === null) {
+                this.tSinceLastMove = t;
+            } else {
+                let timeLeft = this.maxTurnTime - (t - this.tSinceLastMove);
+                console.log(timeLeft);
+                if (timeLeft <= 0) {
+                    this.gameOver(this.curPlayer == Player.WHITE ? "black" : "white");
+                }
+            }
+        }
+
         this.animator.update(t);
     }
 }
