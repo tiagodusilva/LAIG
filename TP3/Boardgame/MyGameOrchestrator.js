@@ -99,7 +99,6 @@ class MyGameOrchestrator {
         // Setter that updates the text
         this.turnCount = this.turnCount;
         this.updatePlayerText();
-
     }
 
     updateTimerText(time) {
@@ -240,6 +239,7 @@ class MyGameOrchestrator {
 
             if (response['winner'] !== "none") {
                 this.gameOver(response['winner']);
+                this.updatePlayerText();
                 return;
             }
             this.tSinceLastMove = null;
@@ -269,6 +269,8 @@ class MyGameOrchestrator {
             default:
                 break;
         }
+
+        this.updatePlayerText();
     }
 
     switchPlayer() {
@@ -288,7 +290,7 @@ class MyGameOrchestrator {
 
     gameOver(winner) {
         this.curGameState = gameState.ENDED;
-        this.winner = winner == "white" ? player.WHITE : player.BLACK;
+        this.winner = winner == "white" ? Player.WHITE : Player.BLACK;
         console.log("The winner is: " + winner);
     }
 
@@ -392,11 +394,13 @@ class MyGameOrchestrator {
 
         this.moviePlaying = true;
 
+        this.turnCount = 1;
         this.gameBoard.resetBoard();
 
         //All moves until before the current
         for (let move of this.gameSequence.getAllMoves()) {
             await move.makeMove();
+            this.turnCount++;
         }
 
         //Current move
