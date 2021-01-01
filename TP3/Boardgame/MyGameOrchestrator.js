@@ -36,6 +36,11 @@ class MyGameOrchestrator {
         this.newGameDifficulty1 = computerDifficulty.SMART;
         this.newGameDifficulty2 = computerDifficulty.SMART;
 
+        this.timerSpriteText = null;
+        this.turnCountSpriteText = null;
+        this.turnIndicatorSpriteText = null;
+
+        this.curGameState = gameState.OPTIONS;
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
@@ -46,9 +51,14 @@ class MyGameOrchestrator {
 
         this.ballsToDisplace = [];
 
-        this.turnCount = 0;
+        this._turnCount = 0;
+        this.turnCountDigits = 2;
         this.tSinceLastMove = null;
-        this.maxTurnTime = 10;
+        this.maxTurnTime = 0;
+        this.nextGameMaxTurnTime = this.maxTurnTime;
+        this.winner = null;
+
+        this.playerName = [];
 
         this.gameBoard.makeNothingSelectable();
     }
@@ -58,6 +68,17 @@ class MyGameOrchestrator {
         this.difficulty1 = this.newGameDifficulty1;
         this.difficulty2 = this.newGameDifficulty2;
         this.curDifficulty = 1;
+    }
+    
+    get turnCount() {
+        return this._turnCount;
+    }
+
+    set turnCount(val) {
+        this._turnCount = val;
+        if (this.turnCountSpriteText != null) {
+            this.turnCountSpriteText.setText("Turn " + this._turnCount.toString());
+        }
     }
 
     updateConfig(graph) {
@@ -75,6 +96,42 @@ class MyGameOrchestrator {
             MyPiece.ringHeight = newRingHeight;
             this.gameBoard.forEachPiece((piece) => piece.recalculateTransform());
         }
+
+        this.playerName[Player.WHITE] = graph.gameConfig.get("white_player");
+        this.playerName[Player.BLACK] = graph.gameConfig.get("black_player");
+
+        this.timerSpriteText = graph.gameConfig.get("timer").children[0];
+        this.turnCountSpriteText = graph.gameConfig.get("turn").children[0];
+        this.turnIndicatorSpriteText = graph.gameConfig.get("winner").children[0];
+
+
+        this.updateTimerText(0);
+        // Setter that updates the text
+        this.turnCount = this.turnCount;
+        this.updatePlayerText();
+
+    }
+
+    updateTimerText(time) {
+        if (this.timerSpriteText == null)
+            return;
+        this.timerSpriteText.setText(
+            time >= 0 ?
+            time.toFixed(0).toString().padStart(this.turnCountDigits, '0') :
+            "".padStart(this.turnCountDigits, "-")
+        );
+    }
+
+    // Handles whose turn it is or who won the game
+    updatePlayerText() {
+        if (this.turnCountSpriteText != null) {
+            let text = "";
+            if (this.winner == null)
+                text = this.playerName[this.curPlayer] + "'s Turn";
+            else
+                text = this.playerName[this.winner] + " Won!";
+            this.turnIndicatorSpriteText.setText(text);
+        }
     }
 
     startGame() {
@@ -85,11 +142,12 @@ class MyGameOrchestrator {
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
         console.log("Gamemode: " + this.gamemode);
-
+        
         this.gameSequence.restartGame();
         this.gameBoard.resetBoard();
         this.curPlayer = Player.WHITE;
         this.curGameState = gameState.PLAYING;
+        this.moviePlaying = false;
         if (this.gamemode == gamemode.HUMAN_VS_COMPUTER ||
             this.gamemode == gamemode.HUMAN_VS_HUMAN) {
             this.curPlayerType = playerType.HUMAN;
@@ -99,6 +157,10 @@ class MyGameOrchestrator {
             this.curPlayerType = playerType.COMPUTER;
             this.computerMove();
         }
+
+        this.maxTurnTime = Math.floor(this.nextGameMaxTurnTime);
+        this.turnCountDigits = this.maxTurnTime == 0 ? 2 : this.maxTurnTime.toString().length;
+        this.turnCount = 1;
     }
 
     display() {
@@ -108,7 +170,7 @@ class MyGameOrchestrator {
     }
 
     managePick(mode, results) {
-        if (mode == false /* && some other game conditions */) {
+        if (mode == false && this.curGameState != gameState.ENDED && !this.moviePlaying) {
             if (results != null && results.length > 0) {
                 // any results?
                 for (let i = 0; i < results.length; i++) {
@@ -237,6 +299,7 @@ class MyGameOrchestrator {
 
     gameOver(winner) {
         this.curGameState = gameState.ENDED;
+        this.winner = winner == "white" ? player.WHITE : player.BLACK;
         console.log("The winner is: " + winner);
     }
 
@@ -250,6 +313,7 @@ class MyGameOrchestrator {
                 response = await MyPrologInterface.canMoveRing(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addRingMove([initialPos, finalPos]);
@@ -260,6 +324,7 @@ class MyGameOrchestrator {
                 response = await MyPrologInterface.canMoveBall(this.gameBoard, this.curPlayer, [translatePosToProlog(initialPos), translatePosToProlog(finalPos)]);
                 if (response['valid'] === false) {
                     console.log("Invalid Move");
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addBallMove([initialPos, finalPos]);
@@ -273,10 +338,10 @@ class MyGameOrchestrator {
                 }
                 break;
             case moveState.DISPLACE_BALLS:
-                //TODO: Maybe change?
                 //Displace the ball
                 let canDisplaceBall = await this.gameBoard.displaceBall(initialPos[0], initialPos[1], finalPos[0], finalPos[1])
                 if (!canDisplaceBall) {
+                    pieceToMove.onDeselect();
                     return;
                 }
                 this.curMove.addBallDisplacement([initialPos, finalPos]);
@@ -304,6 +369,8 @@ class MyGameOrchestrator {
 
     async undoMove() {
         //Only undo ring move
+        if (this.gameState == gameState.ENDED || this.moviePlaying)
+            return;
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.curMove.undoRing();
             this.setMoveState(moveState.MOVE_RING);
@@ -334,6 +401,8 @@ class MyGameOrchestrator {
 
     async playMovie() {
 
+        this.moviePlaying = true;
+
         this.gameBoard.resetBoard();
 
         //All moves until before the current
@@ -354,6 +423,9 @@ class MyGameOrchestrator {
 
         //Makes the correct pieces be selectable
         this.setMoveState(this.curMoveState);
+
+        this.tSinceLastMove = null;
+        this.moviePlaying = false;
     }
 
     setMoveState(state) {
@@ -374,18 +446,22 @@ class MyGameOrchestrator {
     }
 
     update(t) {
-        if(this.curGameState != gameState.ENDED){
+        this.animator.update(t);
+
+        if (this.moviePlaying || this.maxTurnTime == 0) {
+            this.updateTimerText(-1);
+        } else if(this.curGameState != gameState.ENDED) {
             if (this.tSinceLastMove === null) {
                 this.tSinceLastMove = t;
+                this.updateTimerText(this.maxTurnTime);
             } else {
                 let timeLeft = this.maxTurnTime - (t - this.tSinceLastMove);
-                // console.log(timeLeft);
                 if (timeLeft <= 0) {
+                    timeLeft = 0;
                     this.gameOver(this.curPlayer == Player.WHITE ? "black" : "white");
                 }
+                this.updateTimerText(timeLeft);
             }
         }
-
-        this.animator.update(t);
     }
 }

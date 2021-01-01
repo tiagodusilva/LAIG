@@ -63,6 +63,10 @@ class MySpriteText {
         }
     }
 
+    setText(text) {
+        this.lines = text.split('\n');
+    }
+
     getCharacterPosition(character) {
         return character.charCodeAt(0) - 32;
     }

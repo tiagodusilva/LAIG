@@ -1171,7 +1171,7 @@ class MySceneGraph {
 
         let ret;
         if ((ret = this.parseGameObjectNodes(children, nodeNames,
-                ["tile", "aux_tile", "white_ring", "white_ball", "black_ring", "black_ball"])) != null) {
+                ["tile", "aux_tile", "white_ring", "white_ball", "black_ring", "black_ball", "timer", "turn", "winner"])) != null) {
             return ret;
         }
 
@@ -1179,6 +1179,22 @@ class MySceneGraph {
         if((ring_height = this.parseFloat(node, "ring_height", "Invalid or missing ring height", false)) == null)
             return "Failed to parse <game> node";
         this.gameConfig.set("ring_height", ring_height);
+
+        let white_player;
+        white_player = this.reader.getString(node, "white_player", true);
+        if(white_player == null){
+            this.onXMLMinorError("Couldn't parse tag <game>: Invalid white_player");
+            return "Tag <game> without ";
+        }
+        this.gameConfig.set("white_player", white_player);
+
+        let black_player;
+        black_player = this.reader.getString(node, "black_player", true);
+        if(white_player == null){
+            this.onXMLMinorError("Couldn't parse tag <game>: Invalid black_player");
+            return "Tag <game> without ";
+        }
+        this.gameConfig.set("black_player", black_player);
 
         return null;
     }

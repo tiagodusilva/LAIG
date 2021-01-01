@@ -1,9 +1,5 @@
 <lsf>
 
-    <!-- If you want to actually play this chamber in portal 2 (don't know why the hell you would, this chamber sucks) -->
-    <!-- Here's the workshop link :D -->
-    <!-- https://steamcommunity.com/sharedfiles/filedetails/?id=2247466358 -->
-
     <initials>
         <reference length="2" />
         <!-- axis length; "0" means no axis displayed -->
@@ -14,7 +10,7 @@
     <views default="Default">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Default" near="0.1" far="500" angle="70">
-            <from x="2.5" y="8" z="8" />
+            <from x="2.5" y="8" z="10" />
             <to x="2.5" y="1" z="2.5" />
         </perspective>
 
@@ -60,6 +56,7 @@
         <texture id="white_stone" path="./scenes/zen_garden/white_stone.png" />
         <texture id="sand" path="./scenes/zen_garden/sand.png" />
         <texture id="sand_tile" path="./scenes/zen_garden/tile.png" />
+        <texture id="wood" path="./scenes/zen_garden/wood.png" />
         <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
     </textures>
 
@@ -115,6 +112,9 @@
 
             <descendants>
                 <noderef id="floor" />
+                <noderef id="timer" />
+                <noderef id="turn_indicator" />
+                <noderef id="player_turn_indicator" />
             </descendants>
         </node>
 
@@ -127,13 +127,226 @@
 
             <transformations>
                 <translation x="0" y="-0.01" z="0" />
-                <scale sx="8" sy="1" sz="8" />
+                <scale sx="10" sy="1" sz="10" />
             </transformations>
 
             <descendants>
                 <leaf type="plane" npartsU="10" npartsV="10" />
             </descendants>
         </node>
+
+        <node id="turn_indicator">
+            <material id="default" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.01" z="3.5" />
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+                <rotation axis="x" angle="270" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="Turn 14" />
+            </descendants>
+        </node>
+
+        <node id="player_turn_indicator">
+            <material id="default" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.01" z="4" />
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+                <rotation axis="x" angle="270" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="White's Turn" />
+            </descendants>
+        </node>
+
+        <node id="timer">
+            <material id="default" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1.5" y="0.5" z="-4.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="timer_body" />
+                <noderef id="timer_text" />
+            </descendants>
+        </node>
+
+        <node id="timer_body">
+            <material id="default" />
+
+            <texture id="wood">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <!-- <translation x="1.5" y="0.5" z="-4.5" /> -->
+                <scale sx="2" sy="1" sz="1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cube" />
+            </descendants>
+        </node>
+
+        <node id="timer_text" >
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.51" />
+                <scale sx="0.5" sy="0.5" sz="0.5" />    
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="120" />
+            </descendants>
+        </node>
+
+        <!-- START CUBE -->
+        <node id="cube">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="cubeFront" />
+                <noderef id="cubeBack" />
+                <noderef id="cubeRight" />
+                <noderef id="cubeLeft" />
+                <noderef id="cubeTop" />
+                <noderef id="cubeBottom" />
+            </descendants>
+        </node>
+
+        <node id="cubeFront">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeBack">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.5" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeRight">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.5" y="0" z="0" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeLeft">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0" z="0" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeTop">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.5" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+
+        <node id="cubeBottom">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.5" z="0" />
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </descendants>
+        </node>
+        <!-- END CUBE -->
+
+
+        <!-- Pieces -->
 
         <node id="ring">
             <material id="null" />
@@ -255,16 +468,23 @@
             <descendants>
                 <noderef id="ball" />
             </descendants>
-        </node>   
+        </node>
     </nodes>
 
-    <game ring_height="0.25">
+    <game ring_height="0.25" white_player="White" black_player="Black">
+        <!-- Tiles -->
         <tile noderef="tile" />
         <aux_tile noderef="aux_tile" />
 
+        <!-- Pieces -->
         <white_ring noderef="white_ring"/>
         <white_ball noderef="white_ball" />
         <black_ring noderef="black_ring" />
         <black_ball noderef="black_ball" />
+
+        <!-- Spritetexts -->
+        <timer noderef="timer_text" />
+        <turn noderef="turn_indicator" />
+        <winner noderef="player_turn_indicator" />
     </game>
 </lsf>
