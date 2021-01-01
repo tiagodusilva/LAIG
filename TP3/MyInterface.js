@@ -33,12 +33,12 @@ class MyInterface extends CGFinterface {
 
         //First call doesnt count because it is the initial on change
         if(gamemodeChosen == gamemode.HUMAN_VS_COMPUTER) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('AI Difficulty'));
+            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'newGameDifficulty2', computerDifficulty).name('AI Difficulty'));
         } else if (gamemodeChosen == gamemode.COMPUTER_VS_HUMAN) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('AI Difficulty'));
+            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'newGameDifficulty1', computerDifficulty).name('AI Difficulty'));
         } else if (gamemodeChosen == gamemode.COMPUTER_VS_COMPUTER) {
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty1', computerDifficulty).name('White Difficulty'));
-            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'difficulty2', computerDifficulty).name('Black Difficulty'));
+            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'newGameDifficulty1', computerDifficulty).name('White Difficulty'));
+            this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'newGameDifficulty2', computerDifficulty).name('Black Difficulty'));
         }
 
         this.gameOptionsFolderElements.push(this.gameOptionsFolder.add(this.scene.gameorchestrator, 'startGame').name('Restart Game'));
@@ -56,7 +56,7 @@ class MyInterface extends CGFinterface {
         this.gameOptionsFolder.open();
         this.gameOptionsFolder.add(this.scene, 'undoMoveGUI').name('Undo last move');
         this.gameOptionsFolder.add(this.scene, 'playMovieGUI').name('Play game movie');
-        this.gameOptionsFolder.add(this.scene.gameorchestrator, 'gamemode', gamemode).onChange((val) => this.changeGameMode(val)).name('Gamemode');
+        this.gameOptionsFolder.add(this.scene.gameorchestrator, 'newGameGamemode', gamemode).onChange((val) => this.changeGameMode(val)).name('Gamemode');
         //First call that needs to be done
         this.changeGameMode(this.scene.gameorchestrator.gamemode);
 

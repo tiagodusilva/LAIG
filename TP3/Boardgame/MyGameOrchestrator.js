@@ -32,14 +32,16 @@ class MyGameOrchestrator {
 
         this.selectedPiece = null;
 
-        this.curGameState = gameState.OPTIONS;
+        this.newGameGamemode = gamemode.HUMAN_VS_COMPUTER;
+        this.newGameDifficulty1 = computerDifficulty.SMART;
+        this.newGameDifficulty2 = computerDifficulty.SMART;
+
         this.curPlayer = Player.WHITE;
         this.curPlayerType = null;
         this.curMoveState = moveState.MOVE_RING;
-        this.gamemode = gamemode.HUMAN_VS_COMPUTER;
-        this.difficulty1 = computerDifficulty.SMART;
-        this.difficulty2 = computerDifficulty.SMART;
-        this.curDifficulty = 1;
+        this.curGameState = gameState.PLAYING;
+        this.updateGameSettings();
+        
         this.gameStarted = false;
 
         this.ballsToDisplace = [];
@@ -49,6 +51,13 @@ class MyGameOrchestrator {
         this.maxTurnTime = 10;
 
         this.gameBoard.makeNothingSelectable();
+    }
+
+    updateGameSettings() {
+        this.gamemode = this.newGameGamemode;
+        this.difficulty1 = this.newGameDifficulty1;
+        this.difficulty2 = this.newGameDifficulty2;
+        this.curDifficulty = 1;
     }
 
     updateConfig(graph) {
@@ -71,6 +80,7 @@ class MyGameOrchestrator {
     startGame() {
         this.gameStarted = true;
         this.tSinceLastMove = null;
+        this.updateGameSettings();
 
         console.log("White difficulty: " + this.difficulty1);
         console.log("Black difficulty: " + this.difficulty2);
@@ -369,7 +379,7 @@ class MyGameOrchestrator {
                 this.tSinceLastMove = t;
             } else {
                 let timeLeft = this.maxTurnTime - (t - this.tSinceLastMove);
-                console.log(timeLeft);
+                // console.log(timeLeft);
                 if (timeLeft <= 0) {
                     this.gameOver(this.curPlayer == Player.WHITE ? "black" : "white");
                 }
