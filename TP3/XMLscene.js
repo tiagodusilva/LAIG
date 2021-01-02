@@ -86,7 +86,7 @@ class XMLscene extends CGFscene {
         };
 
         this.undoMoveGUI = () => this.gameorchestrator.undoMove();
-        this.playMovieGUI = () => this.gameorchestrator.playMovie();
+        this.playMovieGUI = () => this.gameorchestrator.markPlayMovie();
     }
 
     get selectedScene() {

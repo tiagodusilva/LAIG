@@ -70,6 +70,13 @@ class MyGameOrchestrator {
             }
             this.reset = true;
         };
+        
+        this.markPlayMovie = () => {
+            if ((this.curGameState == gameState.ENDED || this.awaitingInput) && !this.moviePlaying) {
+                this.playMovie();
+                return;
+            }
+        };
 
         this.gameBoard.makeNothingSelectable();
     }
@@ -258,7 +265,9 @@ class MyGameOrchestrator {
         let response = await MyPrologInterface.getComputerMove(this.gameBoard, this.curPlayer, this["diffculty" + this.curDifficulty]);
 
         this.curMove.fromPrologMove(response['move']);
+        this.awaitingInput = false;
         await this.curMove.makeMove();
+        this.awaitingInput = true;
         
         if (this.checkReset())
             return;
@@ -298,9 +307,10 @@ class MyGameOrchestrator {
                 break;
 
             case playerType.COMPUTER:
-                if (undo == false) {
+                if (undo == false || (this.gamemode == gamemode.COMPUTER_VS_HUMAN && this.turnCount == 1)) {
                     this.computerMove();
                 }
+                // this.computerMove();
                 break;
 
             default:
@@ -411,7 +421,7 @@ class MyGameOrchestrator {
 
     async undoMove() {
         //Only undo ring move
-        if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER)
+        if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER || !this.awaitingInput)
             return;
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.curMove.undoRing();
@@ -431,7 +441,7 @@ class MyGameOrchestrator {
             await moveToUndo.undoMove();
 
             //If the human player is playing undo AI and human move
-            if ((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayer == playerType.HUMAN) {
+            if ((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayerType == playerType.HUMAN) {
                 this.advanceTurn(true);
                 this.undoMove();
             } else {
