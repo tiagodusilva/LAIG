@@ -72,6 +72,8 @@
         <texture id="felt" path="./scenes/casino/felt.png" />
         <texture id="tile" path="./scenes/casino/tile.jpg" />
         <texture id="metal" path="./scenes/casino/metal.jpg" />
+        <texture id="wood" path="./scenes/casino/wood.jpg" />
+        <texture id="card_back" path="./scenes/casino/card_back.png" />
         <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
     </textures>
 
@@ -126,10 +128,12 @@
             </transformations>
 
             <descendants>
-                <noderef id="floor" />
+                <!-- <noderef id="floor" /> -->
                 <noderef id="timer" />
                 <noderef id="turn_indicator" />
                 <noderef id="player_turn_indicator" />
+                <noderef id="table" />
+                <noderef id="props" />
             </descendants>
         </node>
 
@@ -359,6 +363,390 @@
             </descendants>
         </node>
         <!-- END CUBE -->
+
+        <!-- START TABLE -->
+        <node id="table">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.1" z="0" />
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="tabletop" />
+                <noderef id="table_foot" />
+            </descendants>
+        </node>
+
+        <node id="tabletop">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <!-- <translation x="0" y="-0.5" z="0" />
+                <rotation axis="x" angle="90" /> -->
+                <scale sx="1.75" sy="1" sz="1" />
+            </transformations>
+
+            <descendants>
+                <noderef id="tabletop_base" />
+                <noderef id="tabletop_border" />
+            </descendants>
+        </node>
+
+        <node id="tabletop_base">
+            <material id="null" />
+
+            <texture id="felt">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.01" z="0" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.5" topRadius="6.5" bottomRadius="6.5" slices="80" stacks="4" />
+            </descendants>
+        </node>
+
+        <node id="tabletop_border">
+            <material id="null" />
+
+            <texture id="wood">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="torus" inner="0.5" outer="6.5" slices="20" loops="80" />
+            </descendants>
+        </node>
+
+        <node id="table_foot">
+            <material id="null" />
+
+            <texture id="wood">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.5" />
+                <scale sx="1.75" sy="1" sz="1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="7" topRadius="4.5" bottomRadius="3.75" slices="80" stacks="4" />
+            </descendants>
+        </node>
+
+        <!-- END TABLE -->
+
+        <!-- START PROPS -->
+        <node id="props">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="chip_stack_1" />
+                <noderef id="chip_stack_2" />
+                <noderef id="chip_stack_3" />
+                <noderef id="cards" />
+            </descendants>
+        </node>
+
+        <node id="chip_stack_1">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-6" y="0" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="chip_1" />
+                <noderef id="chip_2" />
+                <noderef id="chip_3" />
+                <noderef id="chip_4" />
+                <noderef id="chip_5" />
+                <noderef id="chip_6" />
+            </descendants>
+        </node>
+
+        <node id="chip_stack_2">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-5" y="0" z="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="chip_1" />
+                <noderef id="chip_2" />
+                <noderef id="chip_3" />
+                <noderef id="chip_4" />
+            </descendants>
+        </node>
+
+        <node id="chip_stack_3">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-6" y="0" z="1.2" />
+            </transformations>
+
+            <descendants>
+                <noderef id="chip_7" />
+                <noderef id="chip_8" />
+            </descendants>
+        </node>
+
+        <node id="chip_1">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_2">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.125" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_3">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.25" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_4">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.375" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_5">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_6">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.625" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="white_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_7">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="black_ring" />
+            </descendants>
+        </node>
+
+        <node id="chip_8">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.125" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="black_ring" />
+            </descendants>
+        </node>
+
+        <node id="cards">
+            <material id="null" />
+
+            <texture id="card_back">
+                <amplification afs="1.0" aft="1.0" />
+                
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="-90" />
+                <translation x="5" y="-1" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="card_1" />
+                <noderef id="card_2" />
+                <noderef id="card_3" />
+                <noderef id="card_4" />
+            </descendants>
+        </node>
+
+        <node id="card_1">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.6" aft="2.3" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="45" />
+                <translation x="0" y="0" z="0.01" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1.6" y2="2.3" />
+            </descendants>
+        </node>
+
+        <node id="card_2">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.6" aft="2.3" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="25" />
+                <translation x="0" y="0" z="0.02" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1.6" y2="2.3" />
+            </descendants>
+        </node>
+
+        <node id="card_3">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.6" aft="2.3" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="-5" />
+                <translation x="0" y="0" z="0.03" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1.6" y2="2.3" />
+            </descendants>
+        </node>
+
+        <node id="card_4">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.6" aft="2.3" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="-20" />
+                <translation x="0" y="0" z="0.04" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="1.6" y2="2.3" />
+            </descendants>
+        </node>
+
+
+        <!-- END PROPS -->
 
 
         <!-- Pieces -->
