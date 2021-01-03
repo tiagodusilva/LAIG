@@ -27,7 +27,7 @@
 
     <illumination>
         <ambient r="0.125" g="0.125" b="0.125" a="1.0" /> <!-- global ambient -->
-        <background r="0.8039" g="0.8157" b="0.8078" a="1.0" /> <!-- background color -->
+        <background r="0.698039" g="0.61568627" b="0.5411764" a="1.0" /> <!-- background color -->
     </illumination>
 
 
@@ -35,7 +35,7 @@
         <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
         <light id="Entry Side Left">
             <enable value="1" />
-            <position x="2.5" y="3.85" z="5.85" w="1.0" /> <!-- light position; w=1: point light; w=0: directional light -->
+            <position x="2.5" y="12" z="2.5" w="0.0" /> <!-- light position; w=1: point light; w=0: directional light -->
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
@@ -54,9 +54,14 @@
     <textures>
         <texture id="stone" path="./scenes/zen_garden/stone.png" />
         <texture id="white_stone" path="./scenes/zen_garden/white_stone.png" />
-        <texture id="sand" path="./scenes/zen_garden/sand.png" />
         <texture id="sand_tile" path="./scenes/zen_garden/tile.png" />
         <texture id="wood" path="./scenes/zen_garden/wood.png" />
+        <texture id="cubemapTop" path="./scenes/zen_garden/cubemap/ceiling.png" />
+        <texture id="cubemapBot" path="./scenes/zen_garden/cubemap/ground.png" />
+        <texture id="cubemapPosX" path="./scenes/zen_garden/cubemap/posX.png" />
+        <texture id="cubemapNegX" path="./scenes/zen_garden/cubemap/negX.png" />
+        <texture id="cubemapPosZ" path="./scenes/zen_garden/cubemap/posZ.png" />
+        <texture id="cubemapNegZ" path="./scenes/zen_garden/cubemap/negZ.png" />
         <!-- <texture id="testmap" path="./scenes/Images_LAIG_TP1_XML_T3_G02_v02/testmap.jpg" /> -->
     </textures>
 
@@ -111,27 +116,10 @@
             </transformations>
 
             <descendants>
-                <noderef id="floor" />
+                <noderef id="cubemap" />
                 <noderef id="timer" />
                 <noderef id="turn_indicator" />
                 <noderef id="player_turn_indicator" />
-            </descendants>
-        </node>
-
-        <node id="floor">
-            <material id="default" />
-
-            <texture id="sand">
-                <amplification afs="1.0" aft="1.0" />
-            </texture>
-
-            <transformations>
-                <translation x="0" y="-0.01" z="0" />
-                <scale sx="10" sy="1" sz="10" />
-            </transformations>
-
-            <descendants>
-                <leaf type="plane" npartsU="10" npartsV="10" />
             </descendants>
         </node>
 
@@ -222,6 +210,151 @@
             </descendants>
         </node>
 
+        <!-- START CUBEMAP -->
+        <node id="cubemap">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="12.499" z="0" />
+                <scale sx="25" sy="25" sz="25" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapPosZ" />
+                <noderef id="cubemapNegZ" />
+                <noderef id="cubemapNegX" />
+                <noderef id="cubemapPosX" />
+                <noderef id="cubemapTop" />
+                <noderef id="cubemapBottom" />
+            </descendants>
+        </node>
+
+        <node id="cubemapPosZ">
+            <material id="null" />
+
+            <texture id="cubemapPosZ">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="z" angle="180" />
+                <rotation axis="x" angle="270" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapNegZ">
+            <material id="null" />
+
+            <texture id="cubemapNegZ">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.5" />
+                <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapNegX">
+            <material id="null" />
+
+            <texture id="cubemapNegX">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.5" y="0" z="0" />
+                <rotation axis="x" angle="90" />
+                <rotation axis="z" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapPosX">
+            <material id="null" />
+
+            <texture id="cubemapPosX">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0" z="0" />
+                <rotation axis="x" angle="90" />
+                <rotation axis="z" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapTop">
+            <material id="null" />
+
+            <texture id="cubemapTop">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.5" z="0" />
+                <rotation axis="y" angle="180" />
+                <rotation axis="x" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapBottom">
+            <material id="null" />
+
+            <texture id="cubemapBot">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.5" z="0" />
+                <rotation axis="y" angle="180" />
+            </transformations>
+
+            <descendants>
+                <noderef id="cubemapSide" />
+            </descendants>
+        </node>
+
+        <node id="cubemapSide">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="8" npartsV="8" />
+            </descendants>
+        </node>
+        <!-- END CUBEMAP -->
+        
         <!-- START CUBE -->
         <node id="cube">
             <material id="null" />

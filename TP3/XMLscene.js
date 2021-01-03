@@ -78,11 +78,11 @@ class XMLscene extends CGFscene {
         this.gameorchestrator = new MyGameOrchestrator(this);
 
         this.scenes = ["zen_garden.xml", "casino.xml"];
-        this._selectedScene = 0;
+        this._selectedScene = 1;
 
         this.scenesDropdown = {
-            "Zen Garden": 0,
-            "Casino": 1
+            "Canyon": 0,
+            "Poker Table": 1
         };
 
         this.undoMoveGUI = () => this.gameorchestrator.undoMove();

@@ -82,7 +82,7 @@ class MyCGFcamera extends CGFcamera {
         this.target = lerpVec4(this.animationTarget, this.targetTarget, instant);
         this.direction = this.calculateDirection();
 
-        this.fov = lerp(this.animationFov, this.targetFov, instant);
+        // this.fov = lerp(this.animationFov, this.targetFov, instant);
         this.near = lerp(this.animationNear, this.targetNear, instant);
         this.far = lerp(this.animationFar, this.targetFar, instant);
 
