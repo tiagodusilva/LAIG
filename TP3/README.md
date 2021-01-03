@@ -1,4 +1,4 @@
-# LAIG 2020/2021 - TP2
+# LAIG 2020/2021 - TP3
 
 ## Group T3G02
 | Name             | Number    | E-Mail               |
@@ -8,13 +8,16 @@
 ----
 ## Project information
 
-Ignoring features present TP1:
-- Animation that shows a cube falling and then getting caught by the hard light bridge
-- A detailed portal gun using 6 precise NURBS patches
-- Added transparency to the scene in the hard light bridge and portals
-- Animated portals
-- A deadly turret comments on how it misses you
-- The spritetext detects \n characters (&#10; in XML) and adapts
+- Communication with the Prolog Server
+- Switch between different scenes with one click
+- Various gamemodes can be chosen through the GUI
+- Piece movement is animated
+- Changes of cameras are animated
+- Replay of a game movie
+- Undo moves through button in the scene
+- Adjustable turn timer
+- Turn counter
+- Everything can be costumized on the scene file (including pieces and tile aspect) except for the board layout
 
 ### Highlights:
 
@@ -25,4 +28,4 @@ Ignoring features present TP1:
 ----
 ## Issues/Problems
 
-- Everything was implemented and all issues found have been fixed
+- In the camera animation, if the 
