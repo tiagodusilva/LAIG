@@ -10,12 +10,22 @@
     <views default="Default">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Default" near="0.1" far="500" angle="70">
-            <from x="2.5" y="11" z="11" />
+            <from x="2.5" y="11" z="10" />
+            <to x="2.5" y="1.25" z="2.5" />
+        </perspective>
+
+        <perspective id="Reverse" near="0.1" far="500" angle="70">
+            <from x="2.5" y="6" z="-4" />
             <to x="2.5" y="1.25" z="2.5" />
         </perspective>
 
         <perspective id="Top-down" near="0.1" far="500" angle="70">
             <from x="2.5" y="10" z="2.50001" />
+            <to x="2.5" y="0.5" z="2.5" />
+        </perspective>
+
+        <perspective id="From the Left" near="0.1" far="500" angle="70">
+            <from x="-2" y="1.5" z="2.5" />
             <to x="2.5" y="0.5" z="2.5" />
         </perspective>
     

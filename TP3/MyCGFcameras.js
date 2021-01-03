@@ -78,11 +78,20 @@ class MyCGFcamera extends CGFcamera {
 
         let instant = (t - this.animationStart) / 2;
         instant = instant > 1 ? 1 : instant;
-        this.position = lerpVec4(this.animationPosition, this.targetPosition, instant);
+        // this.position = lerpVec4(this.animationPosition, this.targetPosition, instant);
+        let theta = lerp(this.animationTheta, this.targetTheta, instant);
+        let rho = lerp(this.animationRho, this.targetRho, instant);
+        let r = lerp(this.animationRadius, this.targetRadius, instant);
         this.target = lerpVec4(this.animationTarget, this.targetTarget, instant);
+        this.position = [
+            this.target[0] + r * Math.sin(theta) * Math.sin(rho),
+            this.target[1] + r * Math.cos(theta),
+            this.target[2] + r * Math.sin(theta) * Math.cos(rho),
+            0
+        ];
         this.direction = this.calculateDirection();
 
-        // this.fov = lerp(this.animationFov, this.targetFov, instant);
+        this.fov = lerp(this.animationFov, this.targetFov, instant);
         this.near = lerp(this.animationNear, this.targetNear, instant);
         this.far = lerp(this.animationFar, this.targetFar, instant);
 
@@ -118,6 +127,12 @@ class MyCGFcamera extends CGFcamera {
             vec3.copy(this._targetUp, this.targetCamera._up);
         }
 
+        let v = [this.targetPosition[0] - this.targetTarget[0], this.targetPosition[1] - this.targetTarget[1], this.targetPosition[2] - this.targetTarget[2]];
+        let r = Math.sqrt(v[0]**2 + v[1]**2 + v[2]**2);
+        this.targetTheta = Math.acos(v[1] / r);
+        this.targetRho = Math.atan2(v[0], v[2]);
+        this.targetRadius = r;
+
         this.animationStart = null;
         this.animationFov = this.fov;
         this.animationNear = this.near;
@@ -125,6 +140,12 @@ class MyCGFcamera extends CGFcamera {
         vec4.copy(this.animationPosition, this.position);
         vec4.copy(this.animationTarget, this.target);
         vec3.copy(this._animationUp, this._up);
+
+        v = [this.position[0] - this.target[0], this.position[1] - this.target[1], this.position[2] - this.target[2]];
+        r = Math.sqrt(v[0]**2 + v[1]**2 + v[2]**2);
+        this.animationTheta = Math.acos(v[1] / r);
+        this.animationRho = Math.atan2(v[0], v[2]);
+        this.animationRadius = r;
     }
 
 }
