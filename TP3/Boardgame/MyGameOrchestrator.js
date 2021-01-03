@@ -309,7 +309,6 @@ class MyGameOrchestrator {
                 this.updatePlayerText();
                 return;
             }
-            this.tSinceLastMove = null;
             this.turnCount++;
         } else {
             this.turnCount--;
@@ -317,6 +316,7 @@ class MyGameOrchestrator {
             let beforeMove = this.gameSequence.getLastMove();
             this.curMove = beforeMove == null ? new MyGameMove(this.gameBoard) : beforeMove;
         }
+        this.tSinceLastMove = null;
 
         this.curMoveState = moveState.MOVE_RING;
 
@@ -443,7 +443,7 @@ class MyGameOrchestrator {
     async undoMove() {
         //Only undo ring move
         if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER || !this.awaitingInput || 
-                (this.gamemode == gamemode.COMPUTER_VS_HUMAN && this.gameSequence.moveList.length == 1))
+            (this.gamemode == gamemode.COMPUTER_VS_HUMAN && this.gameSequence.moveList.length == 1))
             return;
 
         if (!this.mutexUndo.tryLock())
