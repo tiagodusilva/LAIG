@@ -71,7 +71,10 @@ class MyTile {
 
         this.scene.pushMatrix();
         this.scene.translate(this.position[1] + 0.5, 0, this.position[0] + 0.5);
-        MyTile.tile.display();
+        if (this.position[0] != AUX_BOARD)
+            MyTile.tile.display();
+        else
+            MyTile.aux_tile.display();
         this.scene.popMatrix();
 
         // if (this.selectable)

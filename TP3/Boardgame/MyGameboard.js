@@ -149,8 +149,6 @@ class MyGameboard {
             }
         }
 
-        console.log(h);
-        console.log(MyPiece.ringHeight * (h + 1.5));
         return MyPiece.ringHeight * (h + 1.5);
     }
 

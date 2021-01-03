@@ -602,6 +602,59 @@
                 <noderef id="ball" />
             </descendants>
         </node>
+
+        <!-- UNDO BUTTON -->
+        <node id="undo">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="5.5" y="0" z="2.5" />
+                <rotation axis="y" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="undo_border" />
+                <noderef id="undo_text" />
+            </descendants>
+        </node>
+
+        <node id="undo_border">
+            <material id="null" />
+
+            <texture id="wood">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="2" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="4" npartsV="4" />
+            </descendants>
+        </node>
+
+        <node id="undo_text">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.01" z="0" />
+                <scale sx="0.45" sy="0.45" sz="0.45" />
+                <rotation axis="x" angle="270" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="Undo" />
+            </descendants>
+        </node>
     </nodes>
 
     <game ring_height="0.25" white_player="White" black_player="Black">
@@ -619,5 +672,8 @@
         <timer noderef="timer_text" />
         <turn noderef="turn_indicator" />
         <winner noderef="player_turn_indicator" />
+
+        <!-- UI -->
+        <undo noderef="undo" />
     </game>
 </lsf>

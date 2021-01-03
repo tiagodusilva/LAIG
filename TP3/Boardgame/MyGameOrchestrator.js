@@ -5,6 +5,10 @@ const gamemode = {
     COMPUTER_VS_COMPUTER: 3
 }
 
+const UniquePickingId = {
+    UNDO_BUTTON: 1,
+}
+
 const playerType = {
     HUMAN: 0,
     COMPUTER: 1
@@ -39,6 +43,8 @@ class MyGameOrchestrator {
         this.timerSpriteText = null;
         this.turnCountSpriteText = null;
         this.turnIndicatorSpriteText = null;
+
+        this.undoButton = null;
 
         this.curGameState = gameState.OPTIONS;
         this.curPlayer = Player.WHITE;
@@ -79,6 +85,8 @@ class MyGameOrchestrator {
         };
 
         this.gameBoard.makeNothingSelectable();
+        
+        this.mutexUndo = new Mutex();
     }
 
     updateGameSettings() {
@@ -122,6 +130,7 @@ class MyGameOrchestrator {
         this.turnCountSpriteText = graph.gameConfig.get("turn").children[0];
         this.turnIndicatorSpriteText = graph.gameConfig.get("winner").children[0];
 
+        this.undoButton = graph.gameConfig.get("undo");
 
         this.updateTimerText(0);
         // Setter that updates the text
@@ -191,6 +200,14 @@ class MyGameOrchestrator {
     }
 
     display() {
+        if (this.undoButton != null && this.gamemode != gamemode.COMPUTER_VS_COMPUTER &&
+                (!this.gameSequence.empty || this.curMoveState != moveState.MOVE_RING) &&
+                this.awaitingInput &&
+                this.curGameState == gameState.PLAYING && this.gameBoard != gameState.ENDED) {
+            this.scene.registerForPick(UniquePickingId.UNDO_BUTTON, this);
+            this.undoButton.display();
+            this.scene.clearPickRegistration();
+        }
         if (this.curGameState == gameState.PLAYING || this.curGameState == gameState.ENDED) {
             this.gameBoard.display();
         }
@@ -215,6 +232,11 @@ class MyGameOrchestrator {
     }
 
     onObjectSelected(obj, id) {
+
+        if (id == UniquePickingId.UNDO_BUTTON) {
+            this.undoMove();
+            return;
+        }
 
         if (obj instanceof MyPiece) {
 
@@ -310,7 +332,6 @@ class MyGameOrchestrator {
                 if (undo == false || (this.gamemode == gamemode.COMPUTER_VS_HUMAN && this.turnCount == 1)) {
                     this.computerMove();
                 }
-                // this.computerMove();
                 break;
 
             default:
@@ -423,6 +444,15 @@ class MyGameOrchestrator {
         //Only undo ring move
         if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER || !this.awaitingInput)
             return;
+
+        if (!this.mutexUndo.tryLock())
+            return;
+        
+        if (this.gameState == gameState.ENDED || this.moviePlaying || this.gamemode == gamemode.COMPUTER_VS_COMPUTER || !this.awaitingInput) {
+            await this.mutexUndo.unlock();
+            return;
+        }
+
         if (this.curMoveState == moveState.MOVE_BALL) {
             await this.curMove.undoRing();
             this.setMoveState(moveState.MOVE_RING);
@@ -436,19 +466,29 @@ class MyGameOrchestrator {
             let moveToUndo = this.gameSequence.undo();
             if (!moveToUndo) {
                 console.log("No moves to undo");
+                await this.mutexUndo.unlock();
                 return;
             }
             await moveToUndo.undoMove();
 
             //If the human player is playing undo AI and human move
-            if ((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) && this.curPlayerType == playerType.HUMAN) {
-                this.advanceTurn(true);
-                this.undoMove();
-            } else {
+            if ((this.gamemode == gamemode.HUMAN_VS_COMPUTER || this.gamemode == gamemode.COMPUTER_VS_HUMAN) &&
+                    this.curPlayerType == playerType.HUMAN) {
+
+                let botMoveToUndo = this.gameSequence.undo();
+                if (!botMoveToUndo) {
+                    console.log("No moves to undo");
+                    await this.mutexUndo.unlock();
+                    return;
+                }
+                await botMoveToUndo.undoMove();
                 this.advanceTurn(true);
             }
-        }
 
+            this.advanceTurn(true);
+        }
+        
+        await this.mutexUndo.unlock();
     }
 
     checkReset() {

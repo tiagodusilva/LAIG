@@ -76,6 +76,7 @@
         <texture id="purple" path="./scenes/casino/purple.png" /> 
         <texture id="felt" path="./scenes/casino/felt.png" />
         <texture id="tile" path="./scenes/casino/tile.jpg" />
+        <texture id="aux_tile" path="./scenes/casino/aux_tile.jpg" />
         <texture id="metal" path="./scenes/casino/metal.jpg" />
         <texture id="wood" path="./scenes/casino/wood.jpg" />
         <texture id="card_back" path="./scenes/casino/card_back.png" />
@@ -1028,6 +1029,22 @@
         <node id="tile">
             <material id="null" />
 
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.95" sy="1" sz="0.95" />
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="4" npartsV="4" />
+            </descendants>
+        </node>
+
+        <node id="main_tile">
+            <material id="null" />
+
             <texture id="tile">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
@@ -1044,7 +1061,7 @@
         <node id="aux_tile">
             <material id="null" />
 
-            <texture id="null">
+            <texture id="aux_tile">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
 
@@ -1084,12 +1101,64 @@
             <descendants>
                 <noderef id="ball" />
             </descendants>
-        </node>   
+        </node>
+        
+        <!-- UNDO BUTTON -->
+        <node id="undo">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-1.5" y="0" z="4.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="undo_border" />
+                <noderef id="undo_text" />
+            </descendants>
+        </node>
+
+        <node id="undo_border">
+            <material id="null" />
+
+            <texture id="metal">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="2" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="4" npartsV="4" />
+            </descendants>
+        </node>
+
+        <node id="undo_text">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.01" z="0" />
+                <scale sx="0.45" sy="0.45" sz="0.45" />
+                <rotation axis="x" angle="270" />
+            </transformations>
+
+            <descendants>
+                <leaf type="spritetext" text="Undo" />
+            </descendants>
+        </node>
     </nodes>
 
     <game ring_height="0.125" white_player="Red" black_player="Purple">
         <!-- Tiles -->
-        <tile noderef="tile" />
+        <tile noderef="main_tile" />
         <aux_tile noderef="aux_tile" />
 
         <!-- Pieces -->
@@ -1102,5 +1171,8 @@
         <timer noderef="timer_text" />
         <turn noderef="turn_indicator" />
         <winner noderef="player_turn_indicator" />
+
+        <!-- UI -->
+        <undo noderef="undo" />
     </game>
 </lsf>

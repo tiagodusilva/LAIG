@@ -73,7 +73,8 @@ class XMLscene extends CGFscene {
         this.lightEnabled6;
         this.lightEnabled7;
 
-        this.currentUniqueId = -1;
+        // Reserve 10 unique IDs for other purpouses
+        this.currentUniqueId = 10;
 
         this.gameorchestrator = new MyGameOrchestrator(this);
 

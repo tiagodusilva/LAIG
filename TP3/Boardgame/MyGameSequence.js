@@ -22,4 +22,8 @@ class MyGameSequence {
     getAllMoves() {
         return this.moveList;
     }
+
+    get empty() {
+        return this.moveList.length == 0;
+    }
 }

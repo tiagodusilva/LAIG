@@ -1171,7 +1171,7 @@ class MySceneGraph {
 
         let ret;
         if ((ret = this.parseGameObjectNodes(children, nodeNames,
-                ["tile", "aux_tile", "white_ring", "white_ball", "black_ring", "black_ball", "timer", "turn", "winner"])) != null) {
+                ["tile", "aux_tile", "white_ring", "white_ball", "black_ring", "black_ball", "timer", "turn", "winner", "undo"])) != null) {
             return ret;
         }
 
