@@ -28,4 +28,5 @@
 ----
 ## Issues/Problems
 
-- In the camera animation, if the 
+- When animating between two cameras and the minimum distance between the lines described by their respective position and target are too close, the camera abruptely reverses the perspective during the animation
+
