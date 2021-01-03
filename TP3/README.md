@@ -21,9 +21,13 @@
 
 ### Highlights:
 
-![Details on the Portal Gun](docs/portal_gun_details.png)
-![Spritetext rendered over Turret](docs/turret_spritetext.png)
-![Animated portal and transparency on itself and on the hard light bridge](docs/portal_spriteanim_transparency.png)
+![Costum Pieces and Tiles](docs/custom_pieces.png)
+
+![Piece Animations](docs/piece_animation.png)
+
+![Turn Timer](docs/turn_timer.png)
+
+![Game Info](docs/game_info.png)
 
 ----
 ## Issues/Problems
