@@ -159,13 +159,13 @@ class Transform {
 }
 
 class MyMovementAnimation extends MyAnimatorAnimation {
-    constructor(target, startTransform, endTransform) {
+    constructor(target, startTransform, endTransform, pathMaxHeight=0) {
         super(target, AnimationInterruption.CUT_TO_END);
 
         this.startTransform = startTransform;
         this.endTransform = endTransform;
         let distance = Math.sqrt((startTransform.x - endTransform.x)**2 + (startTransform.z - endTransform.z)**2);
-        this.height = Math.max(startTransform.y, endTransform.y) + (distance * 0.125 + 0.25);
+        this.height = Math.max(pathMaxHeight, Math.max(startTransform.y, endTransform.y)) + (distance * 0.125 + 0.25);
         this.duration = 0.5 * Math.sqrt(distance);
         this.initial = null;
     }

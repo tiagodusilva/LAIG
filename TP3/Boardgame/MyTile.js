@@ -36,6 +36,7 @@ class MyTile {
     }
 
     async addExistingPiece(piece, animate=false) {
+        let oldPos = piece.position;
         let topPiece = this.getTopPiece();
         if(topPiece){
             topPiece.selectable = false;
@@ -44,8 +45,9 @@ class MyTile {
         if (animate) {
             piece.updatePositionInBoard(this.position, this.stack.length);
             this.stack.push(piece);
+            let pathHeight = this.gameboard.getTallestInPath(oldPos, this.position);
             await this.animator.addAnimation(
-                new MyMovementAnimation(piece, piece.transform.clone(), piece.generateOwnTransform())
+                new MyMovementAnimation(piece, piece.transform.clone(), piece.generateOwnTransform(), pathHeight)
             );
         } else {
             piece.updatePositionInBoard(this.position, this.stack.length, true);

@@ -81,7 +81,6 @@ class MyGameboard {
         this.addNewPiece(0, 3, PieceType.BLACK_RING, false);
         this.addNewPiece(0, 3, PieceType.BLACK_BALL, true);
 
-        // this.addPiece(0, 4, new MyPiece(this.scene, PieceType.BLACK_RING, this.board[0][4])); //Test purposes
         this.addNewPiece(0, 4, PieceType.BLACK_RING, false);
         this.addNewPiece(0, 4, PieceType.BLACK_BALL, true);
 
@@ -118,6 +117,41 @@ class MyGameboard {
 
     addNewPiece(row, col, piece_type, selectable){
         this.getTile(row, col).addNewPiece(piece_type, selectable);
+    }
+
+    getTallestInPath(fromCoords, toCoords) {
+        let from = [...fromCoords], to = [...toCoords];
+        let v = [toCoords[0] - fromCoords[0], toCoords[1] - fromCoords[1]];
+        let h = 0;
+
+        if (v[0] == 0 && v[1] == 0)
+            return 0;
+
+        if (fromCoords[0] == AUX_BOARD)
+            return 0;
+        
+        let d = Math.sqrt((fromCoords[0]-toCoords[0])**2 + (fromCoords[1]-toCoords[1])**2);
+        if (d <= Math.sqrt(2))
+            return 0;
+        
+        if (Math.abs(v[0]) == Math.abs(v[1]) || (v[0] == 0 && v[1] != 0) || (v[0] != 0 && v[1] == 0)) {
+
+            v[0] = v[0] == 0 ? 0 : ((v[0] > 0) ? 1 : -1);
+            v[1] = v[1] == 0 ? 0 : ((v[1] > 0) ? 1 : -1);
+
+            from[0] += v[0];
+            from[1] += v[1];
+
+            while (from[0] != to[0] || from[1] != to[1]) {
+                h = Math.max(h, this.getTile(from[0], from[1]).stack.length);
+                from[0] += v[0];
+                from[1] += v[1];
+            }
+        }
+
+        console.log(h);
+        console.log(MyPiece.ringHeight * (h + 1.5));
+        return MyPiece.ringHeight * (h + 1.5);
     }
 
     //Maybe change for two Vec2
